@@ -169,10 +169,8 @@
 		756EE8AE13AEA4D900C75F78 /* Questions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 756EE8AD13AEA4D900C75F78 /* Questions.plist */; };
 		75714B5713B18F39006FC44C /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75714B5413B18F39006FC44C /* AboutViewController.m */; };
 		75714B5813B18F39006FC44C /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75714B5513B18F39006FC44C /* GameViewController.m */; };
-		75760F8414784FE6003403E1 /* ReflectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8314784FE6003403E1 /* ReflectionView.m */; };
-		75760F8514784FE6003403E1 /* ReflectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8314784FE6003403E1 /* ReflectionView.m */; };
 		75760F8914784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; };
-		75760F8A14784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; };
+		75760F8A14784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		757CE3E013FC555F0006A13D /* NoArtworkImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 757CE3DE13FC555F0006A13D /* NoArtworkImage.png */; };
 		757CE3E113FC555F0006A13D /* NoArtworkImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 757CE3DF13FC555F0006A13D /* NoArtworkImage@2x.png */; };
 		75802E9713E4833700332C92 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75802E9513E4833700332C92 /* MainWindow.xib */; };
@@ -282,8 +280,6 @@
 		75714B5413B18F39006FC44C /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		75714B5513B18F39006FC44C /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		75714B5613B18F39006FC44C /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsViewController.m; sourceTree = "<group>"; };
-		75760F8214784FE6003403E1 /* ReflectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReflectionView.h; sourceTree = "<group>"; };
-		75760F8314784FE6003403E1 /* ReflectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReflectionView.m; sourceTree = "<group>"; };
 		75760F8714784FF3003403E1 /* FXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXLabel.h; sourceTree = "<group>"; };
 		75760F8814784FF3003403E1 /* FXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXLabel.m; sourceTree = "<group>"; };
 		757CE3DE13FC555F0006A13D /* NoArtworkImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NoArtworkImage.png; sourceTree = "<group>"; };
@@ -543,16 +539,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		75760F8114784FE6003403E1 /* ReflectionView */ = {
-			isa = PBXGroup;
-			children = (
-				75760F8214784FE6003403E1 /* ReflectionView.h */,
-				75760F8314784FE6003403E1 /* ReflectionView.m */,
-			);
-			name = ReflectionView;
-			path = "Cue The Tunes/Classes/Helper Classes/ReflectionView";
-			sourceTree = SOURCE_ROOT;
-		};
 		75760F8614784FF3003403E1 /* FXLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,7 +656,6 @@
 				750D718113FA508A00B9B0A5 /* DGActionSheet */,
 				750D718413FA508A00B9B0A5 /* DGOptionsDropdown */,
 				75760F8614784FF3003403E1 /* FXLabel */,
-				75760F8114784FE6003403E1 /* ReflectionView */,
 			);
 			name = "Helper Classes";
 			path = "Classes/Helper Classes";
@@ -938,7 +923,6 @@
 				752CBB231440162F00EB8368 /* DGActionSheet.m in Sources */,
 				752CBB241440162F00EB8368 /* DGOptionItem.m in Sources */,
 				752CBB251440162F00EB8368 /* DGOptionsDropdown.m in Sources */,
-				75760F8514784FE6003403E1 /* ReflectionView.m in Sources */,
 				75760F8A14784FF3003403E1 /* FXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -957,7 +941,6 @@
 				750D718E13FA508A00B9B0A5 /* DGActionSheet.m in Sources */,
 				750D718F13FA508A00B9B0A5 /* DGOptionItem.m in Sources */,
 				750D719013FA508A00B9B0A5 /* DGOptionsDropdown.m in Sources */,
-				75760F8414784FE6003403E1 /* ReflectionView.m in Sources */,
 				75760F8914784FF3003403E1 /* FXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

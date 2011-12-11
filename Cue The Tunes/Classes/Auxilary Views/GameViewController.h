@@ -8,14 +8,13 @@
 
 #import "DGOptionsDropdown.h"
 #import "AutoScrollLabel.h"
-#import "ReflectionView.h"
 
 @interface GameViewController : UIViewController <MPMediaPickerControllerDelegate, UIAccelerometerDelegate, UIAlertViewDelegate> {
     UILabel *_titleLabelGame;
     
     UIImageView *_background;
     UIView *_playBarView;
-    ReflectionView *_currentlyPlayingArtworkView;
+    UIImageView *_currentlyPlayingArtworkView;
     UIImageView *_currentlyPlayingArtworkImage;
     AutoScrollLabel *_currentlyPlayingTitle;
     AutoScrollLabel *_currentlyPlayingArtist;
@@ -58,7 +57,7 @@
 
 @property (nonatomic, strong) IBOutlet UIView *backgroundView;
 @property (nonatomic, strong) IBOutlet UIView *playBarView;
-@property (nonatomic, strong) IBOutlet ReflectionView *currentlyPlayingArtworkView;
+@property (nonatomic, strong) IBOutlet UIImageView *currentlyPlayingArtworkView;
 @property (nonatomic, strong) IBOutlet UIImageView *currentlyPlayingArtworkImage;
 @property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingTitle;
 @property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingArtist;

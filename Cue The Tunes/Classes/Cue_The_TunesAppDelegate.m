@@ -27,6 +27,7 @@
     [[AVAudioSession sharedInstance] setDelegate:self];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    DLog(@"Audio session started");
     
     //Set navigation controller to root of window, then show the window
     self.window.rootViewController = self.navigationController;

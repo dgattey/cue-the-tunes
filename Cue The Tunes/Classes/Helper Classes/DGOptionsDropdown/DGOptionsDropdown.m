@@ -7,7 +7,6 @@
 //
 
 #import "DGOptionsDropdown.h"
-#import "ReflectionView.h"
 
 @implementation DGOptionsDropdown
 
@@ -118,12 +117,6 @@
                   optionsButton:(UIButton*)optionsButton
                      backButton:(UIButton*)backButton
 {
-    //Makes reflection view non dynamic so it won't lag and/or update
-    for (ReflectionView *reflection in viewController.view.subviews) {
-        if ([reflection isKindOfClass:[ReflectionView class]]) {
-            reflection.dynamic = NO;
-        }
-    }
     
     //Get options view height for use later
     NSInteger optionsViewHeight = [prefs integerForKey:@"OPTIONS_HEIGHT_TO_SHOW"];
@@ -167,13 +160,6 @@
             [prefs setBool:NO forKey:@"OPTIONS_HIDDEN"];
             optionsButton.enabled = YES;
             [optionsButton setImage:nil forState:UIControlStateDisabled];
-            
-            //Makes reflection view dynamic again
-            for (ReflectionView *reflection in viewController.view.subviews) {
-                if ([reflection isKindOfClass:[ReflectionView class]]) {
-                    reflection.dynamic = YES;
-                }
-            }
         }];
     }
     else {
@@ -214,13 +200,6 @@
             [prefs setBool:YES forKey:@"OPTIONS_HIDDEN"];
             optionsButton.enabled = YES;
             [optionsButton setImage:nil forState:UIControlStateDisabled];
-            
-            //Makes reflection view dynamic again
-            for (ReflectionView *reflection in viewController.view.subviews) {
-                if ([reflection isKindOfClass:[ReflectionView class]]) {
-                    reflection.dynamic = YES;
-                }
-            }
         }];
     }
 }

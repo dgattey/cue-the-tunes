@@ -206,13 +206,9 @@
     self.currentlyPlayingAlbum.textColor = [UIColor whiteColor];
     self.currentlyPlayingAlbum.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle];
     
-    //Set up reflection using custom ReflectionView
-    [self.currentlyPlayingArtworkView setDynamic:YES];
+    //Set UIImageView
     [self.currentlyPlayingArtworkView setOpaque:YES];
     [self.currentlyPlayingArtworkView setExclusiveTouch:YES];
-    [self.currentlyPlayingArtworkView setReflectionAlpha:0.25];
-    [self.currentlyPlayingArtworkView setReflectionGap:3];
-    [self.currentlyPlayingArtworkView setReflectionScale:0.28];
     
     //Set default image
     [self.currentlyPlayingArtworkImage setImage:[UIImage imageNamed:@"NoArtworkImage"]];
@@ -262,25 +258,21 @@
     [super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - View Actions
 
-- (IBAction)doneGameView:(id)sender
-{
+- (IBAction)doneGameView:(id)sender {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TITLE_NEEDS_ANIMATION"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Options
 
-- (IBAction)showOptionsViewFromGameView:(id)sender
-{
-    self.currentlyPlayingArtworkView.dynamic = NO;
+- (IBAction)showOptionsViewFromGameView:(id)sender {
     [DGOptionsDropdown 
         slideOptionsWithDuration:0.3
         viewController:self 
@@ -761,9 +753,7 @@
         //Move bar view up with animation
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             self.playBarView.frame = CGRectMake(0, 364, 320, 96);
-        } completion:^ (BOOL finished) {
-            self.currentlyPlayingArtworkView.dynamic = YES;
-        }];
+        } completion:^ (BOOL finished) {}];
     }
     
     //If the user has said down, move it down
@@ -771,9 +761,7 @@
         //Move bar view down with animation
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             self.playBarView.frame = CGRectMake(0, 460, 320, 96);
-        } completion:^ (BOOL finished) {
-            self.currentlyPlayingArtworkView.dynamic = YES;
-        }];
+        } completion:^ (BOOL finished) {}];
     }
 }
 
