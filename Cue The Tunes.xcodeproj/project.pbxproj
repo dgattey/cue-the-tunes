@@ -299,7 +299,6 @@
 		75B4A42F13AD9C5B00B3CD15 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		75B4A43113AD9C5B00B3CD15 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		75B4A43313AD9C5B00B3CD15 /* Cue The Tunes-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cue The Tunes-Prefix.pch"; sourceTree = "<group>"; };
-		75B4A44413AD9C5C00B3CD15 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		75B4A46313AD9CA800B3CD15 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		75B4A46C13AD9D6D00B3CD15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AboutViewController.xib; sourceTree = "<group>"; };
 		75B4A46E13AD9D6D00B3CD15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GameViewController.xib; sourceTree = "<group>"; };
@@ -606,7 +605,6 @@
 				75B4A42513AD9C5B00B3CD15 /* UIKit.framework */,
 				75B4A42713AD9C5B00B3CD15 /* Foundation.framework */,
 				75B4A42913AD9C5B00B3CD15 /* CoreGraphics.framework */,
-				75B4A44413AD9C5C00B3CD15 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -683,6 +681,7 @@
 			buildPhases = (
 				752CBB171440162F00EB8368 /* Sources */,
 				752CBB281440162F00EB8368 /* Frameworks */,
+				75B15FCE1494A7D200E18FFE /* ShellScript */,
 				752CBB301440162F00EB8368 /* Resources */,
 			);
 			buildRules = (
@@ -907,6 +906,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		75B15FCE1494A7D200E18FFE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash    \nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		752CBB171440162F00EB8368 /* Sources */ = {
