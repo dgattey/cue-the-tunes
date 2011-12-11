@@ -1,0 +1,37 @@
+//
+// Prefix header for all source files of the 'Cue The Tunes' target in the 'Cue The Tunes' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <MediaPlayer/MediaPlayer.h>
+    #import <QuartzCore/QuartzCore.h>
+    #import <AVFoundation/AVFoundation.h>
+    #import <AudioToolbox/AudioToolbox.h>
+
+    #import "FXLabel.h"
+    
+    #define gothamMedium20 [UIFont fontWithName:@"Gotham Medium" size:20]
+    #define gothamMedium12 [UIFont fontWithName:@"Gotham Medium" size:12]
+    #define gothamBold15 [UIFont fontWithName:@"Gotham Bold" size:15]
+    #define gothamMedium15 [UIFont fontWithName:@"Gotham Medium" size:15]
+    #define prefs [NSUserDefaults standardUserDefaults]
+
+    // DLog is almost a drop-in replacement for NSLog
+    // DLog();
+    // DLog(@"here");
+    // DLog(@"value: %d", x);
+    // Unfortunately this doesn't work DLog(aStringVariable); you have to do this instead DLog(@"%@", aStringVariable);
+    #ifdef DEBUG
+    #	define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #else
+    #	define DLog(...)
+    #endif
+#endif
