@@ -1,9 +1,9 @@
 //
-//  InstructionsViewController.m
+//  MusicPlayerViewController.m
 //  Cue The Tunes
 //
-//  Created by Dylan Gattey on 6/8/11.
-//  Copyright (c) 2011 Gattey/Azinger. All rights reserved.
+//  Created by Dylan Gattey on 12/11/11.
+//  Copyright (c) 2011 Dylan Gattey. All rights reserved.
 //  http://dylangattey.com
 //
 //  Redistribution and use in binary and source forms, with or without modification,
@@ -24,62 +24,49 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
-#import "InstructionsViewController.h"
-#import "MainViewController.h"
+#import "MusicPlayerViewController.h"
 
-@implementation InstructionsViewController
+@implementation MusicPlayerViewController
 
-@synthesize titleLabelInstructions = _titleLabelInstructions, backButton = _backButton;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 - (void)didReceiveMemoryWarning
 {
+    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
+    
     // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - Actions
-
-- (IBAction)doneInstructionsView:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TITLE_NEEDS_ANIMATION"];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - View lifecycle
 
+/*
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView
+{
+}
+*/
+
+/*
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    [self.titleLabelInstructions setFont:gothamMedium20];
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
+*/
 
 - (void)viewDidUnload
 {
-    [self.titleLabelInstructions setFont:gothamMedium20];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

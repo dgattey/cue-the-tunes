@@ -175,6 +175,8 @@
 		757CE3E113FC555F0006A13D /* NoArtworkImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 757CE3DF13FC555F0006A13D /* NoArtworkImage@2x.png */; };
 		75802E9713E4833700332C92 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75802E9513E4833700332C92 /* MainWindow.xib */; };
 		75802E9913E4835800332C92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75802E9813E4835800332C92 /* QuartzCore.framework */; };
+		758E479414953D540012CC6A /* MusicPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758E479314953D540012CC6A /* MusicPlayerViewController.m */; };
+		758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758E479314953D540012CC6A /* MusicPlayerViewController.m */; };
 		75976E1813FB9CE700238F79 /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75976E1613FB9CE700238F79 /* Gotham-Bold.ttf */; };
 		75976E1913FB9CE700238F79 /* Gotham-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75976E1713FB9CE700238F79 /* Gotham-Medium.ttf */; };
 		75A8FFA113DFBA1C0084750F /* InstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */; };
@@ -286,6 +288,8 @@
 		757CE3DF13FC555F0006A13D /* NoArtworkImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NoArtworkImage@2x.png"; sourceTree = "<group>"; };
 		75802E9613E4833700332C92 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		75802E9813E4835800332C92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		758E479214953D540012CC6A /* MusicPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerViewController.h; sourceTree = "<group>"; };
+		758E479314953D540012CC6A /* MusicPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerViewController.m; sourceTree = "<group>"; };
 		75976E1613FB9CE700238F79 /* Gotham-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gotham-Bold.ttf"; path = "Cue The Tunes/Fonts/Gotham-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		75976E1713FB9CE700238F79 /* Gotham-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gotham-Medium.ttf"; path = "Cue The Tunes/Fonts/Gotham-Medium.ttf"; sourceTree = SOURCE_ROOT; };
 		75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsViewController.m; sourceTree = "<group>"; };
@@ -637,6 +641,8 @@
 			children = (
 				75714B5213B18F39006FC44C /* GameViewController.h */,
 				75714B5513B18F39006FC44C /* GameViewController.m */,
+				758E479214953D540012CC6A /* MusicPlayerViewController.h */,
+				758E479314953D540012CC6A /* MusicPlayerViewController.m */,
 				75714B5313B18F39006FC44C /* OptionsViewController.h */,
 				75714B5613B18F39006FC44C /* OptionsViewController.m */,
 				75A8FFA013DFBA1C0084750F /* InstructionsViewController.h */,
@@ -939,6 +945,7 @@
 				752CBB241440162F00EB8368 /* DGOptionItem.m in Sources */,
 				752CBB251440162F00EB8368 /* DGOptionsDropdown.m in Sources */,
 				75760F8A14784FF3003403E1 /* FXLabel.m in Sources */,
+				758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,6 +964,7 @@
 				750D718F13FA508A00B9B0A5 /* DGOptionItem.m in Sources */,
 				750D719013FA508A00B9B0A5 /* DGOptionsDropdown.m in Sources */,
 				75760F8914784FF3003403E1 /* FXLabel.m in Sources */,
+				758E479414953D540012CC6A /* MusicPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
