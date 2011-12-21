@@ -335,86 +335,6 @@
 					<int key="connectionID">138</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">chooseSongButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="87004398"/>
-					</object>
-					<int key="connectionID">144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">nextQuestionButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="916212946"/>
-					</object>
-					<int key="connectionID">145</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">questionLabel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="857372543"/>
-					</object>
-					<int key="connectionID">152</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">questionsLeft</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="1032512243"/>
-					</object>
-					<int key="connectionID">153</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">optionsButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="497570070"/>
-					</object>
-					<int key="connectionID">166</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">backButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="218477063"/>
-					</object>
-					<int key="connectionID">171</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">titleLabelGame</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="764199991"/>
-					</object>
-					<int key="connectionID">172</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">optionsTopBarBackground</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="861273578"/>
-					</object>
-					<int key="connectionID">176</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">backgroundView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="709543325"/>
-					</object>
-					<int key="connectionID">195</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">musicNotes</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="574160081"/>
-					</object>
-					<int key="connectionID">215</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showNextQuestion:</string>
 						<reference key="source" ref="916212946"/>
@@ -578,7 +498,7 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>GameViewController</string>
+					<string>MusicPlayerViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -616,6 +536,14 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
+					<string key="className">AutoScrollLabel</string>
+					<string key="superclassName">UIScrollView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AutoScrollLabel.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">FXLabel</string>
 					<string key="superclassName">UILabel</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -624,21 +552,17 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">GameViewController</string>
+					<string key="className">MusicPlayerViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>chooseSong:</string>
-							<string>doneGameView:</string>
-							<string>showNextQuestion:</string>
-							<string>showOptionsViewFromGameView:</string>
+							<string>playPauseMusic:</string>
+							<string>sliderChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -647,27 +571,17 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>chooseSong:</string>
-							<string>doneGameView:</string>
-							<string>showNextQuestion:</string>
-							<string>showOptionsViewFromGameView:</string>
+							<string>playPauseMusic:</string>
+							<string>sliderChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">chooseSong:</string>
+								<string key="name">playPauseMusic:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">doneGameView:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showNextQuestion:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showOptionsViewFromGameView:</string>
+								<string key="name">sliderChanged:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -676,93 +590,93 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>backButton</string>
-							<string>backgroundView</string>
-							<string>chooseSongButton</string>
-							<string>musicNotes</string>
-							<string>nextQuestionButton</string>
-							<string>optionsButton</string>
-							<string>optionsTopBarBackground</string>
-							<string>questionLabel</string>
-							<string>questionsLeft</string>
-							<string>titleLabelGame</string>
+							<string>currentlyPlayingAlbum</string>
+							<string>currentlyPlayingArtist</string>
+							<string>currentlyPlayingArtworkImage</string>
+							<string>currentlyPlayingArtworkView</string>
+							<string>currentlyPlayingTimeElapsedLabel</string>
+							<string>currentlyPlayingTimeRemainingLabel</string>
+							<string>currentlyPlayingTimeSlider</string>
+							<string>currentlyPlayingTitle</string>
+							<string>playBarView</string>
+							<string>playPauseButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIButton</string>
+							<string>AutoScrollLabel</string>
+							<string>AutoScrollLabel</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UISlider</string>
+							<string>AutoScrollLabel</string>
 							<string>UIView</string>
 							<string>UIButton</string>
-							<string>UIImageView</string>
-							<string>UIButton</string>
-							<string>UIButton</string>
-							<string>UIImageView</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>backButton</string>
-							<string>backgroundView</string>
-							<string>chooseSongButton</string>
-							<string>musicNotes</string>
-							<string>nextQuestionButton</string>
-							<string>optionsButton</string>
-							<string>optionsTopBarBackground</string>
-							<string>questionLabel</string>
-							<string>questionsLeft</string>
-							<string>titleLabelGame</string>
+							<string>currentlyPlayingAlbum</string>
+							<string>currentlyPlayingArtist</string>
+							<string>currentlyPlayingArtworkImage</string>
+							<string>currentlyPlayingArtworkView</string>
+							<string>currentlyPlayingTimeElapsedLabel</string>
+							<string>currentlyPlayingTimeRemainingLabel</string>
+							<string>currentlyPlayingTimeSlider</string>
+							<string>currentlyPlayingTitle</string>
+							<string>playBarView</string>
+							<string>playPauseButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">backButton</string>
-								<string key="candidateClassName">UIButton</string>
+								<string key="name">currentlyPlayingAlbum</string>
+								<string key="candidateClassName">AutoScrollLabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">backgroundView</string>
+								<string key="name">currentlyPlayingArtist</string>
+								<string key="candidateClassName">AutoScrollLabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">currentlyPlayingArtworkImage</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">currentlyPlayingArtworkView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">currentlyPlayingTimeElapsedLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">currentlyPlayingTimeRemainingLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">currentlyPlayingTimeSlider</string>
+								<string key="candidateClassName">UISlider</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">currentlyPlayingTitle</string>
+								<string key="candidateClassName">AutoScrollLabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">playBarView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">chooseSongButton</string>
+								<string key="name">playPauseButton</string>
 								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">musicNotes</string>
-								<string key="candidateClassName">UIImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">nextQuestionButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">optionsButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">optionsTopBarBackground</string>
-								<string key="candidateClassName">UIImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">questionLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">questionsLeft</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">titleLabelGame</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GameViewController.h</string>
+						<string key="minorKey">./Classes/MusicPlayerViewController.h</string>
 					</object>
 				</object>
 			</object>

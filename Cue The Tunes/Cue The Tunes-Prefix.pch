@@ -17,12 +17,24 @@
     #import <AudioToolbox/AudioToolbox.h>
 
     #import "FXLabel.h"
-    
-    #define gothamMedium20 [UIFont fontWithName:@"Gotham Medium" size:20]
-    #define gothamMedium12 [UIFont fontWithName:@"Gotham Medium" size:12]
-    #define gothamBold15 [UIFont fontWithName:@"Gotham Bold" size:15]
-    #define gothamMedium15 [UIFont fontWithName:@"Gotham Medium" size:15]
+    #define interstateBold24 [UIFont fontWithName:@"Interstate-Bold" size:20]
+    #define interstateBold16 [UIFont fontWithName:@"Interstate-Bold" size:15]
+    #define interstateBold12 [UIFont fontWithName:@"Interstate-Bold" size:12]
+    #define interstateRegular12 [UIFont fontWithName:@"Interstate-Regular" size:12]
+    #define interstateRegular15 [UIFont fontWithName:@"Interstate-Regular" size:15]
+    #define interstateRegular16 [UIFont fontWithName:@"Interstate-Regular" size:16]
+    #define interstateRegular21 [UIFont fontWithName:@"Interstate-Regular" size:21]
+
     #define prefs [NSUserDefaults standardUserDefaults]
+
+    #define redGradientHighColor [UIColor colorWithRed:1.00 green:.122 blue:.122 alpha:1.0]
+    #define redGradientLowColor [UIColor colorWithRed:.667 green:.078 blue:.078 alpha:1.0]
+    #define blueGradientHighColor [UIColor colorWithRed:.259 green:.671 blue:.906 alpha:1.0]
+    #define blueGradientLowColor [UIColor colorWithRed:.169 green:.451 blue:.769 alpha:1.0]
+    #define greenGradientHighColor [UIColor colorWithRed:.204 green:.667 blue:.302 alpha:1.0]
+    #define greenGradientLowColor [UIColor colorWithRed:.098 green:.451 blue:.176 alpha:1.0]
+    #define purpleGradientHighColor [UIColor colorWithRed:.690 green:.357 blue:.816 alpha:1.0]
+    #define purpleGradientLowColor [UIColor colorWithRed:.518 green:.227 blue:.537 alpha:1.0]
 
     // DLog is almost a drop-in replacement for NSLog
     // DLog();

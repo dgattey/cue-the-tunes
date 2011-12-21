@@ -64,7 +64,7 @@
     
     /*
      MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-    if ((musicPlayer.playbackState == MPMusicPlaybackStatePlaying || musicPlayer.playbackState == MPMusicPlaybackStatePaused) && [[NSUserDefaults standardUserDefaults] boolForKey:@"PICKED"]) {
+    if ((musicPlayer.playbackState == MPMusicPlaybackStatePlaying || musicPlayer.playbackState == MPMusicPlaybackStatePaused) && [prefs boolForKey:@"PICKED"]) {
         self.savedPersistantID = [musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPersistentID];
     }
     */
@@ -95,7 +95,7 @@
     [[MPMusicPlayerController applicationMusicPlayer] setShuffleMode: MPMusicShuffleModeOff];
     [[MPMusicPlayerController applicationMusicPlayer] setRepeatMode: MPMusicRepeatModeNone];
     
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PICKED"];
+    [prefs setBool:NO forKey:@"PICKED"];
     
     if (self.savedPersistantID) {
         NSNumber *currentPersistantID = [[MPMusicPlayerController applicationMusicPlayer].nowPlayingItem valueForProperty:MPMediaItemPropertyPersistentID];

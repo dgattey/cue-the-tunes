@@ -24,8 +24,54 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "AutoScrollLabel.h"
 
-@interface MusicPlayerViewController : UIViewController
+@interface MusicPlayerViewController : UIViewController <MPMediaPickerControllerDelegate>
+{
+    MPMusicPlayerController *_musicPlayer;
+    UIView *_playBarView;
+    UIImageView *_currentlyPlayingArtworkView;
+    UIImageView *_currentlyPlayingArtworkImage;
+    AutoScrollLabel *_currentlyPlayingTitle;
+    AutoScrollLabel *_currentlyPlayingArtist;
+    AutoScrollLabel *_currentlyPlayingAlbum;
+    UISlider *_currentlyPlayingTimeSlider;
+    UIButton *_playPauseButton;
+    NSString *_secondsString;
+    NSString *_minutesString;
+}
+
+@property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) IBOutlet UIView *playBarView;
+@property (nonatomic, strong) IBOutlet UIImageView *currentlyPlayingArtworkView;
+@property (nonatomic, strong) IBOutlet UIImageView *currentlyPlayingArtworkImage;
+@property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingTitle;
+@property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingArtist;
+@property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingAlbum;
+@property (strong) IBOutlet UISlider *currentlyPlayingTimeSlider;
+@property (nonatomic, strong) IBOutlet UIButton *playPauseButton;
+@property (nonatomic, strong) IBOutlet UILabel *currentlyPlayingTimeRemainingLabel;
+@property (nonatomic, strong) IBOutlet UILabel *currentlyPlayingTimeElapsedLabel;
+@property (strong) NSString *secondsString;
+@property (strong) NSString *minutesString;
+
+- (IBAction)sliderChanged:(id)sender;
+- (void)updateSliderTime:(NSTimer *)timer;
+- (void)convertTime:(NSTimeInterval )theTimeInterval;
+
+- (void)registerForMediaPlayerNotifications;
+- (void)unregisterForMediaPlayerNotifications;
+- (void)handle_NowPlayingItemChanged:(id)notification;
+- (void)handle_PlaybackStateChanged:(id)notification;
+- (void)handle_VolumeChanged:(id)notification;
+- (void)handle_DidEnterForeground:(NSNotification*)sender;
+
+- (void)resetMusicPlayer;
+- (void)setupSongInfo;
+- (IBAction)playPauseMusic:(id)sender;
+- (void)displaySongInfoWithDuration:(double)duration;
+- (void)hideSongInfoWithDuration:(double)duration;
+- (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled;
+
 
 @end

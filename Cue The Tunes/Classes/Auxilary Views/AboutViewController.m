@@ -39,14 +39,11 @@
 
 #pragma mark - Actions
 
-- (IBAction)doneAboutView:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TITLE_NEEDS_ANIMATION"];
+- (IBAction)doneAboutView:(id)sender {
     [self animateTitleOutWithDuration:0.3];
 }
 
-- (void)animateTitleInWithDuration:(double )duration
-{    
+- (void)animateTitleInWithDuration:(double )duration {    
     //Move title background down
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y + 66);
@@ -54,8 +51,7 @@
     }];
 }
 
-- (void)animateTitleOutWithDuration:(double )duration
-{
+- (void)animateTitleOutWithDuration:(double )duration {
     //Move title background up
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y -66);
@@ -68,9 +64,8 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [self.titleLabelAbout setFont:gothamMedium20];
+- (void)viewDidLoad {
+    [self.titleLabelAbout setFont:interstateBold24];
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }

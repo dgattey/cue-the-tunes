@@ -28,15 +28,18 @@
 
 @implementation DGOptionsDropdown
 
-+ (void)resetOptions
-{
+const CGFloat kOptionItemHeight = 50;
+const CGFloat kOptionItemPrimaryHeight = 64;
+
++ (void)resetOptions {
     [prefs setInteger:0 forKey:@"NUMBER_OPTION_ITEMS"];
     [prefs setInteger:0 forKey:@"OPTIONS_HEIGHT_TO_SHOW"];
     [prefs setBool:YES forKey:@"OPTIONS_HIDDEN"];
 }
 
-+ (void)setupOptionsViewsWithAnchorView:(UIView *)anchorView overlay:(UIView *)overlay optionView:(UIImageView *)optionsView backgroundImage:(UIImage *)backgroundImage
-{
++ (void)setupOptionsViewsWithAnchorView:(UIView *)anchorView overlay:(UIView *)overlay optionView:(UIImageView *)optionsView backgroundImage:(UIImage *)backgroundImage {
+    DLog(@"Start setting up options");
+    
     //Overlay
     overlay.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
     overlay.backgroundColor = [UIColor blackColor];
@@ -53,21 +56,20 @@
     
     //Prefs
     [prefs setBool:YES forKey:@"OPTIONS_HIDDEN"];
+    DLog(@"End setting up options");
 }
 
-+ (void)addOptionItem:(DGOptionItem *)optionItem toView:(UIView *)theView
-{    
++ (void)addOptionItem:(DGOptionItem *)optionItem toView:(UIView *)theView {    
     //Increase option items number by one, and set that NSInteger for future use
-    
     [prefs setInteger:[prefs integerForKey:@"NUMBER_OPTION_ITEMS"] + 1 forKey:@"NUMBER_OPTION_ITEMS"];
     NSInteger numberOptionItems = [prefs integerForKey:@"NUMBER_OPTION_ITEMS"];
     
     //Set Option view showing height to 60 initially, then increase in sets of 50 for each additional item - set to integer for use later
-    [prefs setInteger:(64 + ((numberOptionItems - 1) * 50)) forKey:@"OPTIONS_HEIGHT_TO_SHOW"];
+    [prefs setInteger:(kOptionItemPrimaryHeight + ((numberOptionItems - 1) * kOptionItemHeight)) forKey:@"OPTIONS_HEIGHT_TO_SHOW"];
     
     //Title label setup
     UILabel *newOptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(theView.bounds.origin.x + 26, theView.bounds.size.height + theView.bounds.origin.y - 10, 170, 30)];
-    [newOptionTitleLabel setFont:[UIFont fontWithName:@"Gotham Medium" size:20]];
+    [newOptionTitleLabel setFont:interstateBold24];
     [newOptionTitleLabel setTextColor:[UIColor whiteColor]];
     [newOptionTitleLabel setBackgroundColor:[UIColor clearColor]];
     [newOptionTitleLabel setTextAlignment:UITextAlignmentLeft];
@@ -75,8 +77,8 @@
     
     //Detail label setup
     UILabel *newOptionDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(theView.bounds.origin.x + 26, theView.bounds.size.height + theView.bounds.origin.y + 20, 170, 10)];    
-    [newOptionDetailLabel setFont:[UIFont fontWithName:@"Gotham Medium" size:11]];
-    [newOptionDetailLabel setTextColor:[UIColor colorWithRed:.749019608 green:.749019608 blue:.749019608 alpha:1.0]];
+    [newOptionDetailLabel setFont:interstateRegular12];
+    [newOptionDetailLabel setTextColor:[UIColor colorWithRed:.749 green:.749 blue:.749 alpha:1.0]];
     [newOptionDetailLabel setBackgroundColor:[UIColor clearColor]];
     [newOptionDetailLabel setTextAlignment:UITextAlignmentLeft];
     [newOptionDetailLabel setText:optionItem.itemDetailText];
@@ -113,11 +115,6 @@
                                                  optionItem.itemSwitch.frame.size.height);
     }
     
-    //Set tags using algebra to get continuous numbers if needed in future
-    newOptionTitleLabel.tag = (3 * numberOptionItems) + 1;
-    newOptionDetailLabel.tag = newOptionTitleLabel.tag + 1;
-    optionItem.itemSwitch.tag = newOptionDetailLabel.tag + 1;
-    
     //Add all items to theView and enable it for touches
     [theView setUserInteractionEnabled:YES];
     [theView addSubview:newOptionTitleLabel];
@@ -133,17 +130,18 @@
                 backgroundImage:(UIImage*)backgroundImage
                   overlayAmount:(double)overlayAmount
                   optionsButton:(UIButton*)optionsButton
-                     backButton:(UIButton*)backButton
-{
+                     backButton:(UIButton*)backButton {
+    DLog(@"Start sliding options");
     
     //Get options view height for use later
     NSInteger optionsViewHeight = [prefs integerForKey:@"OPTIONS_HEIGHT_TO_SHOW"];
     
     //Do work
     if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) { 
+        DLog(@"Options hidden");
+        [prefs setBool:NO forKey:@"OPTIONS_HIDDEN"];
+        
         //Disable buttons, but change images so it's a smooth transition
-        [optionsButton setImage:[UIImage imageNamed:@"DoneButtonNormal"] forState:UIControlStateDisabled];
-        [backButton setImage:[UIImage imageNamed:@"BackButtonNormal"] forState:UIControlStateDisabled];
         optionsButton.enabled = NO;
         backButton.enabled = NO;
         
@@ -155,35 +153,27 @@
         [viewController.view insertSubview:theOptionsView aboveSubview:overlay];
         
         //Switch the original options image and the done image on the button
-        [optionsButton setImage:[UIImage imageNamed:@"DoneButtonNormal"] forState:UIControlStateNormal];
+        [optionsButton setBackgroundImage:[UIImage imageNamed:@"DoneButtonNormal"] forState:UIControlStateNormal];
         
-        //Fade in overlay
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveLinear animations:^{
-            overlay.alpha = overlayAmount;
-        } completion:^ (BOOL finished) {
-        }];
-        
-        //Fade out back button
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveLinear animations:^{
-            backButton.alpha = 0.0;
-        } completion:^ (BOOL finished) {
-            backButton.enabled = YES;
-            [backButton setImage:nil forState:UIControlStateDisabled];
-        }];
-        
-        //Move options view down
+        //Move options view down, do fades
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             theOptionsView.frame = CGRectMake(theOptionsView.frame.origin.x, theOptionsView.frame.origin.y + optionsViewHeight, theOptionsView.frame.size.width, theOptionsView.frame.size.height);
+            backButton.alpha = 0.0;
+            overlay.alpha = overlayAmount;
+            DLog(@"Sliding");
         } completion:^ (BOOL finished) {
-            [prefs setBool:NO forKey:@"OPTIONS_HIDDEN"];
-            optionsButton.enabled = YES;
-            [optionsButton setImage:nil forState:UIControlStateDisabled];
+            if (finished) {
+                backButton.enabled = YES; 
+                optionsButton.enabled = YES;
+                DLog(@"Done sliding");
+            }
         }];
     }
-    else {
+    else if (![prefs boolForKey:@"OPTIONS_HIDDEN"]) {
+        DLog(@"Options showing");
+        [prefs setBool:YES forKey:@"OPTIONS_HIDDEN"];
+        
         //Disable buttons, but change images so it's a smooth transition
-        [optionsButton setImage:[UIImage imageNamed:@"OptionsButtonNormal"] forState:UIControlStateDisabled];
-        [backButton setImage:[UIImage imageNamed:@"BackButtonNormal"] forState:UIControlStateDisabled];
         optionsButton.enabled = NO;
         backButton.enabled = NO;
         
@@ -195,35 +185,25 @@
         [viewController.view insertSubview:theOptionsView aboveSubview:overlay];
         
         //Switch the original options image and the done image on the button
-        [optionsButton setImage:[UIImage imageNamed:@"OptionsButtonNormal"] forState:UIControlStateNormal];
-        
-        //Fade out overlay
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveLinear animations:^{
-            overlay.alpha = 0.0;
-        } completion:^ (BOOL finished) {
-        }];
-        
-        //Fade in back button
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveLinear animations:^{
-            backButton.alpha = 1.0;
-        } completion:^ (BOOL finished) {
-            backButton.enabled = YES;
-            [backButton setImage:nil forState:UIControlStateDisabled];
-        }];
+        [optionsButton setBackgroundImage:[UIImage imageNamed:@"OptionsButtonNormal"] forState:UIControlStateNormal];
         
         //Move options view up
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             theOptionsView.frame = CGRectMake(theOptionsView.frame.origin.x, theOptionsView.frame.origin.y - optionsViewHeight, theOptionsView.frame.size.width, theOptionsView.frame.size.height);
+            backButton.alpha = 1.0;
+            overlay.alpha = 0.0;
+            DLog(@"Start sliding up");
         } completion:^ (BOOL finished) {
-            [prefs setBool:YES forKey:@"OPTIONS_HIDDEN"];
-            optionsButton.enabled = YES;
-            [optionsButton setImage:nil forState:UIControlStateDisabled];
+            if (finished) {
+                backButton.enabled = YES;
+                optionsButton.enabled = YES;
+                DLog(@"Done sliding up");
+            }
         }];
-    }
+    }    
 }
 
-+ (void)optionsToggledWithSwitch:(UISwitch*)theSwitch withTitle:(NSString *)title
-{
++ (void)optionsToggledWithSwitch:(UISwitch*)theSwitch withTitle:(NSString *)title {
     //Create key title for saving option based on title passed in
     NSString *boolTitle = [@"OPTION_" stringByAppendingString:[title uppercaseString]]; //Set title to OPTION_ with the option item title appended in uppercase
     
@@ -235,29 +215,15 @@
     }
 }
 
-+ (void)refreshOptionView:(UIView *)optionView withOptionItem:(DGOptionItem *)optionItem withOverlay:(UIView *)overlay
-{
++ (void)refreshOptionView:(UIView *)optionView withOptionItem:(DGOptionItem *)optionItem withOverlay:(UIView *)overlay {
     [optionView removeFromSuperview];
     [overlay removeFromSuperview];
     
     //Set switch on or off based on name of option
     NSString *boolTitle = [@"OPTION_" stringByAppendingString:[optionItem.itemTitleText uppercaseString]]; //Set title to OPTION_ with the title appended in uppercase
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:boolTitle]) {[optionItem.itemSwitch setOn:YES];}
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:boolTitle]) {[optionItem.itemSwitch setOn:NO];}
+    if ([prefs boolForKey:boolTitle]) {[optionItem.itemSwitch setOn:YES];}
+    if (![prefs boolForKey:boolTitle]) {[optionItem.itemSwitch setOn:NO];}
 
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-

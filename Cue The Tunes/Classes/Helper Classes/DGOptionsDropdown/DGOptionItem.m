@@ -34,9 +34,9 @@
 {
 	if ((self = [super init])) 
 	{
-		_itemTitleText = titleText;
-		_itemDetailText = detailText;
-		_itemSwitch = optionSwitch;
+		self.itemTitleText = titleText;
+		self.itemDetailText = detailText;
+		self.itemSwitch = optionSwitch;
 	}
 	return self;
 }

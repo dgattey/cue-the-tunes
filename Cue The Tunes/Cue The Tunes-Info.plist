@@ -35,8 +35,8 @@
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Gotham-Medium.ttf</string>
-		<string>Gotham-Bold.ttf</string>
+		<string>InterstateBold.ttf</string>
+		<string>InterstateRegular.ttf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

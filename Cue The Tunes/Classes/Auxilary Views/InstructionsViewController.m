@@ -41,7 +41,7 @@
 
 - (IBAction)doneInstructionsView:(id)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TITLE_NEEDS_ANIMATION"];
+    [prefs setBool:YES forKey:@"TITLE_NEEDS_ANIMATION"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -49,14 +49,14 @@
 
 - (void)viewDidLoad
 {
-    [self.titleLabelInstructions setFont:gothamMedium20];
+    [self.titleLabelInstructions setFont:interstateBold24];
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload
 {
-    [self.titleLabelInstructions setFont:gothamMedium20];
+    [self.titleLabelInstructions setFont:interstateBold24];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
