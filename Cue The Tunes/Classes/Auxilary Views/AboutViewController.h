@@ -33,14 +33,16 @@
     FXLabel *_backButtonLabel;
     UIButton *_backButton;
     UIView *_textView;
-    UIImageView *_aboutTitleDropdown;
+    UIView *_aboutTitleDropdown;
+    FXLabel *_versionLabel;
 }
 
 @property (nonatomic, strong) IBOutlet FXLabel *titleLabelAbout;
 @property (nonatomic, strong) IBOutlet FXLabel *backButtonLabel;
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
-@property (nonatomic, strong) IBOutlet UIImageView *aboutTitleDropdown;
+@property (nonatomic, strong) IBOutlet UIView *aboutTitleDropdown;
 @property (nonatomic, strong) IBOutlet UIView *textView;
+@property (nonatomic, strong) IBOutlet FXLabel *versionLabel;
 
 - (IBAction)doneAboutView:(id)sender;
 - (void)animateTitleInWithDuration:(double )duration;

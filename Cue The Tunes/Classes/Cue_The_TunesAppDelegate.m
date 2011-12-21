@@ -40,6 +40,9 @@
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     self.navigationController.navigationBarHidden = YES;
     
+    //Save current app version to prefs by creating string with version and build number, e.g. "Version 1.0 (23)"
+    [prefs setObject:[[[[[[NSString alloc] initWithString:@"Version "] stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] stringByAppendingString:@" ("] stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] stringByAppendingString:@")"] forKey:@"CURRENT_VERSION"];
+    
     //Setup Audio Session
     [[AVAudioSession sharedInstance] setDelegate:self];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];

@@ -29,7 +29,7 @@
 
 @implementation AboutViewController
 
-@synthesize titleLabelAbout = _titleLabelAbout, backButtonLabel = _backButtonLabel, backButton = _backButton, aboutTitleDropdown = _aboutTitleDropdown, textView = _textView;
+@synthesize titleLabelAbout = _titleLabelAbout, backButtonLabel = _backButtonLabel, backButton = _backButton, aboutTitleDropdown = _aboutTitleDropdown, textView = _textView, versionLabel = _versionLabel;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -84,7 +84,7 @@
                 
             }
             if (label.tag == 3) {
-                //More info
+                //More info and version label
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(12)];
                 [label setOversampling:6];
@@ -98,6 +98,9 @@
             }
         }
     }
+    
+    [self.versionLabel setText:[[NSString alloc] initWithString:[prefs stringForKey:@"CURRENT_VERSION"]]];
+    [self.versionLabel setFont:interstateRegular(12)];
     
     [super viewDidLoad];
 }
