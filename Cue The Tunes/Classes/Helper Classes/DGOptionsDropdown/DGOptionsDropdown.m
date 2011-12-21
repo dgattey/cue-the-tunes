@@ -68,19 +68,13 @@ const CGFloat kOptionItemPrimaryHeight = 64;
     [prefs setInteger:(kOptionItemPrimaryHeight + ((numberOptionItems - 1) * kOptionItemHeight)) forKey:@"OPTIONS_HEIGHT_TO_SHOW"];
     
     //Title label setup
-    UILabel *newOptionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(theView.bounds.origin.x + 26, theView.bounds.size.height + theView.bounds.origin.y - 10, 170, 30)];
-    [newOptionTitleLabel setFont:interstateBold24];
-    [newOptionTitleLabel setTextColor:[UIColor whiteColor]];
-    [newOptionTitleLabel setBackgroundColor:[UIColor clearColor]];
-    [newOptionTitleLabel setTextAlignment:UITextAlignmentLeft];
+    FXLabel *newOptionTitleLabel = [[FXLabel alloc] initWithFrame:CGRectMake(theView.bounds.origin.x + 26, theView.bounds.size.height + theView.bounds.origin.y - 10, 170, 30)];
+    setOptionsMainStyleUsingLabel(newOptionTitleLabel)
     [newOptionTitleLabel setText:optionItem.itemTitleText];
     
     //Detail label setup
-    UILabel *newOptionDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(theView.bounds.origin.x + 26, theView.bounds.size.height + theView.bounds.origin.y + 20, 170, 10)];    
-    [newOptionDetailLabel setFont:interstateRegular12];
-    [newOptionDetailLabel setTextColor:[UIColor colorWithRed:.749 green:.749 blue:.749 alpha:1.0]];
-    [newOptionDetailLabel setBackgroundColor:[UIColor clearColor]];
-    [newOptionDetailLabel setTextAlignment:UITextAlignmentLeft];
+    FXLabel *newOptionDetailLabel = [[FXLabel alloc] initWithFrame:CGRectMake(theView.bounds.origin.x + 26, theView.bounds.size.height + theView.bounds.origin.y + 20, 170, 10)];
+    setOptionsDetailStyleUsingLabel(newOptionDetailLabel)
     [newOptionDetailLabel setText:optionItem.itemDetailText];
     
     //Switch setup

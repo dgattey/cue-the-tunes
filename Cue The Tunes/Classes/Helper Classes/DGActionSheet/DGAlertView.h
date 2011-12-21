@@ -1,9 +1,9 @@
 //
-//  AboutViewController.h
+//  DGAlertView.h
 //  Cue The Tunes
 //
-//  Created by Dylan Gattey on 6/8/11.
-//  Copyright (c) 2011 Gattey/Azinger. All rights reserved.
+//  Created by Dylan Gattey on 8/15/11.
+//  Copyright (c) 2011 Dylan Gattey. All rights reserved.
 //  http://dylangattey.com
 //
 //  Redistribution and use in binary and source forms, with or without modification,
@@ -24,26 +24,9 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
-
-#import <UIKit/UIKit.h>
-
-@interface AboutViewController : UIViewController
-{
-    FXLabel *_titleLabelAbout;
-    FXLabel *_backButtonLabel;
-    UIButton *_backButton;
-    UIView *_textView;
-    UIImageView *_aboutTitleDropdown;
-}
-
-@property (nonatomic, strong) IBOutlet FXLabel *titleLabelAbout;
-@property (nonatomic, strong) IBOutlet FXLabel *backButtonLabel;
-@property (nonatomic, strong) IBOutlet UIButton *backButton;
-@property (nonatomic, strong) IBOutlet UIImageView *aboutTitleDropdown;
-@property (nonatomic, strong) IBOutlet UIView *textView;
-
-- (IBAction)doneAboutView:(id)sender;
-- (void)animateTitleInWithDuration:(double )duration;
-- (void)animateTitleOutWithDuration:(double )duration;
+@interface DGAlertView : UIView
++ (void)setupAlertView:(UIView*)alertView overlay:(UIView*)overlay newGameButton:(UIButton*)newGameButton continueGameButton:(UIButton*)continueGameButton cancelButton:(UIButton*)cancelButton inView:(UIView*)theView;
++ (void)displayAlertView:(UIView*)alertView overlay:(UIView*)overlay afterDelay:(float)delay;
++ (void)dismissAlertView:(UIView*)alertView overlay:(UIView*)overlay;
 
 @end

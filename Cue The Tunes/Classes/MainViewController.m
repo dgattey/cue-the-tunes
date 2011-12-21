@@ -28,21 +28,32 @@
 #import "GameViewController.h"
 #import "InstructionsViewController.h"
 #import "AboutViewController.h"
-#import "DGActionSheet.h"
+#import "DGAlertView.h"
 
 @implementation MainViewController
 
-@synthesize gameButton = _gameButton,
+@synthesize gameButtonView = _gameButtonView,
+        gameButton = _gameButton,
+        gameButtonLabel = _gameLabel,
+        optionsButtonView = _optionsButtonView,
         optionsButton = _optionsButton,
+        optionsButtonLabel = _optionsLabel,
+        instructionsButtonView = _instructionsButtonView,
         instructionsButton = _instructionsButton,
+        instructionsButtonLabel = _instructionsLabel,
+        aboutButtonView = _aboutButtonView,
         aboutButton = _aboutButton,
+        aboutButtonLabel = _aboutLabel,
         titleLabel = _titleLabel,
         titleBar = _titleBar,
-        actionSheetNewGameButton = _actionSheetNewGameButton,
-        actionSheetContinueGameButton = _actionSheetContinueGameButton,
-        actionSheetCancelButton = _actionSheetCancelButton,
-        actionSheetMainView = _actionSheetMainView,
-        actionSheetOverlay = _actionSheetOverlay,
+        alertViewNewGameButton = _alertViewNewGameButton,
+        alertViewNewGameButtonLabel = _alertViewNewGameButtonLabel,
+        alertViewContinueGameButton = _alertViewContinueGameButton,
+        alertViewContinueGameButtonLabel = _alertViewContinueGameButtonLabel,
+        alertViewCancelButton = _alertViewCancelButton,
+        alertViewCancelButtonLabel = _alertViewCancelButtonLabel,
+        alertViewMainView = _alertViewMainView,
+        alertViewOverlay = _alertViewOverlay,
         optionsOverlay = _optionsOverlay,
         optionsView = _optionsView,
         optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
@@ -64,24 +75,29 @@
     //Set up options view
     [self refreshOptionsView];
     
-    //Action sheet setup
-    [DGActionSheet 
-     setupActionSheet:self.actionSheetMainView
-     overlay:self.actionSheetOverlay
-     newGameButton:self.actionSheetNewGameButton 
-     continueGameButton:self.actionSheetContinueGameButton 
-     cancelButton:self.actionSheetCancelButton 
+    //Alert view setup
+    [DGAlertView 
+     setupAlertView:self.alertViewMainView
+     overlay:self.alertViewOverlay
+     newGameButton:self.alertViewNewGameButton 
+     continueGameButton:self.alertViewContinueGameButton 
+     cancelButton:self.alertViewCancelButton 
      inView:self.view];
-    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionSheetCancelButtonTapped:)];
-    [self.actionSheetOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-    
-    //Set button styles
+    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertViewCancelButtonTapped:)];
+    [self.alertViewOverlay addGestureRecognizer:overlayTapGestureRecognizer];
+        
+    //Set default style for all FXLabels in the view
+    for (FXLabel *label in [self.view allSubviews]) {
+        if ([label isKindOfClass:[FXLabel class]]) {
+            setDefaultStyleUsingLabel(label);
+        }
+    }
     
     //Animate in buttons
-    [self performSelector:@selector(animateButtonIn:) withObject:self.gameButton afterDelay:0.4];
-    [self performSelector:@selector(animateButtonIn:) withObject:self.optionsButton afterDelay:0.55];
-    [self performSelector:@selector(animateButtonIn:) withObject:self.instructionsButton afterDelay:0.7];
-    [self performSelector:@selector(animateButtonIn:) withObject:self.aboutButton afterDelay:0.85];
+    [self performSelector:@selector(animateButtonIn:) withObject:self.gameButtonView afterDelay:0.4];
+    [self performSelector:@selector(animateButtonIn:) withObject:self.optionsButtonView afterDelay:0.55];
+    [self performSelector:@selector(animateButtonIn:) withObject:self.instructionsButtonView afterDelay:0.7];
+    [self performSelector:@selector(animateButtonIn:) withObject:self.aboutButtonView afterDelay:0.85];
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
@@ -129,10 +145,10 @@
     [UIView animateWithDuration:duration animations:^{
         [self.titleBar setFrame:CGRectMake(0, 0, 320, 76)];
         self.titleLabel.alpha = 1.0;
-        self.gameButton.alpha = 1.0;
-        self.optionsButton.alpha = 1.0;
-        self.instructionsButton.alpha = 1.0;
-        self.aboutButton.alpha = 1.0;
+        self.gameButtonView.alpha = 1.0;
+        self.optionsButtonView.alpha = 1.0;
+        self.instructionsButtonView.alpha = 1.0;
+        self.aboutButtonView.alpha = 1.0;
     } completion:^ (BOOL finished) {
         //Enable Buttons
         self.gameButton.enabled = YES;
@@ -162,10 +178,10 @@
     [UIView animateWithDuration:duration animations:^{
         [self.titleBar setFrame:CGRectMake(0, 0, 320, 42)];
         self.titleLabel.alpha = 0.0;
-        self.gameButton.alpha = 0.0;
-        self.optionsButton.alpha = 0.0;
-        self.instructionsButton.alpha = 0.0;
-        self.aboutButton.alpha = 0.0;
+        self.gameButtonView.alpha = 0.0;
+        self.optionsButtonView.alpha = 0.0;
+        self.instructionsButtonView.alpha = 0.0;
+        self.aboutButtonView.alpha = 0.0;
     } completion:^ (BOOL finished) {
         [self.navigationController pushViewController:theViewController animated:YES];
     }];
@@ -190,32 +206,32 @@
     [prefs setBool:NO forKey:@"NEW_GAME"];
     [prefs setBool:NO forKey:@"CONTINUE_GAME"];
     
-    //And display the DGActionSheet if there's a game to continue, otherwise just continue with a new game
+    //And display the DGAlertView if there's a game to continue, otherwise just continue with a new game
     if ([prefs valueForKey:@"CURRENT_QUESTION"]) {
-        [DGActionSheet displayActionSheet:self.actionSheetMainView overlay:self.actionSheetOverlay];
-        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-            self.gameButton.alpha = 0.0;
-            self.optionsView.alpha = 0.0;
-            self.instructionsButton.alpha = 0.0;
-            self.aboutButton.alpha = 0.0;
+        [DGAlertView displayAlertView:self.alertViewMainView overlay:self.alertViewOverlay afterDelay:0.3];
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
+            self.gameButtonView.alpha = 0.0;
+            self.optionsButtonView.alpha = 0.0;
+            self.instructionsButtonView.alpha = 0.0;
+            self.aboutButtonView.alpha = 0.0;
         } completion:^ (BOOL finished) {}];
     }
     
     else {
-        [self actionSheetNewButtonTapped:self];
+        [self alertViewNewButtonTapped:self];
     }
 }
 
-#pragma mark Action Sheet
+#pragma mark Alert View
 
-- (IBAction)actionSheetNewButtonTapped:(id)sender {    
+- (IBAction)alertViewNewButtonTapped:(id)sender {    
     //Start new game    
     [prefs setBool:YES forKey:@"NEW_GAME"];
     [prefs setBool:NO forKey:@"CONTINUE_GAME"];
     
-    //If there is a value for the current question, dismiss the action sheet since that signifies the action sheet was shown, and clear the value
+    //If there is a value for the current question, dismiss the alert view since that signifies the alert view was shown, and clear the value
     if ([prefs valueForKey:@"CURRENT_QUESTION"]) {
-        [DGActionSheet dismissActionSheet:self.actionSheetMainView overlay:self.actionSheetOverlay];
+        [DGAlertView dismissAlertView:self.alertViewMainView overlay:self.alertViewOverlay];
         [prefs setValue:nil forKey:@"CURRENT_QUESTION"];
     }
     
@@ -224,24 +240,24 @@
     [self animateTitleOutWithViewController:gameViewController withDuration:0.3];
 }
 
-- (IBAction)actionSheetContinueButtonTapped:(id)sender {
+- (IBAction)alertViewContinueButtonTapped:(id)sender {
     //Continue game
     [prefs setBool:YES forKey:@"CONTINUE_GAME"];
     [prefs setBool:NO forKey:@"NEW_GAME"];
-    [DGActionSheet dismissActionSheet:self.actionSheetMainView overlay:self.actionSheetOverlay];
+    [DGAlertView dismissAlertView:self.alertViewMainView overlay:self.alertViewOverlay];
     
     //Init a game view controller and call animateTitleOut
     GameViewController *gameViewController = [[GameViewController alloc] initWithNibName:@"GameViewController" bundle:nil];
     [self animateTitleOutWithViewController:gameViewController withDuration:0.3];
 }
 
-- (IBAction)actionSheetCancelButtonTapped:(id)sender {
-    [DGActionSheet dismissActionSheet:self.actionSheetMainView overlay:self.actionSheetOverlay];
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-        self.gameButton.alpha = 1.0;
-        self.optionsView.alpha = 1.0;
-        self.instructionsButton.alpha = 1.0;
-        self.aboutButton.alpha = 1.0;
+- (IBAction)alertViewCancelButtonTapped:(id)sender {
+    [DGAlertView dismissAlertView:self.alertViewMainView overlay:self.alertViewOverlay];
+    [UIView animateWithDuration:0.2 delay:0.3 options:UIViewAnimationCurveEaseInOut animations:^{
+        self.gameButtonView.alpha = 1.0;
+        self.optionsButtonView.alpha = 1.0;
+        self.instructionsButtonView.alpha = 1.0;
+        self.aboutButtonView.alpha = 1.0;
     } completion:^ (BOOL finished) {}];
 }
 
@@ -287,18 +303,18 @@
     UITapGestureRecognizer *titleBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
     
     if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
-        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        self.titleLabel.userInteractionEnabled = YES;
-        [self.titleLabel addGestureRecognizer:titleLabelTapGestureRecognizer];
-        self.titleBar.userInteractionEnabled = YES;
-        [self.titleBar addGestureRecognizer:titleBarTapGestureRecognizer];
-    }
-    else {
         [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
         self.titleLabel.userInteractionEnabled = NO;
         [self.titleLabel removeGestureRecognizer:titleLabelTapGestureRecognizer];
         self.titleBar.userInteractionEnabled = NO;
         [self.titleBar removeGestureRecognizer:titleBarTapGestureRecognizer];
+    }
+    else {
+        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
+        self.titleLabel.userInteractionEnabled = YES;
+        [self.titleLabel addGestureRecognizer:titleLabelTapGestureRecognizer];
+        self.titleBar.userInteractionEnabled = YES;
+        [self.titleBar addGestureRecognizer:titleBarTapGestureRecognizer];
     }
     
 }

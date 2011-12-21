@@ -66,7 +66,7 @@
 		750D716F13FA4D7E00B9B0A5 /* DylanGatteyLoadingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716E13FA4D7E00B9B0A5 /* DylanGatteyLoadingImage.png */; };
 		750D717413FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717313FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m */; };
 		750D718913FA508A00B9B0A5 /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717713FA508A00B9B0A5 /* AutoScrollLabel.m */; };
-		750D718E13FA508A00B9B0A5 /* DGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718313FA508A00B9B0A5 /* DGActionSheet.m */; };
+		750D718E13FA508A00B9B0A5 /* DGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718313FA508A00B9B0A5 /* DGAlertView.m */; };
 		750D718F13FA508A00B9B0A5 /* DGOptionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718613FA508A00B9B0A5 /* DGOptionItem.m */; };
 		750D719013FA508A00B9B0A5 /* DGOptionsDropdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718813FA508A00B9B0A5 /* DGOptionsDropdown.m */; };
 		752CBB181440162F00EB8368 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B4A43113AD9C5B00B3CD15 /* main.m */; };
@@ -76,7 +76,7 @@
 		752CBB1C1440162F00EB8368 /* InstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */; };
 		752CBB1D1440162F00EB8368 /* Cue_The_TunesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717313FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m */; };
 		752CBB1E1440162F00EB8368 /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717713FA508A00B9B0A5 /* AutoScrollLabel.m */; };
-		752CBB231440162F00EB8368 /* DGActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718313FA508A00B9B0A5 /* DGActionSheet.m */; };
+		752CBB231440162F00EB8368 /* DGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718313FA508A00B9B0A5 /* DGAlertView.m */; };
 		752CBB241440162F00EB8368 /* DGOptionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718613FA508A00B9B0A5 /* DGOptionItem.m */; };
 		752CBB251440162F00EB8368 /* DGOptionsDropdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718813FA508A00B9B0A5 /* DGOptionsDropdown.m */; };
 		752CBB291440162F00EB8368 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B4A42513AD9C5B00B3CD15 /* UIKit.framework */; };
@@ -193,6 +193,8 @@
 		75E9CCDA14A1614B006DD74E /* ActionSheetBlueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E9CCD714A1614B006DD74E /* ActionSheetBlueButton.png */; };
 		75E9CCDB14A1614B006DD74E /* ActionSheetBlueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E9CCD814A1614B006DD74E /* ActionSheetBlueButton@2x.png */; };
 		75E9CCDC14A1614B006DD74E /* ActionSheetBlueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E9CCD814A1614B006DD74E /* ActionSheetBlueButton@2x.png */; };
+		75F2AEA914A262C400C73E58 /* UIView+Recursion.m in Sources */ = {isa = PBXBuildFile; fileRef = 75F2AEA814A262C400C73E58 /* UIView+Recursion.m */; };
+		75F2AEAA14A262C500C73E58 /* UIView+Recursion.m in Sources */ = {isa = PBXBuildFile; fileRef = 75F2AEA814A262C400C73E58 /* UIView+Recursion.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -257,12 +259,13 @@
 		750D717313FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Cue_The_TunesAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		750D717613FA508A00B9B0A5 /* AutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoScrollLabel.h; sourceTree = "<group>"; };
 		750D717713FA508A00B9B0A5 /* AutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoScrollLabel.m; sourceTree = "<group>"; };
-		750D718213FA508A00B9B0A5 /* DGActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGActionSheet.h; sourceTree = "<group>"; };
-		750D718313FA508A00B9B0A5 /* DGActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGActionSheet.m; sourceTree = "<group>"; };
+		750D718213FA508A00B9B0A5 /* DGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGAlertView.h; sourceTree = "<group>"; };
+		750D718313FA508A00B9B0A5 /* DGAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGAlertView.m; sourceTree = "<group>"; };
 		750D718513FA508A00B9B0A5 /* DGOptionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGOptionItem.h; sourceTree = "<group>"; };
 		750D718613FA508A00B9B0A5 /* DGOptionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGOptionItem.m; sourceTree = "<group>"; };
 		750D718713FA508A00B9B0A5 /* DGOptionsDropdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGOptionsDropdown.h; sourceTree = "<group>"; };
 		750D718813FA508A00B9B0A5 /* DGOptionsDropdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGOptionsDropdown.m; sourceTree = "<group>"; };
+		7528819714A2926900AD1505 /* AllQuestions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = AllQuestions.plist; path = "Cue The Tunes/AllQuestions.plist"; sourceTree = SOURCE_ROOT; };
 		752CBB811440162F00EB8368 /* Cue The Tunes Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cue The Tunes Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		752CBB831440163000EB8368 /* Cue The Tunes Beta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Cue The Tunes Beta-Info.plist"; path = "/Users/dgattey/Documents/*Dylan/Dropbox/Apps/Projects/Cue The Tunes Project/Cue The Tunes/Cue The Tunes Beta-Info.plist"; sourceTree = "<absolute>"; };
 		756790F614023BDC009EEE11 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -307,6 +310,8 @@
 		75DE1AF6143FF939008125EE /* SliderWhiteTrack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SliderWhiteTrack@2x.png"; sourceTree = "<group>"; };
 		75E9CCD714A1614B006DD74E /* ActionSheetBlueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionSheetBlueButton.png; sourceTree = "<group>"; };
 		75E9CCD814A1614B006DD74E /* ActionSheetBlueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ActionSheetBlueButton@2x.png"; sourceTree = "<group>"; };
+		75F2AEA714A262C400C73E58 /* UIView+Recursion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Recursion.h"; path = "Cue The Tunes/Classes/Helper Classes/UIView+Recursion/UIView+Recursion.h"; sourceTree = SOURCE_ROOT; };
+		75F2AEA814A262C400C73E58 /* UIView+Recursion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Recursion.m"; path = "Cue The Tunes/Classes/Helper Classes/UIView+Recursion/UIView+Recursion.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,13 +510,13 @@
 			path = "Cue The Tunes/Classes/Helper Classes/AutoScrollLabel";
 			sourceTree = SOURCE_ROOT;
 		};
-		750D718113FA508A00B9B0A5 /* DGActionSheet */ = {
+		750D718113FA508A00B9B0A5 /* DGAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				750D718213FA508A00B9B0A5 /* DGActionSheet.h */,
-				750D718313FA508A00B9B0A5 /* DGActionSheet.m */,
+				750D718213FA508A00B9B0A5 /* DGAlertView.h */,
+				750D718313FA508A00B9B0A5 /* DGAlertView.m */,
 			);
-			name = DGActionSheet;
+			name = DGAlertView;
 			path = "Cue The Tunes/Classes/Helper Classes/DGActionSheet";
 			sourceTree = SOURCE_ROOT;
 		};
@@ -533,6 +538,7 @@
 				75976E1B13FB9CED00238F79 /* Fonts */,
 				75802E9013E4832900332C92 /* Images */,
 				756EE8AD13AEA4D900C75F78 /* Questions.plist */,
+				7528819714A2926900AD1505 /* AllQuestions.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -649,8 +655,9 @@
 		75B4A46A13AD9D2D00B3CD15 /* Helper Classes */ = {
 			isa = PBXGroup;
 			children = (
+				75F2AEA614A2626900C73E58 /* UIView+Recursion */,
 				750D717513FA508A00B9B0A5 /* AutoScrollLabel */,
-				750D718113FA508A00B9B0A5 /* DGActionSheet */,
+				750D718113FA508A00B9B0A5 /* DGAlertView */,
 				750B43BD149E99BF009DB7A2 /* DGGradientButton */,
 				750D718413FA508A00B9B0A5 /* DGOptionsDropdown */,
 				75760F8614784FF3003403E1 /* FXLabel */,
@@ -670,6 +677,15 @@
 				75B4A46B13AD9D6D00B3CD15 /* AboutViewController.xib */,
 			);
 			name = XIBs;
+			sourceTree = "<group>";
+		};
+		75F2AEA614A2626900C73E58 /* UIView+Recursion */ = {
+			isa = PBXGroup;
+			children = (
+				75F2AEA714A262C400C73E58 /* UIView+Recursion.h */,
+				75F2AEA814A262C400C73E58 /* UIView+Recursion.m */,
+			);
+			name = "UIView+Recursion";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -929,11 +945,12 @@
 				752CBB1C1440162F00EB8368 /* InstructionsViewController.m in Sources */,
 				752CBB1D1440162F00EB8368 /* Cue_The_TunesAppDelegate.m in Sources */,
 				752CBB1E1440162F00EB8368 /* AutoScrollLabel.m in Sources */,
-				752CBB231440162F00EB8368 /* DGActionSheet.m in Sources */,
+				752CBB231440162F00EB8368 /* DGAlertView.m in Sources */,
 				752CBB241440162F00EB8368 /* DGOptionItem.m in Sources */,
 				752CBB251440162F00EB8368 /* DGOptionsDropdown.m in Sources */,
 				75760F8A14784FF3003403E1 /* FXLabel.m in Sources */,
 				758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */,
+				75F2AEAA14A262C500C73E58 /* UIView+Recursion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,11 +965,12 @@
 				75A8FFA113DFBA1C0084750F /* InstructionsViewController.m in Sources */,
 				750D717413FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m in Sources */,
 				750D718913FA508A00B9B0A5 /* AutoScrollLabel.m in Sources */,
-				750D718E13FA508A00B9B0A5 /* DGActionSheet.m in Sources */,
+				750D718E13FA508A00B9B0A5 /* DGAlertView.m in Sources */,
 				750D718F13FA508A00B9B0A5 /* DGOptionItem.m in Sources */,
 				750D719013FA508A00B9B0A5 /* DGOptionsDropdown.m in Sources */,
 				75760F8914784FF3003403E1 /* FXLabel.m in Sources */,
 				758E479414953D540012CC6A /* MusicPlayerViewController.m in Sources */,
+				75F2AEA914A262C400C73E58 /* UIView+Recursion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

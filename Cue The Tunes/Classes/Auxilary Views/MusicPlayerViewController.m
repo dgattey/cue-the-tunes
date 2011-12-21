@@ -72,7 +72,7 @@ minutesString = _minutesString;
     }
     
     //Set default styles for AutoScroll title label
-    [self.currentlyPlayingTitle setFont:interstateBold24];
+    [self.currentlyPlayingTitle setFont:interstateBold(20)];
     self.currentlyPlayingTitle.bufferSpaceBetweenLabels = 24.0;
     self.currentlyPlayingTitle.scrollSpeed = 19;
     self.currentlyPlayingTitle.pauseInterval = 3;
@@ -80,7 +80,7 @@ minutesString = _minutesString;
     self.currentlyPlayingTitle.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle];
     
     //And artist label
-    [self.currentlyPlayingArtist setFont:interstateRegular15];
+    [self.currentlyPlayingArtist setFont:interstateRegular(15)];
     self.currentlyPlayingArtist.bufferSpaceBetweenLabels = 24.0;
     self.currentlyPlayingArtist.scrollSpeed = 25;
     self.currentlyPlayingArtist.pauseInterval = 3;
@@ -88,7 +88,7 @@ minutesString = _minutesString;
     self.currentlyPlayingArtist.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist];
     
     //And album label
-    [self.currentlyPlayingAlbum setFont:interstateRegular15];
+    [self.currentlyPlayingAlbum setFont:interstateRegular(15)];
     self.currentlyPlayingAlbum.bufferSpaceBetweenLabels = 24.0;
     self.currentlyPlayingAlbum.scrollSpeed = 23;
     self.currentlyPlayingAlbum.pauseInterval = 3;

@@ -9,41 +9,60 @@
 #endif
 
 #ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-    #import <MediaPlayer/MediaPlayer.h>
-    #import <QuartzCore/QuartzCore.h>
-    #import <AVFoundation/AVFoundation.h>
-    #import <AudioToolbox/AudioToolbox.h>
 
-    #import "FXLabel.h"
-    #define interstateBold24 [UIFont fontWithName:@"Interstate-Bold" size:20]
-    #define interstateBold16 [UIFont fontWithName:@"Interstate-Bold" size:15]
-    #define interstateBold12 [UIFont fontWithName:@"Interstate-Bold" size:12]
-    #define interstateRegular12 [UIFont fontWithName:@"Interstate-Regular" size:12]
-    #define interstateRegular15 [UIFont fontWithName:@"Interstate-Regular" size:15]
-    #define interstateRegular16 [UIFont fontWithName:@"Interstate-Regular" size:16]
-    #define interstateRegular21 [UIFont fontWithName:@"Interstate-Regular" size:21]
+//Import relevant frameworks
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+#import <QuartzCore/QuartzCore.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 
-    #define prefs [NSUserDefaults standardUserDefaults]
+//Import custom classes used globally
+#import "FXLabel.h"
+#import "UIView+Recursion.h"
 
-    #define redGradientHighColor [UIColor colorWithRed:1.00 green:.122 blue:.122 alpha:1.0]
-    #define redGradientLowColor [UIColor colorWithRed:.667 green:.078 blue:.078 alpha:1.0]
-    #define blueGradientHighColor [UIColor colorWithRed:.259 green:.671 blue:.906 alpha:1.0]
-    #define blueGradientLowColor [UIColor colorWithRed:.169 green:.451 blue:.769 alpha:1.0]
-    #define greenGradientHighColor [UIColor colorWithRed:.204 green:.667 blue:.302 alpha:1.0]
-    #define greenGradientLowColor [UIColor colorWithRed:.098 green:.451 blue:.176 alpha:1.0]
-    #define purpleGradientHighColor [UIColor colorWithRed:.690 green:.357 blue:.816 alpha:1.0]
-    #define purpleGradientLowColor [UIColor colorWithRed:.518 green:.227 blue:.537 alpha:1.0]
+//Define default FXLabel styles
+#define setDefaultStyleUsingLabel(label) [label setTextAlignment:UITextAlignmentCenter];[label setFont:buttonFont];setDefaultTextGradientWithLabel(label);setDefaultShadowWithLabel(label);[label setInnerShadowColor:[UIColor whiteColor]];[label setInnerShadowOffset:CGSizeMake(0.0f, 1.5f)];[label setTextColor:[UIColor whiteColor]];[label setBackgroundColor:[UIColor clearColor]];
+#define setTitleStyleUsingLabel(label) [label setTextAlignment:UITextAlignmentCenter];[label setFont:titleFont];setDefaultTextGradientWithLabel(label);[label setInnerShadowColor:[UIColor whiteColor]];[label setInnerShadowOffset:CGSizeMake(0.0f, 1.5f)];setDefaultShadowWithLabel(label);[label setTextColor:[UIColor whiteColor]];[label setBackgroundColor:[UIColor clearColor]];
+#define setTitleButtonStyleUsingLabel(label) [label setTextAlignment:UITextAlignmentCenter];[label setFont:titleButtonFont];[label setInnerShadowColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];[label setInnerShadowOffset:CGSizeMake(0.0f, 0.3f)];[label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6]];[label setShadowOffset:CGSizeMake(0.0f, 1.0f)];[label setTextColor:[UIColor whiteColor]];[label setBackgroundColor:[UIColor clearColor]];[label setOversampling:6];
+#define setOptionsMainStyleUsingLabel(label) [label setTextAlignment:UITextAlignmentLeft];[label setFont:interstateBold(20)];setDefaultTextGradientWithLabel(label);[label setInnerShadowColor:[UIColor whiteColor]];[label setInnerShadowOffset:CGSizeMake(0.0f, 1.5f)];setDefaultShadowWithLabel(label);[label setTextColor:[UIColor whiteColor]];[label setBackgroundColor:[UIColor clearColor]];   
+#define setOptionsDetailStyleUsingLabel(label) [label setTextAlignment:UITextAlignmentLeft];[label setFont:interstateRegular(12)];setDefaultShadowWithLabel(label);[label setTextColor:[UIColor colorWithRed:.749 green:.749 blue:.749 alpha:1.0]];[label setBackgroundColor:[UIColor clearColor]];
 
-    // DLog is almost a drop-in replacement for NSLog
-    // DLog();
-    // DLog(@"here");
-    // DLog(@"value: %d", x);
-    // Unfortunately this doesn't work DLog(aStringVariable); you have to do this instead DLog(@"%@", aStringVariable);
-    #ifdef DEBUG
-    #	define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-    #else
-    #	define DLog(...)
-    #endif
+//Define macros for setting default FXLabel gradients, shadows, and general
+#define setDefaultTextGradientWithLabel(label) [label setGradientStartColor:[UIColor whiteColor]];[label setGradientEndColor:[UIColor colorWithRed:.88 green:.88 blue:.88 alpha:1.0]];
+#define setDefaultShadowWithLabel(label) [label setShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];[label setShadowOffset:CGSizeMake(1.63f, 1.16f)];
+
+//Define macros for default fonts and easily setting sizes
+#define interstateBold(fontSize) [UIFont fontWithName:@"Interstate-Bold" size:fontSize]
+#define interstateRegular(fontSize) [UIFont fontWithName:@"Interstate-Regular" size:fontSize]
+#define titleFont [UIFont fontWithName:@"Interstate-Bold" size:21]
+#define titleButtonFont [UIFont fontWithName:@"Interstate-Bold" size:13]
+#define buttonFont [UIFont fontWithName:@"Interstate-Bold" size:16]
+
+//Convenience macro definitions 
+#define prefs [NSUserDefaults standardUserDefaults]
+
+//Color definitions
+#define customGrayColor [UIColor colorWithRed:.749 green:.749 blue:.749 alpha:1.0]
+#define redGradientHighColor [UIColor colorWithRed:1.00 green:.122 blue:.122 alpha:1.0]
+#define redGradientLowColor [UIColor colorWithRed:.667 green:.078 blue:.078 alpha:1.0]
+#define blueGradientHighColor [UIColor colorWithRed:.259 green:.671 blue:.906 alpha:1.0]
+#define blueGradientLowColor [UIColor colorWithRed:.169 green:.451 blue:.769 alpha:1.0]
+#define greenGradientHighColor [UIColor colorWithRed:.204 green:.667 blue:.302 alpha:1.0]
+#define greenGradientLowColor [UIColor colorWithRed:.098 green:.451 blue:.176 alpha:1.0]
+#define purpleGradientHighColor [UIColor colorWithRed:.690 green:.357 blue:.816 alpha:1.0]
+#define purpleGradientLowColor [UIColor colorWithRed:.518 green:.227 blue:.537 alpha:1.0]
+
+// DLog is almost a drop-in replacement for NSLog
+// DLog();
+// DLog(@"here");
+// DLog(@"value: %d", x);
+// Unfortunately this doesn't work DLog(aStringVariable); you have to do this instead DLog(@"%@", aStringVariable);
+#ifdef DEBUG
+#	define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#	define DLog(...)
 #endif
+
+#endif //__OBJC__

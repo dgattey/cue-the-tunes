@@ -28,11 +28,13 @@
 
 @interface InstructionsViewController : UIViewController
 {
-    UILabel *_titleLabelInstructions;
+    FXLabel *_titleLabelInstructions;
+    FXLabel *_backButtonLabel;
     UIButton *_backButton;
 }
 
-@property (nonatomic, strong) IBOutlet UILabel *titleLabelInstructions;
+@property (nonatomic, strong) IBOutlet FXLabel *titleLabelInstructions;
+@property (nonatomic, strong) IBOutlet FXLabel *backButtonLabel;
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
 
 - (IBAction)doneInstructionsView:(id)sender;

@@ -116,9 +116,9 @@
     }
     
     //Sets Interstate as custom font for all labels
-    [self.titleLabelGame setFont:interstateBold24];
-    [self.questionsLeft setFont:interstateRegular16];
-    [self.questionLabel setFont:interstateRegular21];
+    [self.titleLabelGame setFont:titleFont];
+    [self.questionsLeft setFont:interstateRegular(16)];
+    [self.questionLabel setFont:interstateRegular(21)];
     
     [super viewDidLoad];
 }

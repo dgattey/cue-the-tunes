@@ -29,12 +29,10 @@
 
 @implementation AboutViewController
 
-@synthesize titleLabelAbout = _titleLabelAbout, backButton = _backButton, aboutTitleDropdown = _aboutTitleDropdown;
+@synthesize titleLabelAbout = _titleLabelAbout, backButtonLabel = _backButtonLabel, backButton = _backButton, aboutTitleDropdown = _aboutTitleDropdown, textView = _textView;
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - Actions
@@ -47,6 +45,7 @@
     //Move title background down
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y + 66);
+        self.textView.alpha = 1.0;
     } completion:^ (BOOL finished) {
     }];
 }
@@ -55,6 +54,7 @@
     //Move title background up
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y -66);
+        self.textView.alpha = 0.0;
     } completion:^ (BOOL finished) {
     }];
     [NSThread sleepForTimeInterval:0.1];
@@ -65,41 +65,65 @@
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-    [self.titleLabelAbout setFont:interstateBold24];
+    setTitleStyleUsingLabel(self.titleLabelAbout);
+    setTitleButtonStyleUsingLabel(self.backButtonLabel);
+    self.textView.alpha = 0.0;
+    
+    for (FXLabel *label in [self.view allSubviews]) {
+        if ([label isKindOfClass:[FXLabel class]]) {
+            if (label.tag == 1) {
+                //Header style
+                setDefaultStyleUsingLabel(label);
+                [label setFont:interstateBold(20)];
+            }
+            if (label.tag == 2) {
+                //Subheader style
+                setDefaultShadowWithLabel(label);
+                [label setTextColor:customGrayColor];
+                [label setFont:interstateBold(15)];
+                
+            }
+            if (label.tag == 3) {
+                //More info
+                setDefaultStyleUsingLabel(label);
+                [label setFont:interstateBold(12)];
+                [label setOversampling:6];
+            }
+            if (label.tag == 4) {
+                //Copyright
+                setDefaultShadowWithLabel(label);
+                [label setTextColor:customGrayColor];
+                [label setFont:interstateBold(10)];
+                [label setOversampling:6];
+            }
+        }
+    }
+    
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [self animateTitleInWithDuration:0.3];
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }

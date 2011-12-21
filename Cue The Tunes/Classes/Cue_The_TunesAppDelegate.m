@@ -34,8 +34,7 @@
 @synthesize navigationController = _navigationController;
 @synthesize savedPersistantID = _savedPersistantID;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //Init the main view controller and set it to the root of the navigation controller
     MainViewController *controller = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
