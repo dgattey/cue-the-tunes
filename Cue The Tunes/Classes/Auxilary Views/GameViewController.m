@@ -202,16 +202,16 @@
     UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
     
     if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
-        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = YES;
-        [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
-        [self.optionsButton setTitle:@"Done" forState:UIControlStateNormal];
-    }
-    else {
         [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
         self.optionsTopBarBackground.userInteractionEnabled = NO;
         [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
         [self.optionsButton setTitle:@"Options" forState:UIControlStateNormal];
+    }
+    else {
+        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
+        self.optionsTopBarBackground.userInteractionEnabled = YES;
+        [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
+        [self.optionsButton setTitle:@"Done" forState:UIControlStateNormal];
     }
 
 }

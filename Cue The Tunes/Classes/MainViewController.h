@@ -26,15 +26,14 @@
 
 #import "DGOptionItem.h"
 #import "DGOptionsDropdown.h"
-#import "DGGradientButton.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface MainViewController : UIViewController {
     //Main
-    DGGradientButton *_gameButton;
-    DGGradientButton *_optionsButton;
-    DGGradientButton *_instructionsButton;
-    DGGradientButton *_aboutButton;
+    UIButton *_gameButton;
+    UIButton *_optionsButton;
+    UIButton *_instructionsButton;
+    UIButton *_aboutButton;
     UIImageView *_titleLabel;
     UIImageView *_titleBar;
     
@@ -55,10 +54,10 @@
 }
 
 //Main properties
-@property (nonatomic, strong) IBOutlet DGGradientButton *gameButton;
-@property (nonatomic, strong) IBOutlet DGGradientButton *optionsButton;
-@property (nonatomic, strong) IBOutlet DGGradientButton *instructionsButton;
-@property (nonatomic, strong) IBOutlet DGGradientButton *aboutButton;
+@property (nonatomic, strong) IBOutlet UIButton *gameButton;
+@property (nonatomic, strong) IBOutlet UIButton *optionsButton;
+@property (nonatomic, strong) IBOutlet UIButton *instructionsButton;
+@property (nonatomic, strong) IBOutlet UIButton *aboutButton;
 @property (nonatomic, strong) IBOutlet UIImageView *titleLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *titleBar;
 

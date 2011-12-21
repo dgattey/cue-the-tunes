@@ -75,6 +75,8 @@
     UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionSheetCancelButtonTapped:)];
     [self.actionSheetOverlay addGestureRecognizer:overlayTapGestureRecognizer];
     
+    //Set button styles
+    
     //Animate in buttons
     [self performSelector:@selector(animateButtonIn:) withObject:self.gameButton afterDelay:0.4];
     [self performSelector:@selector(animateButtonIn:) withObject:self.optionsButton afterDelay:0.55];
