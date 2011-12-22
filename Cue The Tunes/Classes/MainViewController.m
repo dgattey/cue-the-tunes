@@ -295,7 +295,7 @@
      backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
      overlayAmount:0.6
      optionsButton:nil
-     backButton:nil];
+     viewsToHide:nil];
     
     //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
     UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];

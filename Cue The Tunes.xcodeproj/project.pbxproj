@@ -171,6 +171,10 @@
 		75A3BD2914A18A49000874C7 /* MusicPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A3BD2614A18A49000874C7 /* MusicPlayerViewController.xib */; };
 		75A8FFA113DFBA1C0084750F /* InstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */; };
 		75A8FFA413DFBA880084750F /* InstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A8FFA213DFBA880084750F /* InstructionsViewController.xib */; };
+		75A9308014A2B6D900FF5407 /* HideButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A9307E14A2B6D900FF5407 /* HideButtonNormal.png */; };
+		75A9308114A2B6D900FF5407 /* HideButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A9307E14A2B6D900FF5407 /* HideButtonNormal.png */; };
+		75A9308214A2B6D900FF5407 /* HideButtonNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A9307F14A2B6D900FF5407 /* HideButtonNormal@2x.png */; };
+		75A9308314A2B6D900FF5407 /* HideButtonNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A9307F14A2B6D900FF5407 /* HideButtonNormal@2x.png */; };
 		75B4A42613AD9C5B00B3CD15 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B4A42513AD9C5B00B3CD15 /* UIKit.framework */; };
 		75B4A42813AD9C5B00B3CD15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B4A42713AD9C5B00B3CD15 /* Foundation.framework */; };
 		75B4A42A13AD9C5B00B3CD15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B4A42913AD9C5B00B3CD15 /* CoreGraphics.framework */; };
@@ -287,6 +291,8 @@
 		75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsViewController.m; sourceTree = "<group>"; };
 		75A8FFA013DFBA1C0084750F /* InstructionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsViewController.h; sourceTree = "<group>"; };
 		75A8FFA313DFBA880084750F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InstructionsViewController.xib; sourceTree = "<group>"; };
+		75A9307E14A2B6D900FF5407 /* HideButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HideButtonNormal.png; sourceTree = "<group>"; };
+		75A9307F14A2B6D900FF5407 /* HideButtonNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HideButtonNormal@2x.png"; sourceTree = "<group>"; };
 		75B4A42113AD9C5B00B3CD15 /* Cue The Tunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cue The Tunes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75B4A42513AD9C5B00B3CD15 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		75B4A42713AD9C5B00B3CD15 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -461,6 +467,8 @@
 				750D712213FA209200B9B0A5 /* BackButtonNormal@2x.png */,
 				750D712313FA209200B9B0A5 /* DoneButtonNormal.png */,
 				750D712413FA209200B9B0A5 /* DoneButtonNormal@2x.png */,
+				75A9307E14A2B6D900FF5407 /* HideButtonNormal.png */,
+				75A9307F14A2B6D900FF5407 /* HideButtonNormal@2x.png */,
 				750D712513FA209200B9B0A5 /* OptionsButtonNormal.png */,
 				750D712613FA209200B9B0A5 /* OptionsButtonNormal@2x.png */,
 				750D712713FA209200B9B0A5 /* TopBarBackground.png */,
@@ -831,6 +839,8 @@
 				75E9CCDA14A1614B006DD74E /* ActionSheetBlueButton.png in Resources */,
 				75E9CCDC14A1614B006DD74E /* ActionSheetBlueButton@2x.png in Resources */,
 				75A3BD2914A18A49000874C7 /* MusicPlayerViewController.xib in Resources */,
+				75A9308114A2B6D900FF5407 /* HideButtonNormal.png in Resources */,
+				75A9308314A2B6D900FF5407 /* HideButtonNormal@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,6 +922,8 @@
 				75E9CCD914A1614B006DD74E /* ActionSheetBlueButton.png in Resources */,
 				75E9CCDB14A1614B006DD74E /* ActionSheetBlueButton@2x.png in Resources */,
 				75A3BD2814A18A49000874C7 /* MusicPlayerViewController.xib in Resources */,
+				75A9308014A2B6D900FF5407 /* HideButtonNormal.png in Resources */,
+				75A9308214A2B6D900FF5407 /* HideButtonNormal@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

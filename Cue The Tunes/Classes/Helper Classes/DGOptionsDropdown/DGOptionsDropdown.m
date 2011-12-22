@@ -124,7 +124,7 @@ const CGFloat kOptionItemPrimaryHeight = 64;
                 backgroundImage:(UIImage*)backgroundImage
                   overlayAmount:(double)overlayAmount
                   optionsButton:(UIButton*)optionsButton
-                     backButton:(UIButton*)backButton {
+                    viewsToHide:(NSArray *)array {
     DLog(@"Start sliding options");
     
     //Get options view height for use later
@@ -137,7 +137,10 @@ const CGFloat kOptionItemPrimaryHeight = 64;
         
         //Disable buttons, but change images so it's a smooth transition
         optionsButton.enabled = NO;
-        backButton.enabled = NO;
+        if (array) {
+            [[array objectAtIndex:0] setEnabled:NO];
+            [[array objectAtIndex:1] setEnabled:NO];
+        }
         
         //Insert overlay
         [viewController.view insertSubview:overlay belowSubview:anchorView];
@@ -152,12 +155,18 @@ const CGFloat kOptionItemPrimaryHeight = 64;
         //Move options view down, do fades
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             theOptionsView.frame = CGRectMake(theOptionsView.frame.origin.x, theOptionsView.frame.origin.y + optionsViewHeight, theOptionsView.frame.size.width, theOptionsView.frame.size.height);
-            backButton.alpha = 0.0;
+            if (array) {
+                [[array objectAtIndex:0] setAlpha:0];
+                [[array objectAtIndex:1] setAlpha:0];
+            }
             overlay.alpha = overlayAmount;
             DLog(@"Sliding");
         } completion:^ (BOOL finished) {
             if (finished) {
-                backButton.enabled = YES; 
+                if (array) {
+                    [[array objectAtIndex:0] setEnabled:YES];
+                    [[array objectAtIndex:1] setEnabled:YES];
+                }
                 optionsButton.enabled = YES;
                 DLog(@"Done sliding");
             }
@@ -169,7 +178,10 @@ const CGFloat kOptionItemPrimaryHeight = 64;
         
         //Disable buttons, but change images so it's a smooth transition
         optionsButton.enabled = NO;
-        backButton.enabled = NO;
+        if (array) {
+            [[array objectAtIndex:0] setEnabled:NO];
+            [[array objectAtIndex:1] setEnabled:NO];
+        }
         
         //Insert overlay
         [viewController.view insertSubview:overlay belowSubview:anchorView];
@@ -184,12 +196,18 @@ const CGFloat kOptionItemPrimaryHeight = 64;
         //Move options view up
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             theOptionsView.frame = CGRectMake(theOptionsView.frame.origin.x, theOptionsView.frame.origin.y - optionsViewHeight, theOptionsView.frame.size.width, theOptionsView.frame.size.height);
-            backButton.alpha = 1.0;
+            if (array) {
+                [[array objectAtIndex:0] setAlpha:1];
+                [[array objectAtIndex:1] setAlpha:1];
+            }
             overlay.alpha = 0.0;
             DLog(@"Start sliding up");
         } completion:^ (BOOL finished) {
             if (finished) {
-                backButton.enabled = YES;
+                if (array) {
+                    [[array objectAtIndex:0] setEnabled:YES];
+                    [[array objectAtIndex:1] setEnabled:YES];
+                }
                 optionsButton.enabled = YES;
                 DLog(@"Done sliding up");
             }

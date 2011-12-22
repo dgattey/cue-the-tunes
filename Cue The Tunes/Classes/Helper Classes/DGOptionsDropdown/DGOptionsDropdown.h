@@ -39,7 +39,7 @@
                 backgroundImage:(UIImage*)backgroundImage
                   overlayAmount:(double)overlayAmount
                   optionsButton:(UIButton*)optionsButton
-                     backButton:(UIButton*)backButton;
+                    viewsToHide:(NSArray*)array;
 
 + (void)addOptionItem:(DGOptionItem*)optionItem toView:(UIView*)theView;
 

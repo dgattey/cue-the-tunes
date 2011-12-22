@@ -29,23 +29,27 @@
 
 @implementation GameViewController
 
-@synthesize backgroundView = _backgroundView,
+@synthesize titleLabelGame= _titleLabelGame,
+        backgroundView = _backgroundView,
         nextQuestionButton = _nextQuestionButton,
+        nextQuestionLabel = _nextQuestionLabel,
         chooseSongButton = _chooseSongButton,
-        questionLabel = _questionLabel,
+        chooseSongLabel = _chooseSongLabel,
         backButton = _backButton,
-        titleLabelGame= _titleLabelGame,
+        backButtonLabel = _backButtonLabel,
         optionsButton = _optionsButton,
-        questionsLeft = _questionsLeft;
-@synthesize musicNotes = _musicNotes;
-@synthesize optionsTopBarBackground = _optionsTopBarBackground,
+        optionsButtonLabel = _optionsButtonLabel,
+        questionsLeft = _questionsLeft,
+        questionLabel = _questionLabel,
+        musicNotes = _musicNotes,
+        optionsTopBarBackground = _optionsTopBarBackground,
         optionsOverlay = _optionsOverlay,
         optionsView = _optionsView,
         optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
         optionsVibrationSwitch = _optionsVibrationSwitch,
         optionItemAccelerometer = _optionItemAccelerometer,
-        optionItemVibration = _optionItemVibration;
-@synthesize questionArray = _questionArray,
+        optionItemVibration = _optionItemVibration,
+        questionArray = _questionArray,
         musicPlayer = _musicPlayer,
         musicCollection = _musicCollection,
         mediaItem = _mediaItem;
@@ -72,6 +76,9 @@
     [self.optionsVibrationSwitch addTarget:self action:@selector(optionsToggledVibration:) forControlEvents:UIControlEventValueChanged];
     self.optionItemVibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device" withSwitch:self.optionsVibrationSwitch];
     [DGOptionsDropdown addOptionItem:self.optionItemVibration toView:self.optionsView];
+    
+    //Make the music player real
+    self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
     
     //If the user indicated they wanted to continue the game, load the remaining questions
     if ([prefs boolForKey:@"CONTINUE_GAME"]) {
@@ -115,9 +122,30 @@
         [prefs setBool:NO forKey:@"NEW_GAME"];
     }
     
-    //Sets Interstate as custom font for all labels
-    [self.titleLabelGame setFont:titleFont];
-    [self.questionsLeft setFont:interstateRegular(16)];
+    //Sets FXLabel styles
+    for (FXLabel *label in [self.view allSubviews]) {
+        if ([label isKindOfClass:[FXLabel class]]) {
+            if (label.tag == 0) {
+                //Question label + buttons
+                setDefaultStyleUsingLabel(label);
+                [label setFont:interstateBold(13.5)];
+            }
+            if (label.tag == 1) {
+                //Title buttons
+                setTitleButtonStyleUsingLabel(label);
+            }
+            if (label.tag == 2) {
+                //TItle label
+                setTitleStyleUsingLabel(label);
+            }
+            if (label.tag == 3) {
+                //Questions left
+                [label setFont:interstateRegular(16)];
+                [label setTextColor:customGrayColor];
+                setDefaultShadowWithLabel(label)
+            }
+        }
+    }    
     [self.questionLabel setFont:interstateRegular(21)];
     
     [super viewDidLoad];
@@ -125,13 +153,11 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {    
     [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];    
+    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
     [super viewWillAppear:animated];
 }
 
@@ -186,34 +212,43 @@
 #pragma mark - Options
 
 - (IBAction)showOptionsViewFromGameView:(id)sender {
-    [DGOptionsDropdown 
-        slideOptionsWithDuration:0.3
-        viewController:self 
-        anchorView:self.optionsTopBarBackground
-        theOptionsView:self.optionsView
-        overlay:self.optionsOverlay
-        backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
-        overlayAmount:0.6
-        optionsButton:self.optionsButton
-        backButton:self.backButton];
-    
-    //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
-    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    
-    if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
-        [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = NO;
-        [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
-        [self.optionsButton setTitle:@"Options" forState:UIControlStateNormal];
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        //Show the now playing view controller
+        self.optionsButtonLabel.text = @"Playing";
+        [self showNowPlayingViewController:self];
     }
     else {
-        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = YES;
-        [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
-        [self.optionsButton setTitle:@"Done" forState:UIControlStateNormal];
+        //Show the options dropdown
+        self.optionsButtonLabel.text = @"Options";
+        NSArray *array = [[NSArray alloc] initWithObjects:self.backButton, self.backButtonLabel, nil];
+        [DGOptionsDropdown 
+         slideOptionsWithDuration:0.3
+         viewController:self 
+         anchorView:self.optionsTopBarBackground
+         theOptionsView:self.optionsView
+         overlay:self.optionsOverlay
+         backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
+         overlayAmount:0.6
+         optionsButton:self.optionsButton
+         viewsToHide:array];
+        
+        //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
+        UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
+        UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
+        
+        if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
+            [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
+            self.optionsTopBarBackground.userInteractionEnabled = NO;
+            [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
+            [self.optionsButtonLabel setText:@"Options"];
+        }
+        else {
+            [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
+            self.optionsTopBarBackground.userInteractionEnabled = YES;
+            [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
+            [self.optionsButtonLabel setText:@"Done"];
+        }
     }
-
 }
 
 - (void)optionsToggledAccelerometer:(id)sender {
@@ -231,6 +266,7 @@
 #pragma mark - Music Actions
 
 - (IBAction)chooseSong:(id)sender {    
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
     [self.musicPlayer stop];
     
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
@@ -238,37 +274,28 @@
     [self presentModalViewController:picker animated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    //If it was the ignore button
-    if (buttonIndex == 1) {
-        [self chooseSong:self];
-    }
-    
-    //If it was the menu button
-    if (buttonIndex == 2) {
-        [self doneGameView:self];
-    }
-}
-
 - (void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)collection {
-    [self dismissModalViewControllerAnimated: YES];
-    [self updatePlayerQueueWithCollection:collection];
+    [self dismissModalViewControllerAnimated: NO];
+    
+    //Set the music collection to be the just picked song, queue it up, and play it
+    self.musicCollection = collection;
+    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
+    [self.musicPlayer play];
+    
+    //Present a musicPlayerViewController & update the options button to show now playing
+    MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
+    [self presentModalViewController:playerController animated:YES];
+    self.optionsButtonLabel.text = @"Playing";
+
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
     [self dismissModalViewControllerAnimated: YES];
 }
-
-- (void)updatePlayerQueueWithCollection:(MPMediaItemCollection*)collection {
-    
-    //Set its collection and load it into the queue
-    self.musicCollection = collection;
-    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
-    
-    //Play it
-    [self.musicPlayer play];
-    
-    [self.backgroundView setUserInteractionEnabled:YES];
+         
+- (void)showNowPlayingViewController:(id)sender {
+    MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
+    [self presentModalViewController:playerController animated:YES];
 }
 
 #pragma mark - Questions
@@ -338,11 +365,14 @@
     if (numQuestions == 0) {
         self.questionLabel.text = nil;
         self.questionLabel.text = @"No more questions! Start a new game below.";
+        self.questionsLeft.text = nil;
         
-        [self.nextQuestionButton setTitle:@"New Game" forState:UIControlStateNormal];
-        [self.chooseSongButton setAdjustsImageWhenDisabled:YES];
+        [self.nextQuestionLabel setText:@"New Game"];
         [self.chooseSongButton setEnabled:NO];
-        [self.chooseSongButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+        self.chooseSongLabel = nil;
+        self.chooseSongLabel = [[FXLabel alloc] init];
+        self.chooseSongLabel.text = @"Choose Song";
+        [self.chooseSongLabel setTextColor:customGrayColor];
         
         numQuestions = [self.questionArray count];
         
@@ -354,10 +384,10 @@
         randNum = arc4random() % (numQuestions);
         self.questionLabel.text = [self.questionArray objectAtIndex:randNum];
         
-        [self.nextQuestionButton setTitle:@"Next Question" forState:UIControlStateNormal];
-        [self.chooseSongButton setAdjustsImageWhenDisabled:NO];
+        [self.nextQuestionLabel setText:@"Next Question"];
         [self.chooseSongButton setEnabled:YES];
-        [self.chooseSongButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
+        setDefaultStyleUsingLabel(self.chooseSongLabel);
+        [self.chooseSongLabel setFont:interstateBold(13.5)];
         
         //Save current question
         [prefs setValue:[self.questionArray objectAtIndex:randNum] forKey:@"CURRENT_QUESTION"];        

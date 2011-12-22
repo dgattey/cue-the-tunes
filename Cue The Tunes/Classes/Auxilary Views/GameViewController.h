@@ -26,16 +26,21 @@
 
 
 #import "DGOptionsDropdown.h"
+#import "MusicPlayerViewController.h"
 
-@interface GameViewController : UIViewController <MPMediaPickerControllerDelegate, UIAccelerometerDelegate, UIAlertViewDelegate> {
+@interface GameViewController : UIViewController <MPMediaPickerControllerDelegate, UIAccelerometerDelegate> {
     FXLabel *_titleLabelGame;
-    UIImageView *_background;
+    UIImageView *_backgroundView;
     UIButton *_nextQuestionButton;
+    FXLabel *_nextQuestionLabel;
     UIButton *_chooseSongButton;
-    UILabel *_questionLabel;
-    UIButton *_backButton;    
+    FXLabel *_chooseSongLabel;
+    UIButton *_backButton;  
+    FXLabel *_backButtonLabel;
     UIButton *_optionsButton;
-    UILabel *_questionsLeft;
+    FXLabel *_optionsButtonLabel;
+    FXLabel *_questionsLeft;
+    FXLabel *_questionLabel;
     
     UIImageView *_musicNotes;
     
@@ -61,15 +66,18 @@
     MPMediaItem *_mediaItem;
 }
 
-@property (nonatomic, strong) IBOutlet UILabel *titleLabelGame;
-
-@property (nonatomic, strong) IBOutlet UIView *backgroundView;
+@property (nonatomic, strong) IBOutlet FXLabel *titleLabelGame;
+@property (nonatomic, strong) IBOutlet UIImageView *backgroundView;
 @property (nonatomic, strong) IBOutlet UIButton *nextQuestionButton;
+@property (nonatomic, strong) IBOutlet FXLabel *nextQuestionLabel;
 @property (nonatomic, strong) IBOutlet UIButton *chooseSongButton;
-@property (nonatomic, strong) IBOutlet UILabel *questionLabel;
-@property (nonatomic, strong) IBOutlet UIButton *backButton;
+@property (nonatomic, strong) IBOutlet FXLabel *chooseSongLabel;
+@property (nonatomic, strong) IBOutlet UIButton *backButton;  
+@property (nonatomic, strong) IBOutlet FXLabel *backButtonLabel;
 @property (nonatomic, strong) IBOutlet UIButton *optionsButton;
-@property (nonatomic, strong) IBOutlet UILabel *questionsLeft;
+@property (nonatomic, strong) IBOutlet FXLabel *optionsButtonLabel;
+@property (nonatomic, strong) IBOutlet FXLabel *questionsLeft;
+@property (nonatomic, strong) IBOutlet FXLabel *questionLabel;
 
 @property (nonatomic, strong) IBOutlet UIImageView *musicNotes;
 
@@ -88,8 +96,10 @@
 
 - (IBAction)doneGameView:(id)sender;
 - (IBAction)chooseSong:(id)sender;
-- (void)updatePlayerQueueWithCollection:(MPMediaItemCollection*)collection;
 - (void)refreshQuestionNumberLabel;
+
+- (void)updateCornerButton:(id)sender;
+- (void)showNowPlayingViewController:(id)sender;
 
 - (IBAction)showOptionsViewFromGameView:(id)sender;
 - (IBAction)showNextQuestion:(id)sender;

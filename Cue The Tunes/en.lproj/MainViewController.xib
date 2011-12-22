@@ -269,7 +269,6 @@
 								<string key="NSFrameSize">{132, 40}</string>
 								<reference key="NSSuperview" ref="552446429"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -449,7 +448,7 @@
 								<reference key="NSNextKeyView" ref="729936130"/>
 								<string key="NSReuseIdentifierKey">_NS:541</string>
 								<reference key="IBUIBackgroundColor" ref="576359510"/>
-								<int key="IBUIContentMode">1</int>
+								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -1508,10 +1507,10 @@
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{132, 40}</string>
-				<string>{270, 270}</string>
-				<string>{200, 50}</string>
-				<string>{200, 50}</string>
-				<string>{200, 50}</string>
+				<string>{220, 220}</string>
+				<string>{160, 40}</string>
+				<string>{160, 40}</string>
+				<string>{160, 40}</string>
 				<string>{320, 480}</string>
 				<string>{132, 40}</string>
 				<string>{132, 40}</string>
