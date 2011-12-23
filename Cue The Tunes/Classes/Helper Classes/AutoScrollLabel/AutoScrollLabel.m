@@ -240,5 +240,12 @@
 	return scrollDirection;
 }
 
+- (void)dealloc {
+	for (int i=0; i<NUM_LABELS; ++i){
+		[label[i] release];
+	}
+    [super dealloc];
+}
+
 
 @end

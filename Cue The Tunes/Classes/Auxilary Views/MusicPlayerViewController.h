@@ -26,52 +26,84 @@
 
 #import "AutoScrollLabel.h"
 
-@interface MusicPlayerViewController : UIViewController <MPMediaPickerControllerDelegate>
+@interface MusicPlayerViewController : UIViewController <MPMediaPickerControllerDelegate, UIScrollViewDelegate>
 {
     MPMusicPlayerController *_musicPlayer;
-    UIView *_playBarView;
     UIImageView *_currentlyPlayingArtworkView;
-    UIImageView *_currentlyPlayingArtworkImage;
     AutoScrollLabel *_currentlyPlayingTitle;
     AutoScrollLabel *_currentlyPlayingArtist;
     AutoScrollLabel *_currentlyPlayingAlbum;
     UISlider *_currentlyPlayingTimeSlider;
+    UIView *_timePopup;
+    UILabel *_timeLabel;
     UIButton *_playPauseButton;
     NSString *_secondsString;
     NSString *_minutesString;
+    FXLabel *_titleLabel;
+    FXLabel *_optionsButtonLabel;
+    UIButton *_optionsButton;
+    FXLabel *_hideButtonLabel;
+    UIButton *_hideButton;
+    
+    UIImageView *_optionsTopBarBackground;
+    UIView *_optionsOverlay;
+    UIImageView *_optionsView;
+    UISwitch *_optionsAccelerometerSwitch;
+    UISwitch *_optionsVibrationSwitch;
+    DGOptionItem *_optionItemAccelerometer;
+    DGOptionItem *_optionItemVibration;
+
+    NSTimer *_timer;
+    BOOL sliding;
+    BOOL wasPlaying;
 }
 
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
-@property (nonatomic, strong) IBOutlet UIView *playBarView;
 @property (nonatomic, strong) IBOutlet UIImageView *currentlyPlayingArtworkView;
-@property (nonatomic, strong) IBOutlet UIImageView *currentlyPlayingArtworkImage;
 @property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingTitle;
 @property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingArtist;
 @property (nonatomic, strong) IBOutlet AutoScrollLabel *currentlyPlayingAlbum;
-@property (strong) IBOutlet UISlider *currentlyPlayingTimeSlider;
+@property (nonatomic, strong) IBOutlet UISlider *currentlyPlayingTimeSlider;
+@property (nonatomic, strong) IBOutlet UIView *timePopup;
+@property (nonatomic, strong) IBOutlet UILabel *timeLabel;
 @property (nonatomic, strong) IBOutlet UIButton *playPauseButton;
-@property (nonatomic, strong) IBOutlet UILabel *currentlyPlayingTimeRemainingLabel;
-@property (nonatomic, strong) IBOutlet UILabel *currentlyPlayingTimeElapsedLabel;
 @property (strong) NSString *secondsString;
 @property (strong) NSString *minutesString;
+@property (nonatomic, strong) IBOutlet FXLabel *titleLabel;
+@property (nonatomic, strong) IBOutlet FXLabel *optionsButtonLabel;
+@property (nonatomic, strong) IBOutlet UIButton *optionsButton;
+@property (nonatomic, strong) IBOutlet FXLabel *hideButtonLabel;
+@property (nonatomic, strong) IBOutlet UIButton *hideButton;
 
-- (IBAction)sliderChanged:(id)sender;
+@property (nonatomic, strong) IBOutlet UIImageView *optionsTopBarBackground;
+@property (nonatomic, strong) UIView *optionsOverlay;
+@property (nonatomic, strong) UIImageView *optionsView;
+@property (nonatomic, strong) UISwitch *optionsAccelerometerSwitch;
+@property (nonatomic, strong) UISwitch *optionsVibrationSwitch;
+@property (nonatomic, strong) DGOptionItem *optionItemAccelerometer;
+@property (nonatomic, strong) DGOptionItem *optionItemVibration;
+
+@property (strong) NSTimer *timer;
+
+- (IBAction)hideMe:(id)sender;
+- (IBAction)sliderValueChanged:(id)sender;
+- (IBAction)sliderTouchesBegun:(id)sender;
 - (void)updateSliderTime:(NSTimer *)timer;
 - (void)convertTime:(NSTimeInterval )theTimeInterval;
 
-- (void)registerForMediaPlayerNotifications;
-- (void)unregisterForMediaPlayerNotifications;
-- (void)handle_NowPlayingItemChanged:(id)notification;
+- (void)registerForNotifications;
+- (void)unregisterForNotifications;
 - (void)handle_PlaybackStateChanged:(id)notification;
-- (void)handle_VolumeChanged:(id)notification;
-- (void)handle_DidEnterForeground:(NSNotification*)sender;
 
 - (void)resetMusicPlayer;
-- (void)setupSongInfo;
+- (void)showTimePopup;
+- (void)hideTimePopupWithDelay:(float)delay;
 - (IBAction)playPauseMusic:(id)sender;
-- (void)displaySongInfoWithDuration:(double)duration;
-- (void)hideSongInfoWithDuration:(double)duration;
 - (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled;
 
+- (IBAction)showOptionsViewFromGameView:(id)sender;
+- (void)optionsToggledAccelerometer:(id)sender;
+- (void)optionsToggledVibration:(id)sender;
+- (void)overlayTapped:(id)sender;
 
 @end

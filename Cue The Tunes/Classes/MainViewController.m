@@ -85,7 +85,7 @@
      inView:self.view];
     UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertViewCancelButtonTapped:)];
     [self.alertViewOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        
+    
     //Set default style for all FXLabels in the view
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {

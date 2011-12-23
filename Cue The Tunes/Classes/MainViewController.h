@@ -24,10 +24,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
-#import "DGOptionItem.h"
-#import "DGOptionsDropdown.h"
-#import <MediaPlayer/MediaPlayer.h>
-
 @interface MainViewController : UIViewController {
     //Main
     UIView *_gameButtonView;

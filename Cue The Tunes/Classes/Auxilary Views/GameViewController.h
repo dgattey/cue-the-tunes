@@ -24,8 +24,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
-
-#import "DGOptionsDropdown.h"
 #import "MusicPlayerViewController.h"
 
 @interface GameViewController : UIViewController <MPMediaPickerControllerDelegate, UIAccelerometerDelegate> {
@@ -51,13 +49,6 @@
     UISwitch *_optionsVibrationSwitch;
     DGOptionItem *_optionItemAccelerometer;
     DGOptionItem *_optionItemVibration;
-    
-    UILabel *_currentlyPlayingTimeRemainingLabel;
-    UILabel *_currentlyPlayingTimeElapsedLabel;
-    NSString *_minutesString;
-    NSString *_secondsString;
-    UITapGestureRecognizer *_artworkTapGestureRecognizer;
-    UITapGestureRecognizer *_backgroundTapGestureRecognizer;
     
     NSMutableArray *_questionArray;
     NSUInteger numQuestions;
@@ -98,7 +89,6 @@
 - (IBAction)chooseSong:(id)sender;
 - (void)refreshQuestionNumberLabel;
 
-- (void)updateCornerButton:(id)sender;
 - (void)showNowPlayingViewController:(id)sender;
 
 - (IBAction)showOptionsViewFromGameView:(id)sender;
@@ -109,5 +99,8 @@
 - (void)optionsToggledVibration:(id)sender;
 - (void)overlayTapped:(id)sender;
 - (void)updateQuestionText:(id)sender;
+
+- (void)handle_PlaybackStateChanged:(id)notification;
+- (void)registerForNotifications;
 
 @end

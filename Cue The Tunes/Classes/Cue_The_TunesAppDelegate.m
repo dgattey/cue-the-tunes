@@ -32,7 +32,6 @@
 
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
-@synthesize savedPersistantID = _savedPersistantID;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //Init the main view controller and set it to the root of the navigation controller
@@ -46,7 +45,6 @@
     //Setup Audio Session
     [[AVAudioSession sharedInstance] setDelegate:self];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance] setActive:NO error:nil];
     DLog(@"Audio session created, not activated");
     
     //Set navigation controller to root of window, then show the window

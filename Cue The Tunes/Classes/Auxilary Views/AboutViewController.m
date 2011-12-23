@@ -84,7 +84,7 @@
                 
             }
             if (label.tag == 3) {
-                //More info and version label
+                //More info
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(12)];
                 [label setOversampling:6];
@@ -93,8 +93,15 @@
                 //Copyright
                 setDefaultShadowWithLabel(label);
                 [label setTextColor:customGrayColor];
-                [label setFont:interstateBold(10)];
+                [label setFont:interstateBold(9)];
                 [label setOversampling:6];
+            }
+            if (label.tag == 5) {
+                //Version label
+                setDefaultTextGradientWithLabel(label);
+                [label setFont:interstateRegular(12)];
+                [label setShadowColor:defaultShadowColor];
+                [label setShadowOffset:CGSizeMake(0.6, 0.8)];
             }
         }
     }

@@ -56,7 +56,10 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad {    
+- (void)viewDidLoad {   
+    //Set audio session active
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    
     //Reset options
     [DGOptionsDropdown resetOptions];
     
@@ -79,6 +82,7 @@
     
     //Make the music player real
     self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+    [self registerForNotifications];
     
     //If the user indicated they wanted to continue the game, load the remaining questions
     if ([prefs boolForKey:@"CONTINUE_GAME"]) {
@@ -114,6 +118,10 @@
         numQuestions = [self.questionArray count];
         [self updateQuestionText:self];
         
+        //Fade out current song
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        [self.musicPlayer stop];
+        
         //Save total number of questions
         [prefs setInteger:[array count] forKey:@"TOTAL_NUMBER_QUESTIONS"];
         
@@ -148,6 +156,13 @@
     }    
     [self.questionLabel setFont:interstateRegular(21)];
     
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        self.optionsButtonLabel.text = @"Playing";
+    }
+    else {
+        self.optionsButtonLabel.text = @"Options";
+    }
+    
     [super viewDidLoad];
 }
 
@@ -167,6 +182,8 @@
         self.musicNotes.alpha = 1.0;
     }];
     
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
     [super viewDidAppear:animated];
 }
 
@@ -177,7 +194,8 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {    
+- (void)viewDidDisappear:(BOOL)animated {  
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     [super viewDidDisappear:animated];
 }
 
@@ -213,13 +231,12 @@
 
 - (IBAction)showOptionsViewFromGameView:(id)sender {
     if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        
         //Show the now playing view controller
-        self.optionsButtonLabel.text = @"Playing";
         [self showNowPlayingViewController:self];
     }
     else {
         //Show the options dropdown
-        self.optionsButtonLabel.text = @"Options";
         NSArray *array = [[NSArray alloc] initWithObjects:self.backButton, self.backButtonLabel, nil];
         [DGOptionsDropdown 
          slideOptionsWithDuration:0.3
@@ -266,7 +283,6 @@
 #pragma mark - Music Actions
 
 - (IBAction)chooseSong:(id)sender {    
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
     [self.musicPlayer stop];
     
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
@@ -275,7 +291,7 @@
 }
 
 - (void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)collection {
-    [self dismissModalViewControllerAnimated: NO];
+    [self dismissModalViewControllerAnimated:NO];
     
     //Set the music collection to be the just picked song, queue it up, and play it
     self.musicCollection = collection;
@@ -283,10 +299,7 @@
     [self.musicPlayer play];
     
     //Present a musicPlayerViewController & update the options button to show now playing
-    MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
-    [self presentModalViewController:playerController animated:YES];
-    self.optionsButtonLabel.text = @"Playing";
-
+    [self showNowPlayingViewController:self];
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
@@ -295,14 +308,41 @@
          
 - (void)showNowPlayingViewController:(id)sender {
     MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
+    [playerController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [self presentModalViewController:playerController animated:YES];
 }
+
+# pragma mark - Media Playback info
+
+- (void)handle_PlaybackStateChanged:(id)notification {
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        self.optionsButtonLabel.text = @"Playing";
+    }
+    else {
+        self.optionsButtonLabel.text = @"Options";
+    }
+}
+
+- (void)registerForNotifications {
+    // Register for music player notifications
+    [self.musicPlayer beginGeneratingPlaybackNotifications];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+}
+
+- (void)unregisterForNotifications {
+    [self.musicPlayer endGeneratingPlaybackNotifications];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+}
+
 
 #pragma mark - Questions
 
 - (IBAction)showNextQuestion:(id)sender {    
     if ([prefs boolForKey:@"OPTION_VIBRATION"]) {
-            AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
+        AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
     }
     
     //Refresh the question number label

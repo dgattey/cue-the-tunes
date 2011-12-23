@@ -27,12 +27,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Cue_The_TunesAppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate, AVAudioSessionDelegate> {
-    NSNumber *_savedPersistantID;
-}
+@interface Cue_The_TunesAppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate, AVAudioSessionDelegate>
 
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, strong) NSNumber *savedPersistantID;
 
 @end

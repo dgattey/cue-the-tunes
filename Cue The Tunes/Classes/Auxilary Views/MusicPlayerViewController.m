@@ -31,128 +31,249 @@
 @implementation MusicPlayerViewController
 
 @synthesize musicPlayer = _musicPlayer,
-playBarView = _playBarView,
-currentlyPlayingArtworkView = _currentlyPlayingArtworkView,
-currentlyPlayingArtworkImage = _currentlyPlayingArtworkImage,
-currentlyPlayingTitle = _currentlyPlayingTitle,
-currentlyPlayingArtist = _currentlyPlayingArtist,
-currentlyPlayingAlbum = _currentlyPlayingAlbum,
-currentlyPlayingTimeSlider = _currentlyPlayingTimeSlider,
-playPauseButton = _playPauseButton,
-currentlyPlayingTimeRemainingLabel = _currentlyPlayingTimeRemainingLabel, 
-currentlyPlayingTimeElapsedLabel = _currentlyPlayingTimeElapsedLabel,
-secondsString = _secondsString,
-minutesString = _minutesString;
+        currentlyPlayingArtworkView = _currentlyPlayingArtworkView,
+        currentlyPlayingTitle = _currentlyPlayingTitle,
+        currentlyPlayingArtist = _currentlyPlayingArtist,
+        currentlyPlayingAlbum = _currentlyPlayingAlbum,
+        currentlyPlayingTimeSlider = _currentlyPlayingTimeSlider,
+        timePopup = _timePopup,
+        timeLabel = _timeLabel,
+        playPauseButton = _playPauseButton,
+        secondsString = _secondsString,
+        minutesString = _minutesString,
+        titleLabel = _titleLabel,
+        optionsButtonLabel = _optionsButtonLabel,
+        optionsButton = _optionsButton,
+        hideButtonLabel = _hideButtonLabel,
+        hideButton = _hideButton,
+        optionsTopBarBackground = _optionsTopBarBackground,
+        optionsOverlay = _optionsOverlay,
+        optionsView = _optionsView,
+        optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
+        optionsVibrationSwitch = _optionsVibrationSwitch,
+        optionItemAccelerometer = _optionItemAccelerometer,
+        optionItemVibration = _optionItemVibration,
+        timer = _timer;
 
 - (void)viewDidLoad {
     //Reset music player
     [self resetMusicPlayer];
     
-    //Register for notifications
-    [self registerForMediaPlayerNotifications];
-    
-    //Show song info, etc if playing
-    self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        //Setup the info & display
-        [self setupSongInfo];
-        [self displaySongInfoWithDuration:0.01];
-        
-        //Show the correct button
-        if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-            [self setPlayPauseButtonImage:@"Play" enabled:YES];
-        }
-        
-        if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-            [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-        }
-        
-        //Time
-        [self updateSliderTime:nil];
+    //Show the correct button
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        [self setPlayPauseButtonImage:@"Play" enabled:YES];
     }
     
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        [self setPlayPauseButtonImage:@"Pause" enabled:YES];
+    }
+    
+    //SetFXLabel styles
+    setTitleStyleUsingLabel(self.titleLabel);
+    setTitleButtonStyleUsingLabel(self.hideButtonLabel);
+    setTitleButtonStyleUsingLabel(self.optionsButtonLabel);
+
     //Set default styles for AutoScroll title label
-    [self.currentlyPlayingTitle setFont:interstateBold(20)];
+    [self.currentlyPlayingTitle setFont:interstateBold(15)];
     self.currentlyPlayingTitle.bufferSpaceBetweenLabels = 24.0;
     self.currentlyPlayingTitle.scrollSpeed = 19;
     self.currentlyPlayingTitle.pauseInterval = 3;
     self.currentlyPlayingTitle.textColor = [UIColor whiteColor];
-    self.currentlyPlayingTitle.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle];
+    [self.currentlyPlayingTitle setText:@""];
+    [self.currentlyPlayingTitle setText:[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle]];
     
     //And artist label
-    [self.currentlyPlayingArtist setFont:interstateRegular(15)];
+    [self.currentlyPlayingArtist setFont:interstateRegular(12)];
     self.currentlyPlayingArtist.bufferSpaceBetweenLabels = 24.0;
     self.currentlyPlayingArtist.scrollSpeed = 25;
     self.currentlyPlayingArtist.pauseInterval = 3;
     self.currentlyPlayingArtist.textColor = [UIColor whiteColor];
-    self.currentlyPlayingArtist.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist];
+    [self.currentlyPlayingArtist setText:@""];
+    [self.currentlyPlayingArtist setText:[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist]];
     
     //And album label
-    [self.currentlyPlayingAlbum setFont:interstateRegular(15)];
+    [self.currentlyPlayingAlbum setFont:interstateRegular(12)];
     self.currentlyPlayingAlbum.bufferSpaceBetweenLabels = 24.0;
     self.currentlyPlayingAlbum.scrollSpeed = 23;
     self.currentlyPlayingAlbum.pauseInterval = 3;
     self.currentlyPlayingAlbum.textColor = [UIColor whiteColor];
-    self.currentlyPlayingAlbum.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle];
-    
-    //Set UIImageView
-    [self.currentlyPlayingArtworkView setOpaque:YES];
-    [self.currentlyPlayingArtworkView setExclusiveTouch:YES];
+    [self.currentlyPlayingAlbum setText:@""];
+    [self.currentlyPlayingAlbum setText:[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle]];
     
     //Set default image
-    [self.currentlyPlayingArtworkImage setImage:[UIImage imageNamed:@"NoArtworkImage"]];
+    [self.currentlyPlayingArtworkView setImage:[UIImage imageNamed:@"NoArtworkImage"]];
     
-    //Setup images for UISlider (for song progress)
-    [self.currentlyPlayingTimeSlider setThumbImage: [UIImage imageNamed:@"SliderThumb"] forState:UIControlStateNormal];
-    [self.currentlyPlayingTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"SliderBlueTrack"] stretchableImageWithLeftCapWidth:3.0 topCapHeight:0.0] forState:UIControlStateNormal];
-    [self.currentlyPlayingTimeSlider setMaximumTrackImage:[[UIImage imageNamed:@"SliderWhiteTrack"] stretchableImageWithLeftCapWidth:3.0 topCapHeight:0.0] forState:UIControlStateNormal];
+    //Sets real image
+    MPMediaItemArtwork *artworkItem = [self.musicPlayer.nowPlayingItem valueForProperty: MPMediaItemPropertyArtwork];
+    if ([artworkItem imageWithSize:CGSizeMake(320, 320)]) {
+        [self.currentlyPlayingArtworkView setImage:[artworkItem imageWithSize:CGSizeMake (320, 320)]];
+    }
     
+    //Setup images for UISlider (for song progress) & length
+    [self.currentlyPlayingTimeSlider setMaximumValue:[[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] intValue]];
+    [self.currentlyPlayingTimeSlider setThumbImage:[UIImage imageNamed:@"SliderThumb"] forState:UIControlStateNormal];
+    [self.currentlyPlayingTimeSlider setThumbImage:[UIImage imageNamed:@"SliderThumb"] forState:UIControlStateHighlighted];
+    [self.currentlyPlayingTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"SliderBlueTrack"] stretchableImageWithLeftCapWidth:5.0 topCapHeight:0.0] forState:UIControlStateNormal];
+    [self.currentlyPlayingTimeSlider setMaximumTrackImage:[[UIImage imageNamed:@"SliderWhiteTrack"] stretchableImageWithLeftCapWidth:5.0 topCapHeight:0.0] forState:UIControlStateNormal];
     
-    //Set timer to repeat the update every minute
-    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateSliderTime:) userInfo:nil repeats:NO];
+    //Reset options
+    [DGOptionsDropdown resetOptions];
+    
+    //Options views setup
+    self.optionsOverlay = [[UIView alloc] initWithFrame:CGRectZero];
+    self.optionsView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [DGOptionsDropdown setupOptionsViewsWithAnchorView:self.optionsTopBarBackground overlay:self.optionsOverlay optionView:self.optionsView backgroundImage:[UIImage imageNamed:@"OptionsBackground"]];
+    
+    //Add accelerometer item
+    self.optionsAccelerometerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    [self.optionsAccelerometerSwitch addTarget:self action:@selector(optionsToggledAccelerometer:) forControlEvents:UIControlEventValueChanged];
+    self.optionItemAccelerometer = [[DGOptionItem alloc] initOptionWithTitle:@"Accelerometer" withDetail:@"Shake device for next prompt" withSwitch:self.optionsAccelerometerSwitch];
+    [DGOptionsDropdown addOptionItem:self.optionItemAccelerometer toView:self.optionsView];
+    
+    //Add Vibrate
+    self.optionsVibrationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+    [self.optionsVibrationSwitch addTarget:self action:@selector(optionsToggledVibration:) forControlEvents:UIControlEventValueChanged];
+    self.optionItemVibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device" withSwitch:self.optionsVibrationSwitch];
+    [DGOptionsDropdown addOptionItem:self.optionItemVibration toView:self.optionsView];
+    
+    //Register for notifications
+    [self registerForNotifications];
+    [self updateSliderTime:self.timer];
 }
 
-- (IBAction)playPauseMusic:(id)sender {
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-        [self.musicPlayer pause];
-        [self setPlayPauseButtonImage:@"Play"enabled:YES];
+- (IBAction)hideMe:(id)sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)viewDidUnload {
+    [self unregisterForNotifications];
+    [self.timer invalidate];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
+    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    
+    //No more timer?
+    [self unregisterForNotifications];
+    [self.timer invalidate];
+    
+    [super viewWillDisappear:animated];
+}
+
+#pragma mark - Options
+
+- (IBAction)showOptionsViewFromGameView:(id)sender {
+    //Show the options dropdown
+    NSArray *array = [[NSArray alloc] initWithObjects:self.hideButton, self.hideButtonLabel, nil];
+    [DGOptionsDropdown 
+     slideOptionsWithDuration:0.3
+     viewController:self 
+     anchorView:self.optionsTopBarBackground
+     theOptionsView:self.optionsView
+     overlay:self.optionsOverlay
+     backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
+     overlayAmount:0.6
+     optionsButton:self.optionsButton
+     viewsToHide:array];
+    
+    //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
+    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
+    UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
+    
+    if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
+        [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
+        self.optionsTopBarBackground.userInteractionEnabled = NO;
+        [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
+        [self.optionsButtonLabel setText:@"Options"];
     }
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        [self.musicPlayer play];
-        [self setPlayPauseButtonImage:@"Pause" enabled:YES];
+    else {
+        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
+        self.optionsTopBarBackground.userInteractionEnabled = YES;
+        [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
+        [self.optionsButtonLabel setText:@"Done"];
     }
+}
+
+- (void)optionsToggledAccelerometer:(id)sender {
+    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsAccelerometerSwitch withTitle:@"Accelerometer"];
+}
+
+- (void)optionsToggledVibration:(id)sender {
+    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsVibrationSwitch withTitle:@"Vibration"];
+}
+
+- (void)overlayTapped:(id)sender {
+    [self showOptionsViewFromGameView:self];
 }
 
 #pragma mark - Slider
-- (IBAction)sliderChanged:(id)sender {
-    //Convert the current time into the minutes and seconds strings and set them as the time elapsed
-    [self convertTime:self.musicPlayer.currentPlaybackTime];
-    self.currentlyPlayingTimeElapsedLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
+- (IBAction)sliderTouchesBegun:(id)sender {
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        [self.musicPlayer pause];
+        wasPlaying = YES;
+    }
     
-    //Same thing for remaining
-    NSNumber *currentlyPlayingTimeTotal = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration];
-    [self convertTime:(currentlyPlayingTimeTotal.integerValue - self.musicPlayer.currentPlaybackTime)];
-    self.currentlyPlayingTimeRemainingLabel.text = [[[@"-" stringByAppendingString:self.minutesString] stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
+    //Set global bool for use
+    sliding = YES;
+    DLog(@"Start sliding");
     
+    //Show time popup
+    [self showTimePopup];
+    
+    [self.timer invalidate];
+}
+
+- (IBAction)sliderValueChanged:(id)sender {        
     //Set playback time based on value
     [self.musicPlayer setCurrentPlaybackTime:[NSNumber numberWithFloat:self.currentlyPlayingTimeSlider.value].doubleValue];
+    
+    //Convert the current time into the minutes and seconds strings and set them as the time elapsed
+    [self convertTime:self.musicPlayer.currentPlaybackTime];
+    self.timeLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
+    
+    //Done? Set sliding to no so timer can keep updating, and reschedule timer, and hide time popup after a 2.2 second delay, and play music
+    if (!self.currentlyPlayingTimeSlider.isTracking) {
+        DLog(@"Sliding done");
+        sliding = NO;
+        
+        //Show updated time label, hiding after 3 seconds
+        [self showTimePopup];
+        [self hideTimePopupWithDelay:3];
+        
+        //Play the music if it was already playing
+        if (wasPlaying) {
+            [self.musicPlayer play];
+            wasPlaying = NO;
+        }
+    }
 }
 
 - (void)updateSliderTime:(NSTimer *)timer {
-    //Convert the current time into the minutes and seconds strings and set them as the time elapsed
-    [self convertTime:self.musicPlayer.currentPlaybackTime];
-    self.currentlyPlayingTimeElapsedLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
-    
-    //Same thing for remaining
-    NSNumber *currentlyPlayingTimeTotal = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration];
-    [self convertTime:(currentlyPlayingTimeTotal.integerValue - self.musicPlayer.currentPlaybackTime)];
-    self.currentlyPlayingTimeRemainingLabel.text = [[[@"-" stringByAppendingString:self.minutesString] stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
-    
-    //Set value based on playback time
-    [self.currentlyPlayingTimeSlider setValue:self.musicPlayer.currentPlaybackTime];
-    
-    //And reschedule the timer
-    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateSliderTime:) userInfo:nil repeats:NO];
+    //Only if the slider isn't being slid currently
+    if (!sliding) {
+        DLog(@"Update slider time");
+        
+        //Convert the current time into the minutes and seconds strings and set them as the time elapsed
+        [self convertTime:self.musicPlayer.currentPlaybackTime];
+        self.timeLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
+        
+        //Set value based on playback time
+        [self.currentlyPlayingTimeSlider setValue:self.musicPlayer.currentPlaybackTime];
+        
+        //And reschedule the timer
+        if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+            self.timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(updateSliderTime:) userInfo:nil repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        }
+    }
 }
 
 - (void)convertTime:(NSTimeInterval )theTimeInterval {
@@ -175,59 +296,35 @@ minutesString = _minutesString;
     }    
 }
 
-
-#pragma mark - MUSIC ACTIONS: FIX!
-
-- (void)setupSongInfo {    
-    //Set play/pause button to show the pause image
-    [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-    
-    //Use the artwork on the current media item and set that if it exists
-    MPMediaItemArtwork *artworkItem = [self.musicPlayer.nowPlayingItem valueForProperty: MPMediaItemPropertyArtwork];
-    if ([artworkItem imageWithSize:CGSizeMake(320, 320)]) {
-        [self.currentlyPlayingArtworkImage setImage:[artworkItem imageWithSize:CGSizeMake (320, 320)]];
-    }
-}
-
-- (void)displaySongInfoWithDuration:(double)duration {    
-    //Set button to pause image
-    [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-    
-    //Animate in artwork with a fade
-    [UIView animateWithDuration:duration animations:^ {
-        [self.currentlyPlayingArtworkView setAlpha:1];
+- (void)showTimePopup {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.timePopup.alpha = 1.0;
     }];
-    
-    //Make sure title, artist, and album are set to latest
-    self.currentlyPlayingTitle.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle];
-    self.currentlyPlayingArtist.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist];
-    self.currentlyPlayingAlbum.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle];
-    
-    //Get value for playback duration and set as max, then zero it out
-    
-    [self.currentlyPlayingTimeSlider setMaximumValue:[[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] floatValue]];
-    self.currentlyPlayingTimeSlider.value = 0.0;
 }
 
-- (void)hideSongInfoWithDuration:(double)duration {    
-    //Set button to play image
-    [self setPlayPauseButtonImage:@"Play" enabled:NO];
-    
-    //Animate out artwork with a fade
-    [UIView animateWithDuration:duration animations:^ {
-        [self.currentlyPlayingArtworkView setAlpha:0];
-    }];
-    
-    //Make sure title, artist, and album are set to nothing
-    self.currentlyPlayingTitle.text = @"";
-    self.currentlyPlayingArtist.text = @"";
-    self.currentlyPlayingAlbum.text = @"";
+- (void)hideTimePopupWithDelay:(float)delay {
+    [UIView animateWithDuration:0.3 delay:delay options:UIViewAnimationCurveEaseOut animations:^{
+        self.timePopup.alpha = 0.0;
+    } completion:^(BOOL finished) {}];
 }
+
+#pragma mark - Music Actions
 
 - (void)resetMusicPlayer {
     self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
     [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
     [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
+}
+
+- (IBAction)playPauseMusic:(id)sender {
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        [self.musicPlayer pause];
+        [self setPlayPauseButtonImage:@"Play"enabled:YES];
+    }
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        [self.musicPlayer play];
+        [self setPlayPauseButtonImage:@"Pause" enabled:YES];
+    }
 }
 
 - (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled {    
@@ -244,49 +341,34 @@ minutesString = _minutesString;
 - (void)handle_PlaybackStateChanged:(id)notification {
     if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
         [self setPlayPauseButtonImage:@"Pause" enabled:YES];
+        self.timer = [NSTimer timerWithTimeInterval:0.5 target:self selector:@selector(updateSliderTime:) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     }
     if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
         [self setPlayPauseButtonImage:@"Play" enabled:YES];
+        [self.timer invalidate];
     }
     if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
         [self setPlayPauseButtonImage:@"Play" enabled:NO];
+        [self hideMe:self];
+        [self.timer invalidate];
     }
-}
-
-- (void)handle_NowPlayingItemChanged:(id)notification {
-    
-}
-
-- (void)handle_VolumeChanged:(id)notification {
-    
-}
-
-- (void)handle_DidEnterForeground:(NSNotification*)sender; {
-    self.currentlyPlayingTitle.text = self.currentlyPlayingTitle.text;
-    self.currentlyPlayingArtist.text = self.currentlyPlayingArtist.text;
-    self.currentlyPlayingAlbum.text = self.currentlyPlayingAlbum.text;
 }
 
 #pragma mark - MediaPlayerNotifications
 
-- (void)registerForMediaPlayerNotifications {
+- (void)registerForNotifications {
     // Register for music player notifications
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
     [self.musicPlayer beginGeneratingPlaybackNotifications];
     
-    [notificationCenter addObserver:self selector:@selector(handle_NowPlayingItemChanged:) name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
     [notificationCenter addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
-    [notificationCenter addObserver:self selector:@selector(handle_VolumeChanged:) name:MPMusicPlayerControllerVolumeDidChangeNotification object:self.musicPlayer];
 }
 
-- (void)unregisterForMediaPlayerNotifications {
-    
+- (void)unregisterForNotifications {
     [self.musicPlayer endGeneratingPlaybackNotifications];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerVolumeDidChangeNotification object:self.musicPlayer];
 }
 
 @end

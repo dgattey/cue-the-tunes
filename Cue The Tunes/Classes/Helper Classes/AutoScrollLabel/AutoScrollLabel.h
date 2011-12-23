@@ -30,8 +30,8 @@ enum AutoScrollDirection {
 @property(nonatomic) NSTimeInterval pauseInterval;
 @property(nonatomic) int bufferSpaceBetweenLabels;
 // normal UILabel properties
-@property(nonatomic,strong) UIColor *textColor;
-@property(nonatomic, strong) UIFont *font;
+@property(nonatomic,retain) UIColor *textColor;
+@property(nonatomic, retain) UIFont *font;
 
 - (void) readjustLabels;
 - (void) setText: (NSString *) text;
