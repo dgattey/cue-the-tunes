@@ -56,10 +56,7 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad {   
-    //Set audio session active
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
-    
+- (void)viewDidLoad {       
     //Reset options
     [DGOptionsDropdown resetOptions];
     
