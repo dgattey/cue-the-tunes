@@ -54,6 +54,7 @@
     DGOptionItem *_optionItemVibration;
 
     NSTimer *_timer;
+    NSTimer *_timePopupTimer;
     BOOL sliding;
     BOOL wasPlaying;
 }
@@ -84,20 +85,23 @@
 @property (nonatomic, strong) DGOptionItem *optionItemVibration;
 
 @property (strong) NSTimer *timer;
+@property (strong) NSTimer *timePopupTimer;
 
 - (IBAction)hideMe:(id)sender;
 - (IBAction)sliderValueChanged:(id)sender;
 - (IBAction)sliderTouchesBegun:(id)sender;
 - (void)updateSliderTime:(NSTimer *)timer;
-- (void)convertTime:(NSTimeInterval )theTimeInterval;
+- (void)convertTime;
 
 - (void)registerForNotifications;
 - (void)unregisterForNotifications;
 - (void)handle_PlaybackStateChanged:(id)notification;
 
+- (void)resetIdleTimer;
 - (void)resetMusicPlayer;
 - (void)showTimePopup;
 - (void)hideTimePopupWithDelay:(float)delay;
+- (void)updateTimePopupPosition;
 - (IBAction)playPauseMusic:(id)sender;
 - (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled;
 
