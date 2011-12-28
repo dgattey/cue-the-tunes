@@ -43,12 +43,6 @@
         questionLabel = _questionLabel,
         musicNotes = _musicNotes,
         optionsTopBarBackground = _optionsTopBarBackground,
-        optionsOverlay = _optionsOverlay,
-        optionsView = _optionsView,
-        optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
-        optionsVibrationSwitch = _optionsVibrationSwitch,
-        optionItemAccelerometer = _optionItemAccelerometer,
-        optionItemVibration = _optionItemVibration,
         questionArray = _questionArray,
         musicPlayer = _musicPlayer,
         musicCollection = _musicCollection,
@@ -56,27 +50,7 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad {       
-    //Reset options
-    [DGOptionsDropdown resetOptions];
-    
-    //Options views setup
-    self.optionsOverlay = [[UIView alloc] initWithFrame:CGRectZero];
-    self.optionsView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [DGOptionsDropdown setupOptionsViewsWithAnchorView:self.optionsTopBarBackground overlay:self.optionsOverlay optionView:self.optionsView backgroundImage:[UIImage imageNamed:@"OptionsBackground"]];
-    
-    //Add accelerometer item
-    self.optionsAccelerometerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsAccelerometerSwitch addTarget:self action:@selector(optionsToggledAccelerometer:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemAccelerometer = [[DGOptionItem alloc] initOptionWithTitle:@"Accelerometer" withDetail:@"Shake device for next prompt" withSwitch:self.optionsAccelerometerSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemAccelerometer toView:self.optionsView];
-    
-    //Add Vibrate
-    self.optionsVibrationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsVibrationSwitch addTarget:self action:@selector(optionsToggledVibration:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemVibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device" withSwitch:self.optionsVibrationSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemVibration toView:self.optionsView];
-    
+- (void)viewDidLoad {    
     //Make the music player real
     self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
     [self registerForNotifications];
@@ -153,11 +127,11 @@
     }    
     [self.questionLabel setFont:interstateRegular(21)];
     
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        self.optionsButtonLabel.text = @"Playing";
-    }
-    else {
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped || self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted) {
         self.optionsButtonLabel.text = @"Options";
+    }
+    else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        self.optionsButtonLabel.text = @"Playing";
     }
     
     [super viewDidLoad];
@@ -168,8 +142,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {    
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
+    /* ----------------------------------------------
+     *  Setup current options view
+     *  ---------------------------------------------- */
+    [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+    [[DGOptionsDropdown sharedInstance] setAnchor:self.optionsTopBarBackground];
+    [[DGOptionsDropdown sharedInstance] setOptionsButton:self.optionsButton];
+    [[DGOptionsDropdown sharedInstance] setOptionsButtonLabel:self.optionsButtonLabel];
+    [[DGOptionsDropdown sharedInstance] setViewsToHide:[[NSArray alloc] initWithObjects:self.backButton, self.backButtonLabel, nil]];
     [super viewWillAppear:animated];
 }
 
@@ -184,7 +164,7 @@
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {    
     [UIView animateWithDuration:0.2 animations:^{
         self.musicNotes.alpha = 1.0;
     }];
@@ -227,54 +207,15 @@
 #pragma mark - Options
 
 - (IBAction)showOptionsViewFromGameView:(id)sender {
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        
-        //Show the now playing view controller
-        [self showNowPlayingViewController:self];
-    }
-    else {
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted || self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
         //Show the options dropdown
-        NSArray *array = [[NSArray alloc] initWithObjects:self.backButton, self.backButtonLabel, nil];
-        [DGOptionsDropdown 
-         slideOptionsWithDuration:0.3
-         viewController:self 
-         anchorView:self.optionsTopBarBackground
-         theOptionsView:self.optionsView
-         overlay:self.optionsOverlay
-         backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
-         overlayAmount:0.6
-         optionsButton:self.optionsButton
-         viewsToHide:array];
-        
-        //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
-        UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-        UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-        
-        if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
-            [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
-            self.optionsTopBarBackground.userInteractionEnabled = NO;
-            [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
-            [self.optionsButtonLabel setText:@"Options"];
-        }
-        else {
-            [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-            self.optionsTopBarBackground.userInteractionEnabled = YES;
-            [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
-            [self.optionsButtonLabel setText:@"Done"];
-        }
+        [[DGOptionsDropdown sharedInstance] slideOptionsWithDuration:0.3];
     }
-}
-
-- (void)optionsToggledAccelerometer:(id)sender {
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsAccelerometerSwitch withTitle:@"Accelerometer"];
-}
-
-- (void)optionsToggledVibration:(id)sender {
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsVibrationSwitch withTitle:@"Vibration"];
-}
-
-- (void)overlayTapped:(id)sender {
-    [self showOptionsViewFromGameView:self];
+    else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        
+    //Show the now playing view controller
+    [self showNowPlayingViewController:self];
+    }
 }
 
 #pragma mark - Music Actions

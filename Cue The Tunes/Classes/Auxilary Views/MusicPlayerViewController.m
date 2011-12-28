@@ -47,12 +47,6 @@
         hideButtonLabel = _hideButtonLabel,
         hideButton = _hideButton,
         optionsTopBarBackground = _optionsTopBarBackground,
-        optionsOverlay = _optionsOverlay,
-        optionsView = _optionsView,
-        optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
-        optionsVibrationSwitch = _optionsVibrationSwitch,
-        optionItemAccelerometer = _optionItemAccelerometer,
-        optionItemVibration = _optionItemVibration,
         timer = _timer,
         timePopupTimer = _timePopupTimer;
 
@@ -116,36 +110,8 @@
         [self.currentlyPlayingArtworkView setImage:[artworkItem imageWithSize:CGSizeMake (320, 320)]];
     }
     
-    //Setup images for UISlider (for song progress) & length
-    [self.currentlyPlayingTimeSlider setMaximumValue:[[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] intValue]];
-    [self.currentlyPlayingTimeSlider setThumbImage:[UIImage imageNamed:@"SliderThumb"] forState:UIControlStateNormal];
-    [self.currentlyPlayingTimeSlider setThumbImage:[UIImage imageNamed:@"SliderThumb"] forState:UIControlStateHighlighted];
-    [self.currentlyPlayingTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"SliderBlueTrack"] stretchableImageWithLeftCapWidth:5.0 topCapHeight:0.0] forState:UIControlStateNormal];
-    [self.currentlyPlayingTimeSlider setMaximumTrackImage:[[UIImage imageNamed:@"SliderWhiteTrack"] stretchableImageWithLeftCapWidth:5.0 topCapHeight:0.0] forState:UIControlStateNormal];
-    
-    //Reset options
-    [DGOptionsDropdown resetOptions];
-    
-    //Options views setup
-    self.optionsOverlay = [[UIView alloc] initWithFrame:CGRectZero];
-    self.optionsView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [DGOptionsDropdown setupOptionsViewsWithAnchorView:self.optionsTopBarBackground overlay:self.optionsOverlay optionView:self.optionsView backgroundImage:[UIImage imageNamed:@"OptionsBackground"]];
-    
-    //Add accelerometer item
-    self.optionsAccelerometerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsAccelerometerSwitch addTarget:self action:@selector(optionsToggledAccelerometer:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemAccelerometer = [[DGOptionItem alloc] initOptionWithTitle:@"Accelerometer" withDetail:@"Shake device for next prompt" withSwitch:self.optionsAccelerometerSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemAccelerometer toView:self.optionsView];
-    
-    //Add Vibrate
-    self.optionsVibrationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsVibrationSwitch addTarget:self action:@selector(optionsToggledVibration:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemVibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device" withSwitch:self.optionsVibrationSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemVibration toView:self.optionsView];
-    
     //Register for notifications
     [self registerForNotifications];
-    [self updateSliderTime:self.timer];
 }
 
 - (IBAction)hideMe:(id)sender {
@@ -158,9 +124,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
-    
+    /* ----------------------------------------------
+      *  Setup current options view
+      *  ---------------------------------------------- */
+    [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+    [[DGOptionsDropdown sharedInstance] setAnchor:self.optionsTopBarBackground];
+    [[DGOptionsDropdown sharedInstance] setOptionsButton:self.optionsButton];
+    [[DGOptionsDropdown sharedInstance] setOptionsButtonLabel:self.optionsButtonLabel];
+    [[DGOptionsDropdown sharedInstance] setViewsToHide:[[NSArray alloc] initWithObjects:self.hideButton, self.hideButtonLabel, nil]];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [super viewWillAppear:animated];
 }
@@ -172,6 +143,7 @@
     [self unregisterForNotifications];
     [self.timer invalidate];
     [self.timePopupTimer invalidate];
+    [self.timer setFireDate:[NSDate distantFuture]];
     [NSTimer cancelPreviousPerformRequestsWithTarget:self];
     
     [super viewWillDisappear:animated];
@@ -181,6 +153,15 @@
     [self.currentlyPlayingTitle setText:[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle]];
     [self.currentlyPlayingArtist setText:[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist]];
     [self.currentlyPlayingAlbum setText:[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle]];
+    
+    [self.currentlyPlayingTimeSlider setMaximumValue:[[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] intValue]];
+    //Setup images for UISlider (for song progress) & length
+    [self.currentlyPlayingTimeSlider setThumbImage:[UIImage imageNamed:@"SliderThumb"] forState:UIControlStateNormal];
+    [self.currentlyPlayingTimeSlider setThumbImage:[UIImage imageNamed:@"SliderThumb"] forState:UIControlStateHighlighted];
+    [self.currentlyPlayingTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"SliderBlueTrack"] stretchableImageWithLeftCapWidth:5.0 topCapHeight:0.0] forState:UIControlStateNormal];
+    [self.currentlyPlayingTimeSlider setMaximumTrackImage:[[UIImage imageNamed:@"SliderWhiteTrack"] stretchableImageWithLeftCapWidth:5.0 topCapHeight:0.0] forState:UIControlStateNormal];
+    [self updateSliderTime:self.timer];
+    
     [UIView animateWithDuration:0.25 animations:^{
         self.currentlyPlayingTitle.alpha = 1.0;
         self.currentlyPlayingArtist.alpha = 1.0;
@@ -195,46 +176,7 @@
 
 - (IBAction)showOptionsViewFromGameView:(id)sender {
     //Show the options dropdown
-    NSArray *array = [[NSArray alloc] initWithObjects:self.hideButton, self.hideButtonLabel, nil];
-    [DGOptionsDropdown 
-     slideOptionsWithDuration:0.3
-     viewController:self 
-     anchorView:self.optionsTopBarBackground
-     theOptionsView:self.optionsView
-     overlay:self.optionsOverlay
-     backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
-     overlayAmount:0.6
-     optionsButton:self.optionsButton
-     viewsToHide:array];
-    
-    //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
-    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    
-    if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
-        [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = NO;
-        [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
-        [self.optionsButtonLabel setText:@"Options"];
-    }
-    else {
-        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = YES;
-        [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
-        [self.optionsButtonLabel setText:@"Done"];
-    }
-}
-
-- (void)optionsToggledAccelerometer:(id)sender {
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsAccelerometerSwitch withTitle:@"Accelerometer"];
-}
-
-- (void)optionsToggledVibration:(id)sender {
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsVibrationSwitch withTitle:@"Vibration"];
-}
-
-- (void)overlayTapped:(id)sender {
-    [self showOptionsViewFromGameView:self];
+    [[DGOptionsDropdown sharedInstance] slideOptionsWithDuration:0.3];
 }
 
 #pragma mark - Slider
@@ -275,6 +217,7 @@
         sliding = NO;
         
         //Show updated time label, hiding after 4 seconds
+        self.timeLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
         [self showTimePopup];
         self.timePopupTimer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(hideTimePopupWithDelay:) userInfo:nil repeats:NO];
         

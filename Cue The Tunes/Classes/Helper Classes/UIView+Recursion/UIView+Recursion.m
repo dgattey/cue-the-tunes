@@ -11,12 +11,15 @@
 @implementation UIView (Recursion)
 
 - (NSMutableArray *)allSubviews {
+    /* ----------------------------------------------
+      *  Return all subviews of the subviews of a view
+      *  ---------------------------------------------- */
     NSMutableArray *array = [[NSMutableArray alloc] init];
     [array addObject:self];
     for (UIView *subview in self.subviews) {
         [array addObjectsFromArray:(NSArray*)[subview allSubviews]];
     }
-         return array;
+    return array;
 }
 
 @end

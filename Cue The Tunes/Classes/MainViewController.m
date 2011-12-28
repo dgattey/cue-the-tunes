@@ -46,20 +46,7 @@
         aboutButtonLabel = _aboutLabel,
         titleLabel = _titleLabel,
         titleBar = _titleBar,
-        alertViewNewGameButton = _alertViewNewGameButton,
-        alertViewNewGameButtonLabel = _alertViewNewGameButtonLabel,
-        alertViewContinueGameButton = _alertViewContinueGameButton,
-        alertViewContinueGameButtonLabel = _alertViewContinueGameButtonLabel,
-        alertViewCancelButton = _alertViewCancelButton,
-        alertViewCancelButtonLabel = _alertViewCancelButtonLabel,
-        alertViewMainView = _alertViewMainView,
-        alertViewOverlay = _alertViewOverlay,
-        optionsOverlay = _optionsOverlay,
-        optionsView = _optionsView,
-        optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
-        optionItemAccelerometer = _optionItemAccelerometer,
-        optionsVibrationSwitch = _optionsVibrationSwitch,
-        optionItemVibration = _optionItemVibration;
+        alertView = _alertView;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -72,22 +59,13 @@
     //Setup animation/prefs for title
     [self animateTitleInWithDuration:0.3];
     
-    //Set up options view
-    [self refreshOptionsView];
-    
     //Alert view setup
-    [DGAlertView 
-     setupAlertView:self.alertViewMainView
-     overlay:self.alertViewOverlay
-     newGameButton:self.alertViewNewGameButton 
-     continueGameButton:self.alertViewContinueGameButton 
-     cancelButton:self.alertViewCancelButton 
-     inView:self.view];
-    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertViewCancelButtonTapped:)];
-    [self.alertViewOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-    
-    //Set audio session active
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    self.alertView = [[DGAlertView alloc] init];
+    [self.alertView setupAlertViewWithSender:self];
+    [self.alertView setOverlayOpacity:0.4];
+    [self.alertView setTopButtonText:@"New Game"];
+    [self.alertView setMiddleButtonText:@"Continue Game"];
+    [self.alertView setBottomButtonText:@"Back"];
     
     //Set default style for all FXLabels in the view
     for (FXLabel *label in [self.view allSubviews]) {
@@ -114,6 +92,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [self performSelector:@selector(animateTitleInWithDuration:) withObject:nil afterDelay:0.3];
+    
+    //Options view setup
+    [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+    
     [super viewWillAppear:animated];
 }
 
@@ -122,8 +104,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	[DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
+	[[DGOptionsDropdown sharedInstance] refreshOptionsView];
     [super viewWillDisappear:animated];
 }
 
@@ -160,17 +141,14 @@
         self.aboutButton.enabled = YES;
         
         //Refresh options view
-        [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
-        [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
-        [self refreshOptionsView];
+        [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+        [[DGOptionsDropdown sharedInstance] setAnchor:self.titleBar];
+        [[DGOptionsDropdown sharedInstance] setOptionsButton:self.optionsButton];
+        [[DGOptionsDropdown sharedInstance] setViewsToHide:nil];
     }];
 }
 
-- (void)animateTitleOutWithViewController:(UIViewController *)theViewController withDuration:(double )duration {
-    //Get rid of option views
-    [self.optionsView removeFromSuperview];
-    [self.optionsOverlay removeFromSuperview];
-    
+- (void)animateTitleOutWithViewController:(UIViewController *)theViewController withDuration:(double )duration {    
     //Disable Buttons
     self.gameButton.enabled = NO;
     self.optionsButton.enabled = NO;
@@ -211,7 +189,7 @@
     
     //And display the DGAlertView if there's a game to continue, otherwise just continue with a new game
     if ([prefs valueForKey:@"CURRENT_QUESTION"]) {
-        [DGAlertView displayAlertView:self.alertViewMainView overlay:self.alertViewOverlay afterDelay:0.3];
+        [self.alertView displayAlertViewWithDelay:0.3];
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             self.gameButtonView.alpha = 0.0;
             self.optionsButtonView.alpha = 0.0;
@@ -221,20 +199,38 @@
     }
     
     else {
-        [self alertViewNewButtonTapped:self];
+        [self alertViewTopBottomTapped:self];
     }
 }
 
-#pragma mark Alert View
+#pragma mark - Options View
 
-- (IBAction)alertViewNewButtonTapped:(id)sender {    
+- (IBAction)showOptionsDropdown:(id)sender {
+    [[DGOptionsDropdown sharedInstance] slideOptionsWithDuration:0.3];
+}
+
+
+#pragma mark Alert View
+- (void)willChangeValueForKey:(NSString *)key {
+    if (key == @"DGAlertViewTopButtonTapped") {
+        [self alertViewTopBottomTapped:self];
+    }
+    if (key == @"DGAlertViewMiddleButtonTapped") {
+        [self alertViewMiddleButtonTapped:self];
+    }
+    if (key == @"DGAlertViewBottomButtonTapped") {
+        [self alertViewBottomButtonTapped:self];
+    }
+}
+
+- (void)alertViewTopBottomTapped:(id)sender {    
     //Start new game    
     [prefs setBool:YES forKey:@"NEW_GAME"];
     [prefs setBool:NO forKey:@"CONTINUE_GAME"];
     
     //If there is a value for the current question, dismiss the alert view since that signifies the alert view was shown, and clear the value
     if ([prefs valueForKey:@"CURRENT_QUESTION"]) {
-        [DGAlertView dismissAlertView:self.alertViewMainView overlay:self.alertViewOverlay];
+        [self.alertView dismissAlertView];
         [prefs setValue:nil forKey:@"CURRENT_QUESTION"];
     }
     
@@ -243,95 +239,25 @@
     [self animateTitleOutWithViewController:gameViewController withDuration:0.3];
 }
 
-- (IBAction)alertViewContinueButtonTapped:(id)sender {
+- (void)alertViewMiddleButtonTapped:(id)sender {
     //Continue game
     [prefs setBool:YES forKey:@"CONTINUE_GAME"];
     [prefs setBool:NO forKey:@"NEW_GAME"];
-    [DGAlertView dismissAlertView:self.alertViewMainView overlay:self.alertViewOverlay];
+    [self.alertView dismissAlertView];
     
     //Init a game view controller and call animateTitleOut
     GameViewController *gameViewController = [[GameViewController alloc] initWithNibName:@"GameViewController" bundle:nil];
     [self animateTitleOutWithViewController:gameViewController withDuration:0.3];
 }
 
-- (IBAction)alertViewCancelButtonTapped:(id)sender {
-    [DGAlertView dismissAlertView:self.alertViewMainView overlay:self.alertViewOverlay];
+- (void)alertViewBottomButtonTapped:(id)sender {
+    [self.alertView dismissAlertView];
     [UIView animateWithDuration:0.2 delay:0.3 options:UIViewAnimationCurveEaseInOut animations:^{
         self.gameButtonView.alpha = 1.0;
         self.optionsButtonView.alpha = 1.0;
         self.instructionsButtonView.alpha = 1.0;
         self.aboutButtonView.alpha = 1.0;
     } completion:^ (BOOL finished) {}];
-}
-
-#pragma mark - Options Dropdown
-
-- (void)refreshOptionsView {
-    //Reset options
-    [DGOptionsDropdown resetOptions];
-     
-    //Options views setup
-    self.optionsOverlay = [[UIView alloc] initWithFrame:CGRectZero];
-    self.optionsView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [DGOptionsDropdown setupOptionsViewsWithAnchorView:self.titleBar overlay:self.optionsOverlay optionView:self.optionsView backgroundImage:[UIImage imageNamed:@"OptionsBackground"]];
-    
-    //Add accelerometer item
-    self.optionsAccelerometerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsAccelerometerSwitch addTarget:self action:@selector(optionsToggledAccelerometer:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemAccelerometer = [[DGOptionItem alloc] initOptionWithTitle:@"Accelerometer" withDetail:@"Shake device for next prompt" withSwitch:self.optionsAccelerometerSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemAccelerometer toView:self.optionsView];
-    
-    //Add Vibrate
-    self.optionsVibrationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsVibrationSwitch addTarget:self action:@selector(optionsToggledVibration:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemVibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device" withSwitch:self.optionsVibrationSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemVibration toView:self.optionsView];
-}
-
-- (IBAction)showOptionsDropdown:(id)sender {
-    [DGOptionsDropdown 
-     slideOptionsWithDuration:0.3
-     viewController:self 
-     anchorView:self.titleBar
-     theOptionsView:self.optionsView
-     overlay:self.optionsOverlay
-     backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
-     overlayAmount:0.6
-     optionsButton:nil
-     viewsToHide:nil];
-    
-    //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
-    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    UITapGestureRecognizer *titleLabelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    UITapGestureRecognizer *titleBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    
-    if ([prefs boolForKey:@"OPTIONS_HIDDEN"]) {
-        [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
-        self.titleLabel.userInteractionEnabled = NO;
-        [self.titleLabel removeGestureRecognizer:titleLabelTapGestureRecognizer];
-        self.titleBar.userInteractionEnabled = NO;
-        [self.titleBar removeGestureRecognizer:titleBarTapGestureRecognizer];
-    }
-    else {
-        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        self.titleLabel.userInteractionEnabled = YES;
-        [self.titleLabel addGestureRecognizer:titleLabelTapGestureRecognizer];
-        self.titleBar.userInteractionEnabled = YES;
-        [self.titleBar addGestureRecognizer:titleBarTapGestureRecognizer];
-    }
-    
-}
-
-- (void)optionsToggledAccelerometer:(id)sender {
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsAccelerometerSwitch withTitle:@"Accelerometer"];
-}
-
-- (void)optionsToggledVibration:(id)sender {
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsVibrationSwitch withTitle:@"Vibration"];
-}
-
-- (void)overlayTapped:(id)sender {
-    [self showOptionsDropdown:self];
 }
 
 #pragma mark - Instructions View

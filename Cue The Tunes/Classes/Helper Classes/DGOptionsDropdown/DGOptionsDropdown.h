@@ -24,29 +24,46 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
 #import "DGOptionItem.h"
+#import "FXLabel.h"
 
-@interface DGOptionsDropdown : UIView
+@interface DGOptionsDropdown : UIView {
+    //Global bools and floats
+    BOOL optionsHidden;
+    CGFloat numberOfOptionItems;
+    CGFloat heightToShow;
+    CGFloat kOptionItemHeight;
+    CGFloat kOptionItemPrimaryHeight;
+    CGFloat kOptionItemLeftInset;
+    
+    //Views and such
+    UIImageView *_backgroundView;
+    NSArray *_optionItems;
+    UIView *_anchor;
+    UIView *_overlay;
+    UITapGestureRecognizer *_overlayTapGestureRecognizer;
+    UIButton *_optionsButton;
+    FXLabel *_optionsButtonLabel;
+    NSArray *_viewsToHide;
+}
 
-+ (void)resetOptions;
+@property (nonatomic, strong) UIImageView *backgroundView;
+@property (nonatomic, strong) NSArray *optionItems;
+@property (nonatomic, strong) UIView *anchor;
+@property (nonatomic, strong) UIView *overlay;
+@property (nonatomic, strong) UITapGestureRecognizer *overlayTapGestureRecognizer;
+@property (nonatomic, strong) UIButton *optionsButton;
+@property (nonatomic, strong) FXLabel *optionsButtonLabel;
+@property (nonatomic, strong) NSArray *viewsToHide;
 
-+ (void)slideOptionsWithDuration:(double)duration
-                 viewController:(UIViewController*)viewController
-                     anchorView:(UIView*)anchorView
-                 theOptionsView:(UIImageView*)theOptionsView
-                        overlay:(UIView*)overlay
-                backgroundImage:(UIImage*)backgroundImage
-                  overlayAmount:(double)overlayAmount
-                  optionsButton:(UIButton*)optionsButton
-                    viewsToHide:(NSArray*)array;
++ (DGOptionsDropdown *)sharedInstance;
 
-+ (void)addOptionItem:(DGOptionItem*)optionItem toView:(UIView*)theView;
+//Main action
+- (void)slideOptionsWithDuration:(double)duration;
+- (void)addOptionItems:(NSArray*)optionItems;
+- (void)refreshOptionsView;
 
-+ (void)setupOptionsViewsWithAnchorView:(UIView*)anchorView overlay:(UIView*)overlay optionView:(UIImageView*)optionsView backgroundImage:(UIImage*)backgroundImage;
-
-+ (void)optionsToggledWithSwitch:(UISwitch*)theSwitch withTitle:(NSString*)title;
-
-+ (void)refreshOptionView:(UIView*)optionView withOptionItem:(DGOptionItem*)optionItem withOverlay:(UIView*)overlay;
+//Setting properties
+- (void)setItemHeight:(CGFloat)itemHeight withPrimaryHeight:(CGFloat)primaryItemHeight leftItemInset:(CGFloat)leftItemInset;
 
 @end

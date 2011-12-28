@@ -43,12 +43,6 @@
     UIImageView *_musicNotes;
     
     UIImageView *_optionsTopBarBackground;
-    UIView *_optionsOverlay;
-    UIImageView *_optionsView;
-    UISwitch *_optionsAccelerometerSwitch;
-    UISwitch *_optionsVibrationSwitch;
-    DGOptionItem *_optionItemAccelerometer;
-    DGOptionItem *_optionItemVibration;
     
     NSMutableArray *_questionArray;
     NSUInteger numQuestions;
@@ -73,12 +67,6 @@
 @property (nonatomic, strong) IBOutlet UIImageView *musicNotes;
 
 @property (nonatomic, strong) IBOutlet UIImageView *optionsTopBarBackground;
-@property (nonatomic, strong) UIView *optionsOverlay;
-@property (nonatomic, strong) UIImageView *optionsView;
-@property (nonatomic, strong) UISwitch *optionsAccelerometerSwitch;
-@property (nonatomic, strong) UISwitch *optionsVibrationSwitch;
-@property (nonatomic, strong) DGOptionItem *optionItemAccelerometer;
-@property (nonatomic, strong) DGOptionItem *optionItemVibration;
 
 @property (strong) NSMutableArray *questionArray;
 @property (strong) MPMusicPlayerController *musicPlayer;
@@ -94,10 +82,6 @@
 - (IBAction)showOptionsViewFromGameView:(id)sender;
 - (IBAction)showNextQuestion:(id)sender;
 - (void)enableNextQuestionButton:(id)sender;
-
-- (void)optionsToggledAccelerometer:(id)sender;
-- (void)optionsToggledVibration:(id)sender;
-- (void)overlayTapped:(id)sender;
 - (void)updateQuestionText:(id)sender;
 
 - (void)handle_PlaybackStateChanged:(id)notification;

@@ -46,12 +46,6 @@
     UIButton *_hideButton;
     
     UIImageView *_optionsTopBarBackground;
-    UIView *_optionsOverlay;
-    UIImageView *_optionsView;
-    UISwitch *_optionsAccelerometerSwitch;
-    UISwitch *_optionsVibrationSwitch;
-    DGOptionItem *_optionItemAccelerometer;
-    DGOptionItem *_optionItemVibration;
 
     NSTimer *_timer;
     NSTimer *_timePopupTimer;
@@ -77,12 +71,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *hideButton;
 
 @property (nonatomic, strong) IBOutlet UIImageView *optionsTopBarBackground;
-@property (nonatomic, strong) UIView *optionsOverlay;
-@property (nonatomic, strong) UIImageView *optionsView;
-@property (nonatomic, strong) UISwitch *optionsAccelerometerSwitch;
-@property (nonatomic, strong) UISwitch *optionsVibrationSwitch;
-@property (nonatomic, strong) DGOptionItem *optionItemAccelerometer;
-@property (nonatomic, strong) DGOptionItem *optionItemVibration;
 
 @property (strong) NSTimer *timer;
 @property (strong) NSTimer *timePopupTimer;
@@ -106,8 +94,5 @@
 - (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled;
 
 - (IBAction)showOptionsViewFromGameView:(id)sender;
-- (void)optionsToggledAccelerometer:(id)sender;
-- (void)optionsToggledVibration:(id)sender;
-- (void)overlayTapped:(id)sender;
 
 @end

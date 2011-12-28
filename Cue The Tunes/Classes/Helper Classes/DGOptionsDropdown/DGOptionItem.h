@@ -3,7 +3,7 @@
 //  DGOptionsDropdown
 //
 //  Created by Dylan Gattey on 8/12/11.
-//  Copyright (c) 2010 Dylan Gattey. All rights reserved.
+//  Copyright (c) 2011 Dylan Gattey. All rights reserved.
 //  http://dylangattey.com
 //
 //  Redistribution and use in binary and source forms, with or without modification,
@@ -30,13 +30,11 @@
 {
 	NSString *_itemTitleText;
 	NSString *_itemDetailText;
-	UISwitch *_itemSwitch;
 }
 
 @property (strong) NSString *itemTitleText;
 @property (strong) NSString *itemDetailText;
-@property (strong) UISwitch *itemSwitch;
 
-- (id)initOptionWithTitle:(NSString*)titleText withDetail:(NSString*)detailText withSwitch:(UISwitch*)optionSwitch;
+- (id)initOptionWithTitle:(NSString*)titleText withDetail:(NSString*)detailText;
 
 @end

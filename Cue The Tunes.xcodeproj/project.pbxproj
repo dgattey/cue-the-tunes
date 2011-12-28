@@ -225,8 +225,6 @@
 		75033A711402E88700C3EEBD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		750B43B6149E9753009DB7A2 /* InterstateBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = InterstateBold.ttf; sourceTree = SOURCE_ROOT; };
 		750B43BA149E9759009DB7A2 /* InterstateRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = InterstateRegular.ttf; sourceTree = SOURCE_ROOT; };
-		750B43BE149E99CE009DB7A2 /* DGGradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGGradientButton.m; sourceTree = SOURCE_ROOT; };
-		750B43BF149E99CE009DB7A2 /* DGGradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGGradientButton.h; sourceTree = SOURCE_ROOT; };
 		750D70F113FA209200B9B0A5 /* AboutTitleDropdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AboutTitleDropdown.png; sourceTree = "<group>"; };
 		750D70F213FA209200B9B0A5 /* AboutTitleDropdown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AboutTitleDropdown@2x.png"; sourceTree = "<group>"; };
 		750D70F413FA209200B9B0A5 /* ActionSheetBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionSheetBackground.png; sourceTree = "<group>"; };
@@ -382,15 +380,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		750B43BD149E99BF009DB7A2 /* DGGradientButton */ = {
-			isa = PBXGroup;
-			children = (
-				750B43BF149E99CE009DB7A2 /* DGGradientButton.h */,
-				750B43BE149E99CE009DB7A2 /* DGGradientButton.m */,
-			);
-			name = DGGradientButton;
-			sourceTree = "<group>";
-		};
 		750D70F013FA209200B9B0A5 /* About View */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,7 +695,6 @@
 				75F2AEA614A2626900C73E58 /* UIView+Recursion */,
 				750D717513FA508A00B9B0A5 /* AutoScrollLabel */,
 				750D718113FA508A00B9B0A5 /* DGAlertView */,
-				750B43BD149E99BF009DB7A2 /* DGGradientButton */,
 				750D718413FA508A00B9B0A5 /* DGOptionsDropdown */,
 				75760F8614784FF3003403E1 /* FXLabel */,
 			);

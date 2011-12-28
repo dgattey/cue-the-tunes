@@ -24,47 +24,28 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
+#import "DGAlertView.h"
+#import "DGOptionsDropdown.h"
+
 @interface MainViewController : UIViewController {
     //Main
     UIView *_gameButtonView;
     UIButton *_gameButton;
     FXLabel *_gameButtonLabel;
-    
     UIView *_optionsButtonView;
     UIButton *_optionsButton;
     FXLabel *_optionsButtonLabel;
-    
     UIView *_instructionsButtonView;
     UIButton *_instructionsButton;
     FXLabel *_instructionsButtonLabel;
-    
     UIView *_aboutButtonView;
     UIButton *_aboutButton;
     FXLabel *_aboutButtonLabel;
-    
     UIImageView *_titleLabel;
     UIImageView *_titleBar;
     
-    //Custom alert view replacement
-    UIButton *_alertViewNewGameButton;
-    FXLabel *_alertViewNewGameButtonLabel;
-    
-    UIButton *_alertViewContinueGameButton;
-    FXLabel *_alertViewContinueGameButtonLabel;
-    
-    UIButton *_alertViewCancelButton;
-    FXLabel *_alertViewCancelButtonLabel;
-    
-    UIView *_alertViewMainView;
-    UIView *_alertViewOverlay;
-    
-    //Options
-    UIView *_optionsOverlay;
-    UIImageView *_optionsView;
-    UISwitch *_optionsAccelerometerSwitch;
-    DGOptionItem *_optionItemAccelerometer;
-    UISwitch *_optionsVibrationSwitch;
-    DGOptionItem *_optionItemVibration;
+    //Alert view
+    DGAlertView *_alertView;
 }
 
 //Main properties
@@ -83,23 +64,8 @@
 @property (nonatomic, strong) IBOutlet UIImageView *titleLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *titleBar;
 
-//Custom alert view replacement properties
-@property (nonatomic, strong) IBOutlet UIButton *alertViewNewGameButton;
-@property (nonatomic, strong) IBOutlet FXLabel *alertViewNewGameButtonLabel;
-@property (nonatomic, strong) IBOutlet UIButton *alertViewContinueGameButton;
-@property (nonatomic, strong) IBOutlet FXLabel *alertViewContinueGameButtonLabel;
-@property (nonatomic, strong) IBOutlet UIButton *alertViewCancelButton;
-@property (nonatomic, strong) IBOutlet FXLabel *alertViewCancelButtonLabel;
-@property (nonatomic, strong) IBOutlet UIView *alertViewMainView;
-@property (nonatomic, strong) IBOutlet UIView *alertViewOverlay;
-
-//Options properties
-@property (nonatomic, strong) UIView *optionsOverlay;
-@property (nonatomic, strong) UIImageView *optionsView;
-@property (nonatomic, strong) UISwitch *optionsAccelerometerSwitch;
-@property (nonatomic, strong) DGOptionItem *optionItemAccelerometer;
-@property (nonatomic, strong) UISwitch *optionsVibrationSwitch;
-@property (nonatomic, strong) DGOptionItem *optionItemVibration;
+//Alert view and options view
+@property (nonatomic, strong) DGAlertView *alertView;
 
 //Main methods
 - (IBAction)showGameView:(id)sender;
@@ -110,15 +76,9 @@
 - (void)animateTitleOutWithViewController:(UIViewController *)theViewController withDuration:(double )duration;
 - (void)animateButtonIn:(id)sender;
 
-//Options methods
-- (void)optionsToggledAccelerometer:(id)sender;
-- (void)optionsToggledVibration:(id)sender;
-- (void)overlayTapped:(id)sender;
-- (void)refreshOptionsView;
-
 //Alert view methods
-- (IBAction)alertViewNewButtonTapped:(id)sender;
-- (IBAction)alertViewContinueButtonTapped:(id)sender;
-- (IBAction)alertViewCancelButtonTapped:(id)sender;
+- (void)alertViewTopBottomTapped:(id)sender;
+- (void)alertViewMiddleButtonTapped:(id)sender;
+- (void)alertViewBottomButtonTapped:(id)sender;
 
 @end

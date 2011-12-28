@@ -1,6 +1,6 @@
 //
 //  DGAlertView.h
-//  Cue The Tunes
+//  DGAlertView
 //
 //  Created by Dylan Gattey on 8/15/11.
 //  Copyright (c) 2011 Dylan Gattey. All rights reserved.
@@ -23,10 +23,46 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
+//
+//  Class used to present a custom stlyed alert view on top of the current view
 
-@interface DGAlertView : UIView
-+ (void)setupAlertView:(UIView*)alertView overlay:(UIView*)overlay newGameButton:(UIButton*)newGameButton continueGameButton:(UIButton*)continueGameButton cancelButton:(UIButton*)cancelButton inView:(UIView*)theView;
-+ (void)displayAlertView:(UIView*)alertView overlay:(UIView*)overlay afterDelay:(float)delay;
-+ (void)dismissAlertView:(UIView*)alertView overlay:(UIView*)overlay;
+#import "FXLabel.h"
+
+@interface DGAlertView : UIView {
+    UIViewController *_parentViewController;
+    UIView *_overlay;
+    float overlayOpacity;
+    
+    UIButton *_topButton;
+    FXLabel *_topButtonLabel;
+    UIButton *_middleButton;
+    FXLabel *_middleButtonLabel;
+    UIButton *_bottomButton;
+    FXLabel *_bottomButtonLabel;
+}
+
+@property (nonatomic, strong) UIViewController *parentViewController;
+@property (nonatomic, strong) UIView *overlay;
+
+@property (nonatomic, strong) UIButton *topButton;
+@property (nonatomic, strong) FXLabel *topButtonLabel;
+@property (nonatomic, strong) UIButton *middleButton;
+@property (nonatomic, strong) FXLabel *middleButtonLabel;
+@property (nonatomic, strong) UIButton *bottomButton;
+@property (nonatomic, strong) FXLabel *bottomButtonLabel;
+
+
+- (void)setupAlertViewWithSender:(id)sender;
+- (void)setOverlayOpacity:(float)newOpacity;
+- (void)setTopButtonText:(NSString *)text;
+- (void)setMiddleButtonText:(NSString *)text;
+- (void)setBottomButtonText:(NSString *)text;
+
+- (void)topButtonTapped:(id)sender;
+- (void)middleButtonTapped:(id)sender;
+- (void)bottomButtonTapped:(id)sender;
+
+- (void)displayAlertViewWithDelay:(float)delay;
+- (void)dismissAlertView;
 
 @end
