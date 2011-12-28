@@ -32,7 +32,6 @@
     UIViewController *_parentViewController;
     UIView *_overlay;
     float overlayOpacity;
-    
     UIButton *_topButton;
     FXLabel *_topButtonLabel;
     UIButton *_middleButton;
@@ -43,7 +42,6 @@
 
 @property (nonatomic, strong) UIViewController *parentViewController;
 @property (nonatomic, strong) UIView *overlay;
-
 @property (nonatomic, strong) UIButton *topButton;
 @property (nonatomic, strong) FXLabel *topButtonLabel;
 @property (nonatomic, strong) UIButton *middleButton;
@@ -53,6 +51,9 @@
 
 
 - (void)setupAlertViewWithSender:(id)sender;
+- (void)displayAlertViewWithDelay:(float)delay;
+- (void)dismissAlertView;
+
 - (void)setOverlayOpacity:(float)newOpacity;
 - (void)setTopButtonText:(NSString *)text;
 - (void)setMiddleButtonText:(NSString *)text;
@@ -61,8 +62,5 @@
 - (void)topButtonTapped:(id)sender;
 - (void)middleButtonTapped:(id)sender;
 - (void)bottomButtonTapped:(id)sender;
-
-- (void)displayAlertViewWithDelay:(float)delay;
-- (void)dismissAlertView;
 
 @end

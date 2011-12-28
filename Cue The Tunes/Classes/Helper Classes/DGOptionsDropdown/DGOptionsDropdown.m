@@ -26,13 +26,15 @@
 
 #import "DGOptionsDropdown.h"
 
-/* ---------------------------------------- */
-   # pragma mark - Private Implementation
-/* ---------------------------------------- */
+/* ----------------------------------------------- */
+   # pragma mark - Internal (Private) Implementation
+/* ----------------------------------------------- */
 
 
-@interface DGOptionsDropdown (hidden)
-
+@interface DGOptionsDropdown (Hidden)
+/* -------------------------------------------------------
+ *  Private methods used internally but not shown publicly
+ *  ------------------------------------------------------ */
 - (void)addOptionItem:(DGOptionItem*)optionItem;
 - (void)optionsToggled:(id)sender;
 - (void)commonInit;
@@ -41,9 +43,12 @@
 
 @end
 
-@implementation DGOptionsDropdown (hidden)
+@implementation DGOptionsDropdown (Hidden)
 
 - (void)commonInit {
+    /* -------------------------------------------------------------------
+      *  Internal method used to set default values and create common views
+      *  ------------------------------------------------------------------- */
     numberOfOptionItems = 0;
     heightToShow = 0;
     if (!kOptionItemHeight) {
@@ -57,7 +62,9 @@
     }
     optionsHidden = YES;
     
-    //Create overlay
+    /* ----------------------------------------------------
+      *  Set properties for overlay and it's gesture recognizer
+      *  ---------------------------------------------------- */
     self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
     self.overlay.backgroundColor = [UIColor blackColor];
     self.overlay.userInteractionEnabled = YES;
@@ -67,7 +74,9 @@
     self.overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
     [self.overlay addGestureRecognizer:self.overlayTapGestureRecognizer];
     
-    //Self properties
+    /* --------------------------------------------------------------
+      *  Set up the main options view and add the background view to it
+      *  -------------------------------------------------------------- */
     self.userInteractionEnabled = YES;
     self.clipsToBounds = YES;
     self.backgroundColor = [UIColor clearColor];
@@ -77,35 +86,50 @@
 }
 
 - (void)addOptionItem:(DGOptionItem*)optionItem {
-    //Increase option items number by one, and set that NSInteger for future use
+    /* ----------------------------------------------------------------------------
+      *  Internal method used to add individual option items to the view
+      *  Only used after setting the main optionsItems array
+      *  Start out by increasing numberOfOptionItems by one and refreshing the layout
+      *  ---------------------------------------------------------------------------- */
     numberOfOptionItems = (numberOfOptionItems + 1);
     DLog(@"Number of option items: %f", numberOfOptionItems);
-    
     [self refreshLayout];
     
-    //Title label setup
+    /* ------------------------------------------------------------------
+      *  Create the title label, detail label, and switch
+      *  Set the properties and text, and the tag to the numberOfOptionItems
+      *  ------------------------------------------------------------------ */
     FXLabel *titleLabel = [[FXLabel alloc] initWithFrame:CGRectMake(self.bounds.origin.x + kOptionItemLeftInset, self.bounds.size.height + self.bounds.origin.y - 10, 170, 30)];
     setOptionsMainStyleUsingLabel(titleLabel)
     [titleLabel setText:optionItem.itemTitleText];
     [titleLabel setTag:numberOfOptionItems];
     
-    //Detail label setup
     FXLabel *detailLabel = [[FXLabel alloc] initWithFrame:CGRectMake(self.bounds.origin.x + kOptionItemLeftInset, self.bounds.size.height + self.bounds.origin.y + 20, 170, 10)];
     setOptionsDetailStyleUsingLabel(detailLabel)
     [detailLabel setText:optionItem.itemDetailText];
     
-    //Switch setup
     UISwitch *aSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.bounds.origin.x + kOptionItemLeftInset + 176, self.bounds.size.height + self.bounds.origin.y - 2, aSwitch.frame.size.width, aSwitch.frame.size.height)];
     [aSwitch setUserInteractionEnabled:YES];
     [aSwitch setTag:numberOfOptionItems];
     [aSwitch addTarget:self action:@selector(optionsToggled:) forControlEvents:UIControlEventValueChanged];
     
-    //Set switch on or off based on name of option
-    NSString *boolTitle = [@"OPTION_" stringByAppendingString:[optionItem.itemTitleText uppercaseString]]; //Set title to OPTION_ with the title appended in uppercase
-    if ([prefs boolForKey:boolTitle]) {[aSwitch setOn:YES];}
-    else if (![prefs boolForKey:boolTitle]) {[aSwitch setOn:NO];}
+    /* ---------------------------------------------------
+      *  Based on the title text, set the switch on or off
+      *  Data stored in NSUserDefaults with name as follows:
+      *  OPTION_TITLEOFPREFERENCE
+      *  --------------------------------------------------- */
+    NSString *boolTitle = [@"OPTION_" stringByAppendingString:[optionItem.itemTitleText uppercaseString]];
+    if ([prefs boolForKey:boolTitle]) {
+        [aSwitch setOn:YES];
+    }    
+    else if (![prefs boolForKey:boolTitle]) {
+        [aSwitch setOn:NO];
+    }
     
-    //If an option item already exists, move up all items from bottom of view by setting frames
+    /* ----------------------------------------------------------------------------
+      *  If an option item already exists, move the labels and switch up to compensate
+      *  Finally, add them all to the main options view
+      *  ---------------------------------------------------------------------------- */
     if (numberOfOptionItems > 0) {
         titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y - (numberOfOptionItems * kOptionItemHeight), titleLabel.frame.size.width, titleLabel.frame.size.height);
         detailLabel.frame = CGRectMake(detailLabel.frame.origin.x, detailLabel.frame.origin.y - (numberOfOptionItems * kOptionItemHeight), detailLabel.frame.size.width, detailLabel.frame.size.height);
@@ -118,7 +142,12 @@
 }
 
 - (void)optionsToggled:(id)sender {
-    //Sender is the switch that was toggled, which has a tag & when compared to the labels, should match one
+    /* ----------------------------------------------------------------
+      *  Internal method used to set NSUserDefaults for toggling of a switch
+      *  Find all FXLabels in allSubviews
+      *  If the label tag is the same as the sender's (the switch toggled) tag:
+      *  Set the bool in NSUserDefaults to the appropriate value
+      *  ---------------------------------------------------------------- */
     if (sender && [sender isKindOfClass:[UISwitch class]]) {
         for (FXLabel *label in [self allSubviews]) {
             if ([label isKindOfClass:[FXLabel class]] && label.tag == [sender tag]) {
@@ -135,17 +164,25 @@
 }
 
 - (void)refreshLayout {
-    //Set the heightToShow to the primary height + the number of option items * that height
+    /* ------------------------------------------------------
+      *  Internal method used to layout the views after a change
+      *  Start out by calculating the height to show
+      *  ------------------------------------------------------ */
     heightToShow = kOptionItemPrimaryHeight + ((numberOfOptionItems - 1) * kOptionItemHeight);
     DLog(@"Height to show: %f", heightToShow);
     
-    //Set frame for self
+    /* ----------------------------------------------
+      *  Set a new frame for the main options view
+      *  Based on the background and anchor views
+      *  ---------------------------------------------- */
     CGFloat originalHeight = self.backgroundView.frame.size.height;
     CGFloat originalY = self.anchor.frame.origin.y + self.anchor.frame.size.height - originalHeight - 4;
     CGFloat screenWidth = UIScreen.mainScreen.bounds.size.width;
     self.frame = CGRectMake(0, originalY, screenWidth, originalHeight);
     
-    //Re layout labels and switches with new left offset
+    /* --------------------------------------------------------------
+      *  Re-layout the labels and switches with the new (or not) left inset
+      *  -------------------------------------------------------------- */
     for (FXLabel *label in [self allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
             [label setFrame:CGRectMake(kOptionItemLeftInset, label.frame.origin.y, label.frame.size.width, label.frame.size.height)];
@@ -160,6 +197,9 @@
 }
 
 - (void)overlayTapped:(id)sender {
+    /* ------------------------------------------------------------
+      *  Internal method to slide the options after the overlay is tapped
+      *  ------------------------------------------------------------ */
     [self.optionsButtonLabel setText:@""];
     [self.optionsButtonLabel setText:@"Options"];
 
@@ -176,20 +216,36 @@
 
 @synthesize overlay = _overlay, overlayTapGestureRecognizer = _overlayTapGestureRecognizer, backgroundView = _backgroundView, optionItems = _optionItems, anchor = _anchor, optionsButton = _optionsButton, optionsButtonLabel = _optionsButtonLabel, viewsToHide = _viewsToHide;
 
-//Shared instance work
+/* ---------------------------------------------------------------------------
+ *  Create a shared instance to reference from various classes within application
+ *  Initiated when first accessed. Easy to set from app delegate
+ *  --------------------------------------------------------------------------- */
 static DGOptionsDropdown *sharedInstance = nil;
 
 + (DGOptionsDropdown *)sharedInstance {
-	if (sharedInstance == nil)
-        {
+	if (sharedInstance == nil) {
 		sharedInstance = [[DGOptionsDropdown alloc] init];
-        }
+        DLog(@"Options shared instance initiated");
+    }
 	return sharedInstance;
-    DLog(@"Options shared instance initiated");
 }
 
-//Sliding views
+- (void)setItemHeight:(CGFloat)itemHeight withPrimaryHeight:(CGFloat)primaryItemHeight leftItemInset:(CGFloat)leftItemInset {
+    /* -----------------------------------------------------------
+      *  Convenience method to set values, triggering the common init
+      *  ----------------------------------------------------------- */
+    kOptionItemHeight = itemHeight;
+    kOptionItemPrimaryHeight = primaryItemHeight;
+    kOptionItemLeftInset = leftItemInset;
+    
+    [self commonInit];
+}
+
 - (void)slideOptionsWithDuration:(double)duration {
+    /* ---------------------------------------------------------
+      *  Used to slide the options up or down with a given duration
+      *  If not given, duration is 0.3 sec
+      *  --------------------------------------------------------- */
     DLog(@"Start sliding options");
     
     if (!duration) {
@@ -197,7 +253,9 @@ static DGOptionsDropdown *sharedInstance = nil;
     }
     
     if (self.viewsToHide) {
-        //Switch the original options image and the done image on the button if not main menu
+        /* ----------------------------------------------------------------
+            *  If there are views to hide, change the button label text and images
+            *  ---------------------------------------------------------------- */
         if (!optionsHidden) {
             [self.optionsButtonLabel setText:@""];
             [self.optionsButton setBackgroundImage:[UIImage imageNamed:@"OptionsButtonNormal"] forState:UIControlStateNormal];
@@ -210,6 +268,9 @@ static DGOptionsDropdown *sharedInstance = nil;
             [self.optionsButtonLabel setText:@"Done"];
         }
         
+        /* -------------------------------------------------------------------
+            *  Loop to find all views in the view to hide and show/hide appropriately
+            *  ------------------------------------------------------------------- */
         NSUInteger i;
         for (i=0; i < [self.viewsToHide count]; i++) {
             [[self.viewsToHide objectAtIndex:i] setEnabled:NO];
@@ -229,17 +290,28 @@ static DGOptionsDropdown *sharedInstance = nil;
         }
     }
         
-    //Do work
+    /* ----------------------------------------------------------
+      *  If the options are hidden and there's a button and an anchor
+      *  Move the options down starting with a change in bool
+      *  ---------------------------------------------------------- */
     if (optionsHidden && self.optionsButton && self.anchor) { 
         DLog(@"Options are already hidden, so show the view");
         optionsHidden = NO;
         
-        //Add it to the view
+        /* ------------------------------------------------------------
+            *  Last minute layout refresher and add views below the anchor
+            *  Disable the options button to prevent multiple animations
+            *  ------------------------------------------------------------ */
         [self refreshLayout];
         [self.anchor.superview insertSubview:self.overlay belowSubview:self.anchor];
         [self.anchor.superview insertSubview:self aboveSubview:self.overlay];
+        [self.optionsButton setEnabled:NO];
         
-        //Move options view down, do fades
+        /* ----------------------------------------------
+            *  Animate with the passed in duration
+            *  Set a new frame for self and overlay opacity
+            *  When completed, re-enable the button
+            *  ---------------------------------------------- */
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + heightToShow, self.frame.size.width, self.frame.size.height);
             self.overlay.alpha = 0.6;
@@ -249,14 +321,25 @@ static DGOptionsDropdown *sharedInstance = nil;
             DLog(@"Done sliding down");
         }];
     }
+    
+    /* --------------------------------------------------------------
+      *  If the options arenn't hidden and there's a button and an anchor
+      *  Move the options up starting with a change in bool
+      *  -------------------------------------------------------------- */
     else if (!optionsHidden && self.optionsButton && self.anchor) {
         DLog(@"Options already showing so hide the view");
         optionsHidden = YES;
         
-        //Disable buttons, but change images so it's a smooth transition
+        /* ------------------------------------------------------------
+            *  Disable the options button to prevent multiple animations
+            *  ------------------------------------------------------------ */
         [self.optionsButton setEnabled:NO];
         
-        //Move options view up
+        /* ------------------------------------------------------------------------------
+            *  Animate with the passed in duration
+            *  Set a new frame for self and overlay opacity
+            *  When completed, re-enable the button and remove the views from the superview
+            *  ------------------------------------------------------------------------------ */
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - heightToShow, self.frame.size.width, self.frame.size.height);
             self.overlay.alpha = 0.0;
@@ -274,9 +357,12 @@ static DGOptionsDropdown *sharedInstance = nil;
 }
 
 - (void)addOptionItems:(NSArray *)optionItems {
+    /* ------------------------------------------------------------------------------
+      *  Convenience method to set the option items array - DO NOT call more than once!
+      *  Passed in items are self.optionItems
+      *  Loop to find all items in array and call addOptionItem for each one
+      *  ------------------------------------------------------------------------------ */
     self.optionItems = optionItems;
-    
-    //Add option items
     if (self.optionItems) {
         numberOfOptionItems = 0;
         NSUInteger i;
@@ -289,12 +375,11 @@ static DGOptionsDropdown *sharedInstance = nil;
 }
 
 - (void)refreshOptionsView {    
-    /* -----------------------------------------------------
-     *  Ugly, but it gets the job done
-     *  Find all FXLabels and UISwitches
-     *  If the tags are the same, find the bool for the title key
-     *  And set switch states based on that
-     *  ----------------------------------------------------- */
+    /* -----------------------------------------------------------------------------------------
+     *  Ugly code, but it gets the job done. Call it when viewDid or WillAppear in a presenting view
+     *  Find all FXLabels and UISwitches in self and if the label tag is the same as the switch's tag:
+     *  Use the bool in NSUserDefaults to set the switch the appropriate value
+     *  ------------------------------------------------------------------------------------------ */
     for (FXLabel *label in [self allSubviews]) {
         for (UISwitch *aSwitch in [self allSubviews]) {
             if ([label isKindOfClass:[FXLabel class]] && [aSwitch isKindOfClass:[UISwitch class]] && aSwitch.tag == label.tag) {
@@ -311,16 +396,6 @@ static DGOptionsDropdown *sharedInstance = nil;
             }
         }
     }
-}
-
-#pragma mark - Set properties
-
-- (void)setItemHeight:(CGFloat)itemHeight withPrimaryHeight:(CGFloat)primaryItemHeight leftItemInset:(CGFloat)leftItemInset {
-    kOptionItemHeight = itemHeight;
-    kOptionItemPrimaryHeight = primaryItemHeight;
-    kOptionItemLeftInset = leftItemInset;
-    
-    [self commonInit];
 }
 
 @end

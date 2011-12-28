@@ -23,6 +23,7 @@
 //  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
+//  Class used to create a DGOptionItem for use in a DGOptionsDropdown
 
 #import "DGOptionItem.h"
 

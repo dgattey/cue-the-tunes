@@ -28,7 +28,9 @@
 #import "FXLabel.h"
 
 @interface DGOptionsDropdown : UIView {
-    //Global bools and floats
+    /* ----------------------------------------------
+      *  Global bools and floats
+      *  ---------------------------------------------- */
     BOOL optionsHidden;
     CGFloat numberOfOptionItems;
     CGFloat heightToShow;
@@ -36,7 +38,9 @@
     CGFloat kOptionItemPrimaryHeight;
     CGFloat kOptionItemLeftInset;
     
-    //Views and such
+    /* ----------------------------------------------
+      *  Views and other items
+      *  ---------------------------------------------- */
     UIImageView *_backgroundView;
     NSArray *_optionItems;
     UIView *_anchor;
@@ -58,12 +62,16 @@
 
 + (DGOptionsDropdown *)sharedInstance;
 
-//Main action
+/* ----------------------------------------------
+ *  Main actions
+ *  ---------------------------------------------- */
 - (void)slideOptionsWithDuration:(double)duration;
 - (void)addOptionItems:(NSArray*)optionItems;
 - (void)refreshOptionsView;
 
-//Setting properties
+/* ----------------------------------------------
+ *  Property settings
+ *  ---------------------------------------------- */
 - (void)setItemHeight:(CGFloat)itemHeight withPrimaryHeight:(CGFloat)primaryItemHeight leftItemInset:(CGFloat)leftItemInset;
 
 @end
