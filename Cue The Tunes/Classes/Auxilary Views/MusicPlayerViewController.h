@@ -84,6 +84,7 @@
 - (void)registerForNotifications;
 - (void)unregisterForNotifications;
 - (void)handle_PlaybackStateChanged:(id)notification;
+- (void)handle_CurrentlyPlayingSongChanged:(id)notification;
 
 - (void)resetIdleTimer;
 - (void)resetMusicPlayer;

@@ -49,7 +49,7 @@
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
     DLog(@"Audio session created and activated");
-    [[MPMusicPlayerController applicationMusicPlayer] stop];
+    [[MPMusicPlayerController iPodMusicPlayer] stop];
     
     /* -------------------------------------------------------------
       *  Create global option items for vibration and accelerometer

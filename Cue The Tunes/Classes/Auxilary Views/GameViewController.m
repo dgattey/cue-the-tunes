@@ -52,7 +52,7 @@
 
 - (void)viewDidLoad {    
     //Make the music player real
-    self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+    self.musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     [self registerForNotifications];
     
     //If the user indicated they wanted to continue the game, load the remaining questions
@@ -362,7 +362,7 @@
         randNum = arc4random() % (numQuestions);
         self.questionLabel.text = [self.questionArray objectAtIndex:randNum];
         
-        [self.nextQuestionLabel setText:@"Next Question"];
+        [self.nextQuestionLabel setText:@"Next Prompt"];
         [self.chooseSongButton setEnabled:YES];
         setDefaultStyleUsingLabel(self.chooseSongLabel);
         [self.chooseSongLabel setFont:interstateBold(13.5)];

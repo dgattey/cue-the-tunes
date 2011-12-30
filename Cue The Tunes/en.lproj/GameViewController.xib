@@ -67,6 +67,7 @@
 						<string key="NSFrame">{{0, 368}, {320, 92}}</string>
 						<reference key="NSSuperview" ref="816635984"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:541</string>
 						<float key="IBUIAlpha">0.0</float>
 						<int key="IBUIContentMode">6</int>
@@ -121,13 +122,14 @@
 						<string key="NSFrame">{{97, 284}, {126, 40}}</string>
 						<reference key="NSSuperview" ref="816635984"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="574160081"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Next Question</string>
+						<string key="IBUIText">Next Prompt</string>
 						<reference key="IBUITextColor" ref="83930659"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>

@@ -306,7 +306,7 @@
 }
 
 - (void)resetMusicPlayer {
-    self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+    self.musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
     [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
 }
@@ -316,9 +316,12 @@
         [self.musicPlayer pause];
         [self setPlayPauseButtonImage:@"Play"enabled:YES];
     }
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+    else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
         [self.musicPlayer play];
         [self setPlayPauseButtonImage:@"Pause" enabled:YES];
+    }
+    else {
+        [self.musicPlayer pause];
     }
 }
 
@@ -355,20 +358,28 @@
     }
 }
 
+- (void)handle_CurrentlyPlayingSongChanged:(id)notification {
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted) {
+        [self hideMe:self];
+        [self.musicPlayer stop];
+    }
+}
+
 #pragma mark - MediaPlayerNotifications
 
 - (void)registerForNotifications {
     // Register for music player notifications
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [self.musicPlayer beginGeneratingPlaybackNotifications];
     
-    [notificationCenter addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handle_CurrentlyPlayingSongChanged:) name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
 }
 
 - (void)unregisterForNotifications {
     [self.musicPlayer endGeneratingPlaybackNotifications];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
 }
 
 @end

@@ -26,17 +26,23 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InstructionsViewController : UIViewController
-{
+@interface InstructionsViewController : UIViewController {
     FXLabel *_titleLabelInstructions;
     FXLabel *_backButtonLabel;
     UIButton *_backButton;
+    UIScrollView *_scrollView;
+    UIPageControl *_pageControl;
+    BOOL pageControlUsed;
 }
 
 @property (nonatomic, strong) IBOutlet FXLabel *titleLabelInstructions;
 @property (nonatomic, strong) IBOutlet FXLabel *backButtonLabel;
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
 
 - (IBAction)doneInstructionsView:(id)sender;
+//- (IBAction)changePage:(id)sender;
+- (void)repositionSubviews:(NSArray *)subviews;
 
 @end
