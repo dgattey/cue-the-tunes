@@ -31,73 +31,55 @@
 
 @synthesize titleLabelAbout = _titleLabelAbout, backButtonLabel = _backButtonLabel, backButton = _backButton, aboutTitleDropdown = _aboutTitleDropdown, textView = _textView, versionLabel = _versionLabel;
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-#pragma mark - Actions
-
-- (IBAction)doneAboutView:(id)sender {
-    [self animateTitleOutWithDuration:0.3];
-}
-
-- (void)animateTitleInWithDuration:(double )duration {    
-    //Move title background down
-    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-        self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y + 66);
-        self.textView.alpha = 1.0;
-    } completion:^ (BOOL finished) {
-    }];
-}
-
-- (void)animateTitleOutWithDuration:(double )duration {
-    //Move title background up
-    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-        self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y -66);
-        self.textView.alpha = 0.0;
-    } completion:^ (BOOL finished) {
-    }];
-    [NSThread sleepForTimeInterval:0.1];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
-#pragma mark - View lifecycle
+/* ------------------------------------ */
+   # pragma mark - View lifecycle
+/* ------------------------------------ */
 
 - (void)viewDidLoad {
+    /* -----------------------------------------------------
+      *  Set default FXLabel styles based both on label and tag
+      *  ----------------------------------------------------- */
     setTitleStyleUsingLabel(self.titleLabelAbout);
     setTitleButtonStyleUsingLabel(self.backButtonLabel);
-    self.textView.alpha = 0.0;
     
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
             if (label.tag == 1) {
-                //Header style
+                /* ---------------
+                       *  Header style
+                       *  --------------- */
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(20)];
             }
-            if (label.tag == 2) {
-                //Subheader style
+            else if (label.tag == 2) {
+                /* ----------------
+                       *  Subheader style
+                       *  ---------------- */
                 setDefaultShadowWithLabel(label);
                 [label setTextColor:customGrayColor];
                 [label setFont:interstateBold(15)];
-                
             }
-            if (label.tag == 3) {
-                //More info
+            else if (label.tag == 3) {
+                /* ---------------
+                       *  More info style
+                       *  --------------- */
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(12)];
                 [label setOversampling:6];
             }
-            if (label.tag == 4) {
-                //Copyright
+            else if (label.tag == 4) {
+                /* ---------------
+                       *  Copyright style
+                       *  --------------- */
                 setDefaultShadowWithLabel(label);
                 [label setTextColor:customGrayColor];
                 [label setFont:interstateBold(9)];
                 [label setOversampling:6];
             }
-            if (label.tag == 5) {
-                //Version label
+            else if (label.tag == 5) {
+                /* ---------------
+                       *  Version style
+                       *  --------------- */
                 setDefaultTextGradientWithLabel(label);
                 [label setFont:interstateRegular(12)];
                 [label setShadowColor:defaultShadowColor];
@@ -106,6 +88,10 @@
         }
     }
     
+    /* -----------------------------------------------------
+      *  Hide the text view and load the version label from prefs
+      *  ----------------------------------------------------- */
+    self.textView.alpha = 0.0;
     [self.versionLabel setText:[[NSString alloc] initWithString:[prefs stringForKey:@"CURRENT_VERSION"]]];
     [self.versionLabel setFont:interstateRegular(12)];
     
@@ -134,8 +120,49 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
+    /* ----------------------------------------------
+      *  Only rotate to portrait orientation
+      *  ---------------------------------------------- */
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+/* ------------------------------------ */
+   # pragma mark - Custom actions
+/* ------------------------------------ */
+
+- (IBAction)doneAboutView:(id)sender {
+    /* ----------------------------------------------
+      *  Animate the title out over 0.3 seconds
+      *  ---------------------------------------------- */
+    [self animateTitleOutWithDuration:0.3];
+}
+
+- (void)animateTitleInWithDuration:(double )duration {    
+    /* ----------------------------------------------
+      *  Fade in text view and drop down the header
+      *  ---------------------------------------------- */
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
+        self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y + 66);
+        self.textView.alpha = 1.0;
+    } completion:^ (BOOL finished) {
+    }];
+}
+
+- (void)animateTitleOutWithDuration:(double )duration {
+    /* ----------------------------------------------
+      *  Fade out text view and slide up the header
+      *  ---------------------------------------------- */
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
+        self.aboutTitleDropdown.center = CGPointMake(self.aboutTitleDropdown.center.x, self.aboutTitleDropdown.center.y -66);
+        self.textView.alpha = 0.0;
+    } completion:^ (BOOL finished) {
+    }];
+    [NSThread sleepForTimeInterval:0.1];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

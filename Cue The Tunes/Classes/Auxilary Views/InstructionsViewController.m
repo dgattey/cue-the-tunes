@@ -29,54 +29,51 @@
 
 @implementation InstructionsViewController
 
-@synthesize titleLabelInstructions = _titleLabelInstructions, backButtonLabel = _backButtonLabel, backButton = _backButton;
-@synthesize scrollView = _scrollView, pageControl = _pageControl;
+@synthesize titleLabelInstructions = _titleLabelInstructions, backButtonLabel = _backButtonLabel, backButton = _backButton, scrollView = _scrollView, pageControl = _pageControl;
 
-#pragma mark - View lifecycle
+/* ------------------------------------ */
+   # pragma mark - View lifecycle
+/* ------------------------------------ */
 
 /* ----------------------------------------------
- *  Sets height and width for scrollView
+ *  Set default height and width for scrollView
  *  ---------------------------------------------- */
 const CGFloat kScrollObjHeight	= 334;
 const CGFloat kScrollObjWidth	= 274;
 
 - (void)viewDidLoad {
+    /* --------------------------------------------------
+      *  Set default FXLabel styles based on label's tag
+      *  Reposition the scrollView subviews for side by side
+      *  Set page control properties
+      *  -------------------------------------------------- */
     setTitleStyleUsingLabel(self.titleLabelInstructions);
     setTitleButtonStyleUsingLabel(self.backButtonLabel);
-    
-    [self repositionSubviews:self.scrollView.subviews];
-    [self.pageControl setCurrentPage:0];
-    [self.pageControl setNumberOfPages:[self.scrollView.subviews count]];
-    
-    //Set label text/style
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
             if (label.tag == 0) {
-                //Default text
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateRegular(14)];
             }
             if (label.tag == 2) {
-                //Larger text
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(19)];
             }
             if (label.tag == 3) {
-                //Largest text
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(22)];
             }
         }
     }    
+    [self repositionSubviews:self.scrollView.subviews];
+    [self.pageControl setCurrentPage:0];
+    [self.pageControl setNumberOfPages:[self.scrollView.subviews count]];
     
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -96,35 +93,36 @@ const CGFloat kScrollObjWidth	= 274;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
+    /* ----------------------------------------------
+      *  Rotate only to portrait
+      *  ---------------------------------------------- */
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - Actions
+/* ------------------------------------ */
+   # pragma mark - Custom methods
+/* ------------------------------------ */
 
 - (IBAction)doneInstructionsView:(id)sender {
+    /* -----------------------------------------------
+      *  When done with the view, pop to the main menu
+      *  ----------------------------------------------- */
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-/* ---------------------------------------- */
-# pragma mark - Methods for buttons
-/* ---------------------------------------- */
-
-/* NOT WORKING CURRENTLY - Scrolls to odd spot on first page
-- (IBAction)changePage:(id)sender    {
- *//* -------------------------------------------------------------
-     *  Scroll to the appropriate page's view with an animation
-     *  Reset bool for pageControl to show it's been used
-    *  ------------------------------------------------------------- *//*
-    [self.scrollView scrollRectToVisible:CGRectOffset(self.scrollView.frame, kScrollObjWidth * self.pageControl.currentPage, 0) animated:YES];
+- (IBAction)changePage:(id)sender {
+    /* -------------------------------------------------------------
+      *  Scroll to the appropriate page's view with an animation
+      *  Reset bool for pageControl to show it's been used
+      *  ------------------------------------------------------------- */
+    [self.scrollView scrollRectToVisible:CGRectMake(kScrollObjWidth * self.pageControl.currentPage, 0, kScrollObjWidth, kScrollObjHeight) animated:YES];
     pageControlUsed = YES;
+    DLog(@"%f", (kScrollObjWidth * self.pageControl.currentPage));
 }
-*/
 
 /* ------------------------------------------------------- */
 # pragma mark - Scroll view delegate (+ more) methods
@@ -132,14 +130,14 @@ const CGFloat kScrollObjWidth	= 274;
 
 - (void)repositionSubviews:(NSArray *)subviews {
 	/* ------------------------------------------------------------------------
-     *  Reposition all subviews of self.scrollView horiontally for imageViews in view
+     *  Reposition all subviews of self.scrollView horizontally for imageViews in view
      *  Recalculate content size of scrollView to compensate
      *  ------------------------------------------------------------------------ */
-	CGFloat currentXLocation = 0;
+	CGFloat currentPage = 0;
 	for (UIView *view in [self.view allSubviews]) {
 		if (view.tag == 2000) {
-			[view setFrame:CGRectOffset(view.frame, currentXLocation, 0)];
-            currentXLocation += (kScrollObjWidth);
+			[view setFrame:CGRectOffset(view.frame, currentPage * kScrollObjWidth, 0)];
+            currentPage = currentPage+1;
         }
     }
     [self.scrollView setContentSize:CGSizeMake(([self.scrollView.subviews count] * kScrollObjWidth), [self.scrollView bounds].size.height)];
