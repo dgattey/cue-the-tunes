@@ -80,7 +80,6 @@
 		752CBB321440162F00EB8368 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B4A46B13AD9D6D00B3CD15 /* AboutViewController.xib */; };
 		752CBB331440162F00EB8368 /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B4A46D13AD9D6D00B3CD15 /* GameViewController.xib */; };
 		752CBB341440162F00EB8368 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B4A46F13AD9D6D00B3CD15 /* MainViewController.xib */; };
-		752CBB351440162F00EB8368 /* Questions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 756EE8AD13AEA4D900C75F78 /* Questions.plist */; };
 		752CBB361440162F00EB8368 /* InstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A8FFA213DFBA880084750F /* InstructionsViewController.xib */; };
 		752CBB371440162F00EB8368 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75802E9513E4833700332C92 /* MainWindow.xib */; };
 		752CBB381440162F00EB8368 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BA815213F9380C0050F518 /* Default.png */; };
@@ -128,7 +127,14 @@
 		752CBB701440162F00EB8368 /* DylanGatteyLoadingImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716C13FA4C2200B9B0A5 /* DylanGatteyLoadingImage@2x.png */; };
 		752CBB711440162F00EB8368 /* DylanGatteyLoadingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716E13FA4D7E00B9B0A5 /* DylanGatteyLoadingImage.png */; };
 		756790F714023BDC009EEE11 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 756790F614023BDC009EEE11 /* AVFoundation.framework */; };
-		756EE8AE13AEA4D900C75F78 /* Questions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 756EE8AD13AEA4D900C75F78 /* Questions.plist */; };
+		7569E76114BBD86100B84A69 /* Note1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75D14BBD86100B84A69 /* Note1.png */; };
+		7569E76214BBD86100B84A69 /* Note1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75D14BBD86100B84A69 /* Note1.png */; };
+		7569E76314BBD86100B84A69 /* Note1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75E14BBD86100B84A69 /* Note1@2x.png */; };
+		7569E76414BBD86100B84A69 /* Note1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75E14BBD86100B84A69 /* Note1@2x.png */; };
+		7569E76514BBD86100B84A69 /* Note2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75F14BBD86100B84A69 /* Note2.png */; };
+		7569E76614BBD86100B84A69 /* Note2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75F14BBD86100B84A69 /* Note2.png */; };
+		7569E76714BBD86100B84A69 /* Note2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E76014BBD86100B84A69 /* Note2@2x.png */; };
+		7569E76814BBD86100B84A69 /* Note2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E76014BBD86100B84A69 /* Note2@2x.png */; };
 		75714B5713B18F39006FC44C /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75714B5413B18F39006FC44C /* AboutViewController.m */; };
 		75714B5813B18F39006FC44C /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75714B5513B18F39006FC44C /* GameViewController.m */; };
 		75760F8914784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -195,6 +201,8 @@
 		758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758E479314953D540012CC6A /* MusicPlayerViewController.m */; };
 		75A3BD2814A18A49000874C7 /* MusicPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A3BD2614A18A49000874C7 /* MusicPlayerViewController.xib */; };
 		75A3BD2914A18A49000874C7 /* MusicPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A3BD2614A18A49000874C7 /* MusicPlayerViewController.xib */; };
+		75A4AFAB14DD00A300064C46 /* Questions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7528819714A2926900AD1505 /* Questions.plist */; };
+		75A4AFAC14DD00A400064C46 /* Questions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7528819714A2926900AD1505 /* Questions.plist */; };
 		75A8FFA113DFBA1C0084750F /* InstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */; };
 		75A8FFA413DFBA880084750F /* InstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A8FFA213DFBA880084750F /* InstructionsViewController.xib */; };
 		75A9308014A2B6D900FF5407 /* HideButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A9307E14A2B6D900FF5407 /* HideButtonNormal.png */; };
@@ -281,11 +289,14 @@
 		750D718613FA508A00B9B0A5 /* DGOptionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGOptionItem.m; sourceTree = "<group>"; };
 		750D718713FA508A00B9B0A5 /* DGOptionsDropdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGOptionsDropdown.h; sourceTree = "<group>"; };
 		750D718813FA508A00B9B0A5 /* DGOptionsDropdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGOptionsDropdown.m; sourceTree = "<group>"; };
-		7528819714A2926900AD1505 /* AllQuestions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = AllQuestions.plist; path = "Cue The Tunes/AllQuestions.plist"; sourceTree = SOURCE_ROOT; };
+		7528819714A2926900AD1505 /* Questions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = Questions.plist; path = "Cue The Tunes/Questions.plist"; sourceTree = SOURCE_ROOT; };
 		752CBB811440162F00EB8368 /* Cue The Tunes Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cue The Tunes Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		752CBB831440163000EB8368 /* Cue The Tunes Beta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Cue The Tunes Beta-Info.plist"; path = "/Users/dgattey/Documents/*Dylan/Dropbox/Apps/Projects/Cue The Tunes Project/Cue The Tunes/Cue The Tunes Beta-Info.plist"; sourceTree = "<absolute>"; };
 		756790F614023BDC009EEE11 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		756EE8AD13AEA4D900C75F78 /* Questions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Questions.plist; path = "Cue The Tunes/Questions.plist"; sourceTree = SOURCE_ROOT; };
+		7569E75D14BBD86100B84A69 /* Note1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note1.png; sourceTree = "<group>"; };
+		7569E75E14BBD86100B84A69 /* Note1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Note1@2x.png"; sourceTree = "<group>"; };
+		7569E75F14BBD86100B84A69 /* Note2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note2.png; sourceTree = "<group>"; };
+		7569E76014BBD86100B84A69 /* Note2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Note2@2x.png"; sourceTree = "<group>"; };
 		75714B4113B188D0006FC44C /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		75714B5113B18F39006FC44C /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		75714B5213B18F39006FC44C /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
@@ -493,6 +504,10 @@
 				750D711A13FA209200B9B0A5 /* TitleBackground@2x.png */,
 				750D711B13FA209200B9B0A5 /* TitleLabel.png */,
 				750D711C13FA209200B9B0A5 /* TitleLabel@2x.png */,
+				7569E75D14BBD86100B84A69 /* Note1.png */,
+				7569E75E14BBD86100B84A69 /* Note1@2x.png */,
+				7569E75F14BBD86100B84A69 /* Note2.png */,
+				7569E76014BBD86100B84A69 /* Note2@2x.png */,
 			);
 			path = "Main Menu";
 			sourceTree = "<group>";
@@ -582,8 +597,7 @@
 			children = (
 				75976E1B13FB9CED00238F79 /* Fonts */,
 				75802E9013E4832900332C92 /* Images */,
-				756EE8AD13AEA4D900C75F78 /* Questions.plist */,
-				7528819714A2926900AD1505 /* AllQuestions.plist */,
+				7528819714A2926900AD1505 /* Questions.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -805,7 +819,6 @@
 				752CBB321440162F00EB8368 /* AboutViewController.xib in Resources */,
 				752CBB331440162F00EB8368 /* GameViewController.xib in Resources */,
 				752CBB341440162F00EB8368 /* MainViewController.xib in Resources */,
-				752CBB351440162F00EB8368 /* Questions.plist in Resources */,
 				752CBB361440162F00EB8368 /* InstructionsViewController.xib in Resources */,
 				752CBB371440162F00EB8368 /* MainWindow.xib in Resources */,
 				752CBB381440162F00EB8368 /* Default.png in Resources */,
@@ -889,6 +902,11 @@
 				757F75CD14A31F1700A2AB53 /* TimeBadge@2x.png in Resources */,
 				75F4B4EB14ABF76200680FE2 /* PromptScreenshot.png in Resources */,
 				75F4B4ED14ABF76200680FE2 /* PromptScreenshot@2x.png in Resources */,
+				7569E76214BBD86100B84A69 /* Note1.png in Resources */,
+				7569E76414BBD86100B84A69 /* Note1@2x.png in Resources */,
+				7569E76614BBD86100B84A69 /* Note2.png in Resources */,
+				7569E76814BBD86100B84A69 /* Note2@2x.png in Resources */,
+				75A4AFAB14DD00A300064C46 /* Questions.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,7 +918,6 @@
 				75B4A47313AD9D6D00B3CD15 /* AboutViewController.xib in Resources */,
 				75B4A47413AD9D6D00B3CD15 /* GameViewController.xib in Resources */,
 				75B4A47513AD9D6D00B3CD15 /* MainViewController.xib in Resources */,
-				756EE8AE13AEA4D900C75F78 /* Questions.plist in Resources */,
 				75A8FFA413DFBA880084750F /* InstructionsViewController.xib in Resources */,
 				75802E9713E4833700332C92 /* MainWindow.xib in Resources */,
 				75BA815313F9380C0050F518 /* Default.png in Resources */,
@@ -984,6 +1001,11 @@
 				757F75CC14A31F1700A2AB53 /* TimeBadge@2x.png in Resources */,
 				75F4B4EA14ABF76200680FE2 /* PromptScreenshot.png in Resources */,
 				75F4B4EC14ABF76200680FE2 /* PromptScreenshot@2x.png in Resources */,
+				7569E76114BBD86100B84A69 /* Note1.png in Resources */,
+				7569E76314BBD86100B84A69 /* Note1@2x.png in Resources */,
+				7569E76514BBD86100B84A69 /* Note2.png in Resources */,
+				7569E76714BBD86100B84A69 /* Note2@2x.png in Resources */,
+				75A4AFAC14DD00A400064C46 /* Questions.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

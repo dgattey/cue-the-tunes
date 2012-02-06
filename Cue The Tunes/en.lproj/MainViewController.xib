@@ -47,7 +47,7 @@
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="328687893"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1009490549"/>
+						<reference key="NSNextKeyView" ref="797229647"/>
 						<string key="NSReuseIdentifierKey">_NS:541</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">6</int>
@@ -56,6 +56,23 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">FullBackground.png</string>
 						</object>
+					</object>
+					<object class="IBUIView" id="797229647">
+						<reference key="NSNextResponder" ref="328687893"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrameSize">{360, 480}</string>
+						<reference key="NSSuperview" ref="328687893"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1009490549"/>
+						<string key="NSReuseIdentifierKey">_NS:196</string>
+						<object class="NSColor" key="IBUIBackgroundColor" id="576359510">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwAA</bytes>
+						</object>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIView" id="376103189">
 						<reference key="NSNextResponder" ref="328687893"/>
@@ -69,10 +86,7 @@
 								<reference key="NSSuperview" ref="376103189"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="52567502"/>
-								<object class="NSColor" key="IBUIBackgroundColor" id="576359510">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MCAwAA</bytes>
-								</object>
+								<reference key="IBUIBackgroundColor" ref="576359510"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUIContentMode">5</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -429,7 +443,7 @@
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="86082077"/>
+				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
@@ -565,6 +579,14 @@
 					<int key="connectionID">193</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">notesView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="797229647"/>
+					</object>
+					<int key="connectionID">196</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showGameView:</string>
 						<reference key="source" ref="309488845"/>
@@ -636,14 +658,9 @@
 							<reference ref="411423994"/>
 							<reference ref="850721275"/>
 							<reference ref="552446429"/>
+							<reference ref="797229647"/>
 						</object>
 						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">72</int>
-						<reference key="object" ref="86082077"/>
-						<reference key="parent" ref="328687893"/>
-						<string key="objectName">Background Image</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">74</int>
@@ -749,6 +766,17 @@
 						<reference key="object" ref="810930051"/>
 						<reference key="parent" ref="411423994"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">72</int>
+						<reference key="object" ref="86082077"/>
+						<reference key="parent" ref="328687893"/>
+						<string key="objectName">Background Image</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">195</int>
+						<reference key="object" ref="797229647"/>
+						<reference key="parent" ref="328687893"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -779,6 +807,7 @@
 					<string>185.IBPluginDependency</string>
 					<string>186.CustomClassName</string>
 					<string>186.IBPluginDependency</string>
+					<string>195.IBPluginDependency</string>
 					<string>39.IBPluginDependency</string>
 					<string>42.IBPluginDependency</string>
 					<string>42.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
@@ -813,6 +842,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -830,7 +860,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">193</int>
+			<int key="maxID">197</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -905,6 +935,7 @@
 							<string>instructionsButton</string>
 							<string>instructionsButtonLabel</string>
 							<string>instructionsButtonView</string>
+							<string>notesView</string>
 							<string>optionsButton</string>
 							<string>optionsButtonLabel</string>
 							<string>optionsButtonView</string>
@@ -921,6 +952,7 @@
 							<string>UIView</string>
 							<string>UIButton</string>
 							<string>FXLabel</string>
+							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIButton</string>
 							<string>FXLabel</string>
@@ -942,6 +974,7 @@
 							<string>instructionsButton</string>
 							<string>instructionsButtonLabel</string>
 							<string>instructionsButtonView</string>
+							<string>notesView</string>
 							<string>optionsButton</string>
 							<string>optionsButtonLabel</string>
 							<string>optionsButtonView</string>
@@ -984,6 +1017,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">instructionsButtonView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">notesView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">

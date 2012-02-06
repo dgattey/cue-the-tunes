@@ -28,7 +28,6 @@
 #import "DGOptionsDropdown.h"
 
 @interface MainViewController : UIViewController {
-    //Main
     UIView *_gameButtonView;
     UIButton *_gameButton;
     FXLabel *_gameButtonLabel;
@@ -44,11 +43,15 @@
     UIImageView *_titleLabel;
     UIImageView *_titleBar;
     
-    //Alert view
+    UIView *_notesView;
+    UIImage *_noteImage1;
+    UIImage *_noteImage2;
+    BOOL noteImageNumber;
+    NSTimer *_spawnTimer;
+    
     DGAlertView *_alertView;
 }
 
-//Main properties
 @property (nonatomic, strong) IBOutlet UIView *gameButtonView;
 @property (nonatomic, strong) IBOutlet UIButton *gameButton;
 @property (nonatomic, strong) IBOutlet FXLabel *gameButtonLabel;
@@ -63,11 +66,13 @@
 @property (nonatomic, strong) IBOutlet FXLabel *aboutButtonLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *titleLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *titleBar;
+@property (nonatomic, strong) IBOutlet UIView *notesView;
+@property (nonatomic, strong) UIImage *noteImage1;
+@property (nonatomic, strong) UIImage *noteImage2;
+@property (nonatomic, strong) NSTimer *spawnTimer;
 
-//Alert view and options view
 @property (nonatomic, strong) DGAlertView *alertView;
 
-//Main methods
 - (IBAction)showGameView:(id)sender;
 - (IBAction)showOptionsDropdown:(id)sender;
 - (IBAction)showInstructionsView:(id)sender;
@@ -75,8 +80,8 @@
 - (void)animateTitleInWithDuration:(double )duration;
 - (void)animateTitleOutWithViewController:(UIViewController *)theViewController withDuration:(double )duration;
 - (void)animateButtonIn:(id)sender;
+- (void)spawnNoteOnTimer;
 
-//Alert view methods
 - (void)alertViewTopBottomTapped:(id)sender;
 - (void)alertViewMiddleButtonTapped:(id)sender;
 - (void)alertViewBottomButtonTapped:(id)sender;

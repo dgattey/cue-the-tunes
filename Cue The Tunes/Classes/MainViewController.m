@@ -29,6 +29,7 @@
 #import "InstructionsViewController.h"
 #import "AboutViewController.h"
 #import "DGAlertView.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @implementation MainViewController
 
@@ -46,20 +47,40 @@
         aboutButtonLabel = _aboutLabel,
         titleLabel = _titleLabel,
         titleBar = _titleBar,
-        alertView = _alertView;
+        alertView = _alertView,
+        notesView = _notesView,
+        noteImage1 = _noteImage1,
+        noteImage2 = _noteImage2,
+        spawnTimer = _spawnTimer;
 
 - (void)didReceiveMemoryWarning {
+    /* --------------------------------------------------
+      *  Invalidate the timer if a memory warning is recieved
+      *  -------------------------------------------------- */
+    [self.spawnTimer invalidate];
     [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - View lifecycle
+/* ------------------------------------ */
+   # pragma mark - View lifecycle
+/* ------------------------------------ */
+
 
 - (void)viewDidLoad {
-    //Setup animation/prefs for title
+    /* -------------------------------------------------------
+      *  Load the two different note images and set bool to begin
+      *  Begin animation in of the title
+      *  ------------------------------------------------------- */
+	self.noteImage1 = [UIImage imageNamed:@"Note1"];
+    self.noteImage2 = [UIImage imageNamed:@"Note2"];
+    noteImageNumber = NO;
     [self animateTitleInWithDuration:0.3];
     
-    //Alert view setup
+    /* ----------------------------------------------
+      *  Create a DGAlertView
+      *  Set properties and titles relative to view
+      *  Set default style for all FXLabels
+      *  ---------------------------------------------- */
     self.alertView = [[DGAlertView alloc] init];
     [self.alertView setupAlertViewWithSender:self];
     [self.alertView setOverlayOpacity:0.4];
@@ -67,33 +88,36 @@
     [self.alertView setMiddleButtonText:@"Continue Game"];
     [self.alertView setBottomButtonText:@"Back"];
     
-    //Set default style for all FXLabels in the view
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
             setDefaultStyleUsingLabel(label);
         }
     }
     
-    //Animate in buttons
+    /* ------------------------------------------------------------------
+      *  Finally, animate in each button, with a progressive delay of 0.15 secs
+      *  ------------------------------------------------------------------ */
     [self performSelector:@selector(animateButtonIn:) withObject:self.gameButtonView afterDelay:0.4];
     [self performSelector:@selector(animateButtonIn:) withObject:self.optionsButtonView afterDelay:0.55];
     [self performSelector:@selector(animateButtonIn:) withObject:self.instructionsButtonView afterDelay:0.7];
     [self performSelector:@selector(animateButtonIn:) withObject:self.aboutButtonView afterDelay:0.85];
     
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    /* --------------------------------------------------------------
+      *  Animate the title in with a 0.3 sec delay
+      *  Make the notes view opaque and set the timer to spawn notes
+      *  Call the global instance to refresh the options view
+      *  -------------------------------------------------------------- */
     [self performSelector:@selector(animateTitleInWithDuration:) withObject:nil afterDelay:0.3];
-    
-    //Options view setup
+    self.notesView.alpha = 1.0;
+    self.spawnTimer = [NSTimer scheduledTimerWithTimeInterval:(0.2) target:self selector:@selector(spawnNoteOnTimer) userInfo:nil repeats:YES];
     [[DGOptionsDropdown sharedInstance] refreshOptionsView];
     
     [super viewWillAppear:animated];
@@ -104,7 +128,10 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	[[DGOptionsDropdown sharedInstance] refreshOptionsView];
+	/* -------------------------------------------------
+      *  Call the global instance to refresh the options view
+      *  ------------------------------------------------- */
+    [[DGOptionsDropdown sharedInstance] refreshOptionsView];
     [super viewWillDisappear:animated];
 }
 
@@ -113,19 +140,30 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
+    /* ----------------------------------------------
+      *  Only allow rotation to portrait orientation
+      *  ---------------------------------------------- */
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Animation
+/* ------------------------------------ */
+   # pragma mark - Animation
+/* ------------------------------------ */
 
-- (void)animateTitleInWithDuration:(double )duration {
-    //If duration hasn't been set (if it's zero), set it to 0.3
+
+- (void)animateTitleInWithDuration:(double)duration {
+    /* ----------------------------------------------
+      *  Method to fade in the title and expand the bar
+      *  Set default duration to 0.3 seconds
+      *  ---------------------------------------------- */
     if (!duration || duration < 0.3) {
         duration = 0.3;
     }
     
-    //Move title background down & fade in title
+    /* -------------------------------------------------------
+      *  With the passed in duration, expand the title background
+      *  Also fade in all buttons and the title label
+      *  ------------------------------------------------------- */
     [UIView animateWithDuration:duration animations:^{
         [self.titleBar setFrame:CGRectMake(0, 0, 320, 76)];
         self.titleLabel.alpha = 1.0;
@@ -134,13 +172,18 @@
         self.instructionsButtonView.alpha = 1.0;
         self.aboutButtonView.alpha = 1.0;
     } completion:^ (BOOL finished) {
-        //Enable Buttons
+        /* ----------------------------------------------
+            *  Once completed, enable all buttons
+            *  ---------------------------------------------- */
         self.gameButton.enabled = YES;
         self.optionsButton.enabled = YES;
         self.instructionsButton.enabled = YES;
         self.aboutButton.enabled = YES;
         
-        //Refresh options view
+        /* -------------------------------------------------
+            *  Call the global instance to refresh the options view
+            *  Set all properties for the options instance
+            *  ------------------------------------------------- */
         [[DGOptionsDropdown sharedInstance] refreshOptionsView];
         [[DGOptionsDropdown sharedInstance] setAnchor:self.titleBar];
         [[DGOptionsDropdown sharedInstance] setOptionsButton:self.optionsButton];
@@ -149,13 +192,20 @@
 }
 
 - (void)animateTitleOutWithViewController:(UIViewController *)theViewController withDuration:(double )duration {    
-    //Disable Buttons
+    /* -------------------------------------------------
+      *  Method to fade out the title and contract the bar
+      *  Disable the buttons to stop multiple calls of method
+      *  ------------------------------------------------- */
     self.gameButton.enabled = NO;
     self.optionsButton.enabled = NO;
     self.instructionsButton.enabled = NO;
     self.aboutButton.enabled = NO;
     
-    //Move title background up & fade out title
+    /* -------------------------------------------------------
+      *  With the passed in duration, contract the title background
+      *  Fade out all buttons, the title label, and the notes view
+      *  Also invalidate the note spawning timer
+      *  ------------------------------------------------------- */
     [UIView animateWithDuration:duration animations:^{
         [self.titleBar setFrame:CGRectMake(0, 0, 320, 42)];
         self.titleLabel.alpha = 0.0;
@@ -163,31 +213,94 @@
         self.optionsButtonView.alpha = 0.0;
         self.instructionsButtonView.alpha = 0.0;
         self.aboutButtonView.alpha = 0.0;
+        [self.notesView setAlpha:0];
+        [self.spawnTimer invalidate];
     } completion:^ (BOOL finished) {
+        /* --------------------------------------------------
+            *  Once completed, push the passed in view controller
+            *  -------------------------------------------------- */
         [self.navigationController pushViewController:theViewController animated:YES];
     }];
 }
 
 - (void)animateButtonIn:(id)sender {
-    UIButton *button = sender;
-    
-    [button setAlpha:0.0];
-    
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^{
-        [button setFrame:CGRectOffset(button.frame, -320, 0)];
-        [button setAlpha:1.0];
-    }completion:^(BOOL finished) {}];
+    /* ----------------------------------------------------------
+      *  Set the alpha of the sender (assuming UIButton) to zero
+      *  Over 0.5 seconds, move it left 320 px (onscreen) and fade in
+      *  ---------------------------------------------------------- */
+    [sender setAlpha:0.0];
+    [UIView animateWithDuration:0.5 animations:^{
+        [sender setFrame:CGRectOffset([sender frame], -320, 0)];
+        [sender setAlpha:1.0];
+    }];   
 }
 
-#pragma mark - Game View
+- (void)spawnNoteOnTimer {
+	/* --------------------------------------------------
+      *  Use the screen width to randomize start and end x
+      *  Randomize a scale, speed, and rotation too
+      *  Scale and speed are between 1.0 and 1.5
+      *  Rotation is between -20° and 20°
+      *  -------------------------------------------------- */
+    int screenWidth = roundf([UIScreen mainScreen].bounds.size.width);
+    int startX = round(random() % screenWidth);
+    int endX = round(random() % screenWidth);
+	double scale = 1 / round(random() % 50) + 1.0f;
+	double speed = 1 / round(random() % 100) + 1.0f;
+    double rotation = round(arc4random() % 40) - 20;
+    DLog(@"Scale: %f, Speed: %f, Rotation: %f", scale, speed, rotation);
+    
+    /* ---------------------------------------------------------------
+      *  Create note view, with image either double or single eighth notes
+      *  Set frame based on startX and screen height + 40
+      *  Set transformation with the scale
+      *  Add the new note to the notes view
+      *  --------------------------------------------------------------- */
+    __block UIImageView* noteView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, [UIScreen mainScreen].bounds.size.height+ 40, 20, 20)];
+    if (noteImageNumber) {
+        [noteView setImage:self.noteImage1];
+    }
+    else {
+        [noteView setImage:self.noteImage2];   
+    }
+    noteImageNumber = !noteImageNumber;
+    noteView.transform = CGAffineTransformScale(noteView.transform, scale, scale);
+	noteView.alpha = 0.5;
+	[self.notesView addSubview:noteView];
+    
+    /* -----------------------------------------------------
+      *  Fade out note over 9*speed sec, with a 2.8 sec delay
+      *  Rotate and move note to endX over 12*speed sec
+      *  Destroy view once finished
+      *  ----------------------------------------------------- */
+    [UIView animateWithDuration:9*speed delay:2.8 options:UIViewAnimationCurveEaseIn animations:^{
+        noteView.alpha = 0;
+    }completion:^(BOOL finished) {}];
+    
+	[UIView animateWithDuration:12*speed delay:0 options:UIViewAnimationCurveEaseIn animations:^{
+        noteView.transform = CGAffineTransformRotate(CGAffineTransformTranslate(noteView.transform, endX+startX-screenWidth, -[UIScreen mainScreen].bounds.size.height - 40), rotation / 180.0f * M_PI);
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [noteView removeFromSuperview];
+            noteView = nil;
+        }
+    }];
+}
+
+/* ------------------------------------ */
+   # pragma mark - Button methods
+/* ------------------------------------ */
 
 - (IBAction)showGameView:(id)sender {
-    //Zeros out bools for new or saved game
-    
+    /* ---------------------------------------------------------------------
+      *  Method to show the game view from click on play button
+      *  Set the continue and new game bools to no
+      *  If there's a game already, display DGAlertView and hide buttons
+      *  Otherwise, just assume the top button was tapped, and start new game
+      *  --------------------------------------------------------------------- */
     [prefs setBool:NO forKey:@"NEW_GAME"];
     [prefs setBool:NO forKey:@"CONTINUE_GAME"];
     
-    //And display the DGAlertView if there's a game to continue, otherwise just continue with a new game
     if ([prefs valueForKey:@"CURRENT_QUESTION"]) {
         [self.alertView displayAlertViewWithDelay:0.3];
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
@@ -203,15 +316,41 @@
     }
 }
 
-#pragma mark - Options View
-
 - (IBAction)showOptionsDropdown:(id)sender {
+    /* -------------------------------------------------
+      *  Method to show or hide the DGOptionsDropdown
+      *  Call global instance to slide the options up or down
+      *  ------------------------------------------------- */
     [[DGOptionsDropdown sharedInstance] slideOptionsWithDuration:0.3];
 }
 
+- (IBAction)showInstructionsView:(id)sender {
+    /* ----------------------------------------------------------------------
+      *  Method to show the instructions view from a tap on the button
+      *  Create a view controller and animate the title out with it (custom method)
+      *  ---------------------------------------------------------------------- */
+    InstructionsViewController *instructionsViewController = [[InstructionsViewController alloc] initWithNibName:@"InstructionsViewController" bundle:nil];
+    [self animateTitleOutWithViewController:instructionsViewController withDuration:0.3];    
+}
 
-#pragma mark Alert View
+- (IBAction)showAboutView:(id)sender {
+    /* ----------------------------------------------------------------------
+      *  Method to show the about view from a tap on the button
+      *  Create a view controller and animate the title out with it (custom method)
+      *  ---------------------------------------------------------------------- */
+    AboutViewController *aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+    [self animateTitleOutWithViewController:aboutViewController withDuration:0.3];
+}
+
+/* ----------------------------------------------- */
+   # pragma mark - DGAlertView delegate methods
+/* ----------------------------------------------- */
+
 - (void)willChangeValueForKey:(NSString *)key {
+    /* ----------------------------------------------
+      *  Listen for KVC of DGAlertView keys
+      *  Based on button tapped, call relative method
+      *  ---------------------------------------------- */
     if (key == @"DGAlertViewTopButtonTapped") {
         [self alertViewTopBottomTapped:self];
     }
@@ -224,33 +363,39 @@
 }
 
 - (void)alertViewTopBottomTapped:(id)sender {    
-    //Start new game    
+    /* ---------------------------------------------------------------------------
+      *  Called to begin a new game
+      *  Set appropriate bools and nil the current question/hide the alert view if needed
+      *  Animate the title out with a game view controller
+      *  --------------------------------------------------------------------------- */
     [prefs setBool:YES forKey:@"NEW_GAME"];
     [prefs setBool:NO forKey:@"CONTINUE_GAME"];
-    
-    //If there is a value for the current question, dismiss the alert view since that signifies the alert view was shown, and clear the value
     if ([prefs valueForKey:@"CURRENT_QUESTION"]) {
         [self.alertView dismissAlertView];
         [prefs setValue:nil forKey:@"CURRENT_QUESTION"];
     }
-    
-    //Init a game view controller and call animateTitleOut
     GameViewController *gameViewController = [[GameViewController alloc] initWithNibName:@"GameViewController" bundle:nil];
     [self animateTitleOutWithViewController:gameViewController withDuration:0.3];
 }
 
 - (void)alertViewMiddleButtonTapped:(id)sender {
-    //Continue game
+    /* -----------------------------------------------
+      *  Called to continue the game
+      *  Set appropriate bools and hide the alert view
+      *  Animate the title out with a game view controller
+      *  ----------------------------------------------- */
     [prefs setBool:YES forKey:@"CONTINUE_GAME"];
     [prefs setBool:NO forKey:@"NEW_GAME"];
     [self.alertView dismissAlertView];
-    
-    //Init a game view controller and call animateTitleOut
     GameViewController *gameViewController = [[GameViewController alloc] initWithNibName:@"GameViewController" bundle:nil];
     [self animateTitleOutWithViewController:gameViewController withDuration:0.3];
 }
 
 - (void)alertViewBottomButtonTapped:(id)sender {
+    /* ----------------------------------------------
+      *  Called to cancel and hide the alert view
+      *  Dismiss the alert view, then animate buttons in
+      *  ---------------------------------------------- */
     [self.alertView dismissAlertView];
     [UIView animateWithDuration:0.2 delay:0.3 options:UIViewAnimationCurveEaseInOut animations:^{
         self.gameButtonView.alpha = 1.0;
@@ -260,22 +405,4 @@
     } completion:^ (BOOL finished) {}];
 }
 
-#pragma mark - Instructions View
-
-- (IBAction)showInstructionsView:(id)sender {
-    InstructionsViewController *instructionsViewController = [[InstructionsViewController alloc] initWithNibName:@"InstructionsViewController" bundle:nil];
-    
-    //Custom method to animate the title and push view controller given
-    [self animateTitleOutWithViewController:instructionsViewController withDuration:0.3];    
-}
-
-#pragma mark - About View
-
-- (IBAction)showAboutView:(id)sender {
-    AboutViewController *aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-    
-    //Custom method to animate the title and push view controller given
-    [self animateTitleOutWithViewController:aboutViewController withDuration:0.3];
-}
-
-@end
+ @end

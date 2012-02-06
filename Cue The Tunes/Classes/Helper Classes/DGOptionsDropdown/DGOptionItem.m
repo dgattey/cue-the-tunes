@@ -32,7 +32,10 @@
 @synthesize itemTitleText = _itemTitleText, itemDetailText = _itemDetailText;
 
 - (id)initOptionWithTitle:(NSString*)titleText withDetail:(NSString*)detailText {
-	if ((self = [super init])) 
+	/* -----------------------------------------------------------------------------
+      *  Takes the passed in title and detail text and sets those properties on the object
+      *  ----------------------------------------------------------------------------- */
+    if ((self = [super init])) 
 	{
 		self.itemTitleText = titleText;
 		self.itemDetailText = detailText;

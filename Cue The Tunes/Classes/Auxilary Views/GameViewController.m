@@ -39,94 +39,90 @@
         backButtonLabel = _backButtonLabel,
         optionsButton = _optionsButton,
         optionsButtonLabel = _optionsButtonLabel,
-        questionsLeft = _questionsLeft,
         questionLabel = _questionLabel,
         musicNotes = _musicNotes,
         optionsTopBarBackground = _optionsTopBarBackground,
         questionArray = _questionArray,
-        musicPlayer = _musicPlayer,
-        musicCollection = _musicCollection,
-        mediaItem = _mediaItem;
+        musicPlayer = _musicPlayer;
 
-#pragma mark - View lifecycle
+/* -------------------------------------- */
+   # pragma mark - View lifecycle
+/* -------------------------------------- */
 
 - (void)viewDidLoad {    
-    //Make the music player real
+    /* ----------------------------------------------
+      *  Make the music player the iPodMusicPlayer
+      *  Register for music notifications, etc.
+      *  ---------------------------------------------- */
     self.musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     [self registerForNotifications];
     
-    //If the user indicated they wanted to continue the game, load the remaining questions
+    /* -----------------------------------------------------
+      *  If the game should be continued:
+      *  Set the current question from prefs
+      *  Fill the question array with the RemainingQuestions file
+      *  Count the number of questions and set bools to no
+      *  ----------------------------------------------------- */
     if ([prefs boolForKey:@"CONTINUE_GAME"]) {
-        [prefs setBool:NO forKey:@"NEW_GAME"];
         self.questionLabel.text = [prefs  valueForKey:@"CURRENT_QUESTION"];
-        
-        //Get the file and set self.questionArray to its contents
-        NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [docPaths objectAtIndex:0];
-        NSString *docPath = [documentsDirectory stringByAppendingPathComponent:@"RemainingQuestions.plist"];
-        self.questionArray = [[NSMutableArray alloc] initWithContentsOfFile:docPath];
-        
+        self.questionArray = [[NSMutableArray alloc] initWithContentsOfFile:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"RemainingQuestions.plist"]];
         numQuestions = [self.questionArray count];
-        
-        //Get total number of questions and save it
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"];
-        NSArray *tempArray =  [NSArray arrayWithContentsOfFile:path];
-        [prefs setInteger:[tempArray count] forKey:@"TOTAL_NUMBER_QUESTIONS"];
-        
-        //Refresh the question number label
-        [self refreshQuestionNumberLabel];
-        
-        //Set bool to no for continue game or not
         [prefs setBool:NO forKey:@"CONTINUE_GAME"];
+        [prefs setBool:NO forKey:@"NEW_GAME"];
     }
     
-    //Or, if starting from scratch, load 'Questions.plist' from the bundle and display a question
+    /* --------------------------------------------------
+      *  Or, if starting a new game:
+      *  Fill the question array with the Questions file
+      *  Update the question text with a random one
+      *  Count the number of questions and set bools to no
+      *  Fade out the currently playing media
+      *  -------------------------------------------------- */
     if ([prefs boolForKey:@"NEW_GAME"]) {
-        [prefs setBool:NO forKey:@"CONTINUE_GAME"];
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"];
-        NSArray *array =  [NSArray arrayWithContentsOfFile:path];
-        self.questionArray = [[NSMutableArray alloc] initWithArray:array];
+        self.questionArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"]]];
         numQuestions = [self.questionArray count];
         [self updateQuestionText:self];
-        
-        //Fade out current song
+        [prefs setBool:NO forKey:@"CONTINUE_GAME"];
+        [prefs setBool:NO forKey:@"NEW_GAME"];
         [[AVAudioSession sharedInstance] setActive:YES error:nil];
         [self.musicPlayer stop];
-        
-        //Save total number of questions
-        [prefs setInteger:[array count] forKey:@"TOTAL_NUMBER_QUESTIONS"];
-        
-        //Refresh the question number label
-        [self refreshQuestionNumberLabel];
-        [prefs setBool:NO forKey:@"NEW_GAME"];
     }
     
-    //Sets FXLabel styles
+    /* ----------------------------------------------
+      *  Set FXLabel styles based on label's tag
+      *  ---------------------------------------------- */
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
             if (label.tag == 0) {
-                //Question label + buttons
+                /* ------------------------------------
+                       *  Question label as well as the buttons
+                       *  ------------------------------------ */
                 setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(13.5)];
             }
             if (label.tag == 1) {
-                //Title buttons
+                /* --------------
+                       *  Title buttons
+                       *  -------------- */
                 setTitleButtonStyleUsingLabel(label);
             }
             if (label.tag == 2) {
-                //TItle label
+                /* ------------
+                       *  Title label
+                       *  ------------ */
                 setTitleStyleUsingLabel(label);
             }
-            if (label.tag == 3) {
-                //Questions left
-                [label setFont:interstateRegular(16)];
-                [label setTextColor:customGrayColor];
-                setDefaultShadowWithLabel(label)
-            }
         }
-    }    
+    }
+    
+    /* -----------------------------------------------
+      *  Set the question label's style just based on font
+      *  ----------------------------------------------- */
     [self.questionLabel setFont:interstateRegular(21)];
     
+    /* --------------------------------------------------
+      *  Based on playback state, set the option button text
+      *  -------------------------------------------------- */
     if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped || self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted) {
         self.optionsButtonLabel.text = @"Options";
     }
@@ -142,9 +138,10 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {    
-    /* ----------------------------------------------
-     *  Setup current options view
-     *  ---------------------------------------------- */
+    /* -------------------------------------------------
+      *  Call the global instance to refresh the options view
+      *  Set all properties for the options instance too
+      *  ------------------------------------------------- */
     [[DGOptionsDropdown sharedInstance] refreshOptionsView];
     [[DGOptionsDropdown sharedInstance] setAnchor:self.optionsTopBarBackground];
     [[DGOptionsDropdown sharedInstance] setOptionsButton:self.optionsButton];
@@ -154,30 +151,34 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+    /* ----------------------------------------------
+      *  Fade in the corner music notes
+      *  ---------------------------------------------- */
     [UIView animateWithDuration:0.4 animations:^{
         self.musicNotes.alpha = 1.0;
     }];
-    
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {    
+    /* ----------------------------------------------
+      *  Fade out the corner music notes
+      *  ---------------------------------------------- */
     [UIView animateWithDuration:0.2 animations:^{
         self.musicNotes.alpha = 1.0;
     }];
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {  
-    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
+    /* ----------------------------------------------
+      *  Only allow rotation to portrait orientation
+      *  ---------------------------------------------- */
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
@@ -185,44 +186,69 @@
    # pragma mark - Accelerometer
 /* ------------------------------------ */
 - (BOOL)canBecomeFirstResponder {
+    /* ----------------------------------------------
+      *  Allow accelerometer to return results
+      *  ---------------------------------------------- */
     return YES;
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-	/* ------------------------------------------------------
-     *  Helper method to go to the next question for a shake
-     *  ------------------------------------------------------ */
+	/* ------------------------------------------------------------------
+      *  For a shake with the accelerometer enabled, show the next question
+      *  ------------------------------------------------------------------ */
     if (event.type == UIEventSubtypeMotionShake && [prefs boolForKey:@"OPTION_ACCELEROMETER"]) {
-        [self performSelector:@selector(showNextQuestion:) withObject:nil];
+        [self showNextQuestion:nil];
 	}
 }
 
-
-#pragma mark - View Actions
+/* --------------------------------------- */
+   # pragma mark - Hiding/showing views
+/* --------------------------------------- */
 
 - (IBAction)doneGameView:(id)sender {
+    /* ----------------------------------------------
+      *  For a tap on the back button, pop to main menu
+      *  ---------------------------------------------- */
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-#pragma mark - Options
+- (void)showNowPlayingViewController:(id)sender {
+    /* --------------------------------------------------------------
+      *  Create a musicPlayerController and present it modally with a flip
+      *  -------------------------------------------------------------- */
+    MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
+    [playerController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self presentModalViewController:playerController animated:YES];
+}
 
 - (IBAction)showOptionsViewFromGameView:(id)sender {
+    /* ---------------------------------------------------------------------
+      *  Based on playback state, show the options view or the music controller
+      *  --------------------------------------------------------------------- */
     if (self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted || self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
-        //Show the options dropdown
+        /* -----------------------------------------------
+            *  If stopped or interrupted, slide down the options
+            *  ----------------------------------------------- */
         [[DGOptionsDropdown sharedInstance] slideOptionsWithDuration:0.3];
     }
     else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        
-    //Show the now playing view controller
-    [self showNowPlayingViewController:self];
+        /* ----------------------------------------------------
+            *  Otherwise, if paused or playing, show the music view
+            *  ---------------------------------------------------- */
+        [self showNowPlayingViewController:self];
     }
 }
 
-#pragma mark - Music Actions
+/* --------------------------------------------- */
+   # pragma mark - Music and playback methods
+/* --------------------------------------------- */
 
 - (IBAction)chooseSong:(id)sender {    
+    /* ----------------------------------------------------------
+      *  When choosing a song, stop the music and present a picker
+      *  ---------------------------------------------------------- */
     [self.musicPlayer stop];
-    
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
     [picker setDelegate:self];
     [self presentModalViewController:picker animated:YES];
@@ -230,30 +256,27 @@
 
 - (void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)collection {
     [self dismissModalViewControllerAnimated:NO];
-    
-    //Set the music collection to be the just picked song, queue it up, and play it
-    self.musicCollection = collection;
-    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
+    /* --------------------------------------------------------
+      *  When media items have been picked:
+      *  Queue the music player to the just picked song and play it
+      *  Present the music player controller
+      *  -------------------------------------------------------- */
+    [self.musicPlayer setQueueWithItemCollection:collection];
     [self.musicPlayer play];
-    
-    //Present a musicPlayerViewController & update the options button to show now playing
     [self showNowPlayingViewController:self];
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
-    [self dismissModalViewControllerAnimated: YES];
+    /* ----------------------------------------------
+      *  Hide the media picker view
+      *  ---------------------------------------------- */
+    [self dismissModalViewControllerAnimated:YES];
 }
-         
-- (void)showNowPlayingViewController:(id)sender {
-    MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
-    [playerController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-    [self setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-    [self presentModalViewController:playerController animated:YES];
-}
-
-# pragma mark - Media Playback info
 
 - (void)handle_PlaybackStateChanged:(id)notification {
+    /* ----------------------------------------------------------------
+      *  Based on the changed playback state, set the options button text
+      *  ---------------------------------------------------------------- */
     if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
         self.optionsButtonLabel.text = @"Playing";
     }
@@ -263,122 +286,96 @@
 }
 
 - (void)registerForNotifications {
-    // Register for music player notifications
+    /* ----------------------------------------------------
+      *  Register for music player notifications & add observer
+      *  ---------------------------------------------------- */
     [self.musicPlayer beginGeneratingPlaybackNotifications];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
 }
 
 - (void)unregisterForNotifications {
+    /* -----------------------------------------------------------
+      *  Unregister for music player notifications & remove observer
+      *  ----------------------------------------------------------- */
     [self.musicPlayer endGeneratingPlaybackNotifications];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
 }
 
-
-#pragma mark - Questions
+/* ------------------------------------ */
+   # pragma mark - Questions
+/* ------------------------------------ */
 
 - (IBAction)showNextQuestion:(id)sender {    
+    /* ----------------------------------------------
+      *  For when the next question button is tapped
+      *  Vibrate device if that preference is enabled
+      *  ---------------------------------------------- */
     if ([prefs boolForKey:@"OPTION_VIBRATION"]) {
         AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
     }
     
-    //Refresh the question number label
-    [self refreshQuestionNumberLabel];
-    
-    //Stop the music
+    /* ------------------------------------------------------------------
+      *  Stop the music and if no questions, reload them and update the text
+      *  ------------------------------------------------------------------ */
     [self.musicPlayer stop];
-    
-    //If there are no questions, reload Questions.plist and update the text
     if (numQuestions == 0) {
         self.questionArray = nil;
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"];
-        NSArray *array =  [NSArray arrayWithContentsOfFile:path];
-        self.questionArray = [[NSMutableArray alloc] initWithArray:array];        
+        self.questionArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"]]];        
         [self updateQuestionText:self];
     }
     
-    //Otherwise, update the text only
-    else {
+    /* -------------------------------------------------
+      *  If there are still questions left, just update the text
+      *  ------------------------------------------------- */
+    else if (numQuestions > 0) {
         [self updateQuestionText:self];
     }
     
-    //Disable for a bit
+    /* ----------------------------------------------
+      *  Disable the next question button for 0.5 secs
+      *  ---------------------------------------------- */
     [self.nextQuestionButton setEnabled:NO];
     [self resignFirstResponder];
     [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(enableNextQuestionButton:)userInfo:nil repeats:NO];
 }
 
 - (void)enableNextQuestionButton:(id)sender {
+    /* ----------------------------------------------
+      *  Enable the next question button
+      *  ---------------------------------------------- */
     [self becomeFirstResponder];
     self.nextQuestionButton.enabled = YES;
 }
 
-- (void)refreshQuestionNumberLabel {    
-    //By doing this only when it's not zero, you prevent "Question 59 of 58"
-    if (![self.questionArray count] == 0) {
-        //Sets the number of the question you're on into a string
-        NSString *firstNumber = [[NSString alloc] init];
-        
-        //For continuing or new game, just use the count
-        if ([prefs boolForKey:@"CONTINUE_GAME"] || [prefs boolForKey:@"NEW_GAME"]) {
-            firstNumber = [NSString stringWithFormat:@"%i", ([prefs integerForKey:@"TOTAL_NUMBER_QUESTIONS"] - [self.questionArray count])];
-        }
-        
-        //If not a continued or new game, add one to make sequential
-        if (![prefs boolForKey:@"NEW_GAME"] && ![prefs boolForKey:@"CONTINUE_GAME"]) {
-            firstNumber = [NSString stringWithFormat:@"%i", ([prefs integerForKey:@"TOTAL_NUMBER_QUESTIONS"] - [self.questionArray count] + 1)];
-        }
-        
-        //Does the same thing for the total number of questions
-        NSString *secondNumber = [NSString stringWithFormat:@"%i",[prefs integerForKey:@"TOTAL_NUMBER_QUESTIONS"]];
-        
-        //Sets the question label to "Question _ of _" with the strings from before
-        [self.questionsLeft setText:[@"Question " stringByAppendingString:[firstNumber stringByAppendingString:[@" of " stringByAppendingString:secondNumber]]]]; 
-    }
-}
-
 - (void)updateQuestionText:(id)sender {
-    
+    /* -------------------------------------------------------------------
+      *  Method to update the question text
+      *  If no questions left, recount number of questions/nil current question
+      *  ------------------------------------------------------------------- */
     if (numQuestions == 0) {
-        self.questionLabel.text = nil;
-        self.questionLabel.text = @"No more questions! Start a new game below.";
-        self.questionsLeft.text = nil;
-        
-        [self.nextQuestionLabel setText:@"New Game"];
-        [self.chooseSongButton setEnabled:NO];
-        self.chooseSongLabel = nil;
-        self.chooseSongLabel = [[FXLabel alloc] init];
-        self.chooseSongLabel.text = @"Choose Song";
-        [self.chooseSongLabel setTextColor:customGrayColor];
-        
         numQuestions = [self.questionArray count];
-        
         [prefs setValue:nil forKey:@"CURRENT_QUESTION"];
     }
-    else {        
-        self.questionLabel.text = nil;
-        int randNum;
-        randNum = arc4random() % (numQuestions);
-        self.questionLabel.text = [self.questionArray objectAtIndex:randNum];
-        
-        [self.nextQuestionLabel setText:@"Next Prompt"];
-        [self.chooseSongButton setEnabled:YES];
-        setDefaultStyleUsingLabel(self.chooseSongLabel);
-        [self.chooseSongLabel setFont:interstateBold(13.5)];
-        
-        //Save current question
-        [prefs setValue:[self.questionArray objectAtIndex:randNum] forKey:@"CURRENT_QUESTION"];        
-        
-        [self.questionArray removeObjectAtIndex:randNum];
-        numQuestions = [self.questionArray count];
-        
-        //Save remaining questions to file
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"RemainingQuestions.plist"];
-        [self.questionArray writeToFile:path atomically:YES];
-    }
+    
+    /* ----------------------------------------------------------------
+      *  Remove the current text
+      *  Take a question at a random index and make it the new question
+      *  Enable the choose song button
+      *  ---------------------------------------------------------------- */
+    self.questionLabel.text = nil;
+    int randNum = arc4random() % (numQuestions);
+    self.questionLabel.text = [self.questionArray objectAtIndex:randNum];
+    [self.chooseSongButton setEnabled:YES];
+    
+    /* -----------------------------------------------------------
+      *  Save the random question to prefs for use later
+      *  Remove it from the question array and recount the questions
+      *  Save the remaining questions to a plist for later loading
+      *  ----------------------------------------------------------- */
+    [prefs setValue:[self.questionArray objectAtIndex:randNum] forKey:@"CURRENT_QUESTION"];        
+    [self.questionArray removeObjectAtIndex:randNum];
+    numQuestions = [self.questionArray count];
+    [self.questionArray writeToFile:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"RemainingQuestions.plist"] atomically:YES];
 }
 
 @end

@@ -375,11 +375,11 @@ static DGOptionsDropdown *sharedInstance = nil;
 }
 
 - (void)refreshOptionsView {    
-    /* -----------------------------------------------------------------------------------------
-     *  Ugly code, but it gets the job done. Call it when viewDid or WillAppear in a presenting view
+    /* -------------------------------------------------------------------------------------------
+     *  Ugly code, but it gets the job done. Call it when viewDid or viewWillAppear in a presenting view
      *  Find all FXLabels and UISwitches in self and if the label tag is the same as the switch's tag:
      *  Use the bool in NSUserDefaults to set the switch the appropriate value
-     *  ------------------------------------------------------------------------------------------ */
+     *  -------------------------------------------------------------------------------------------- */
     for (FXLabel *label in [self allSubviews]) {
         for (UISwitch *aSwitch in [self allSubviews]) {
             if ([label isKindOfClass:[FXLabel class]] && [aSwitch isKindOfClass:[UISwitch class]] && aSwitch.tag == label.tag) {

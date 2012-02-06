@@ -37,18 +37,12 @@
     FXLabel *_backButtonLabel;
     UIButton *_optionsButton;
     FXLabel *_optionsButtonLabel;
-    FXLabel *_questionsLeft;
     FXLabel *_questionLabel;
-    
     UIImageView *_musicNotes;
-    
     UIImageView *_optionsTopBarBackground;
-    
     NSMutableArray *_questionArray;
     NSUInteger numQuestions;
     MPMusicPlayerController *_musicPlayer;
-    MPMediaItemCollection *_musicCollection;
-    MPMediaItem *_mediaItem;
 }
 
 @property (nonatomic, strong) IBOutlet FXLabel *titleLabelGame;
@@ -61,29 +55,19 @@
 @property (nonatomic, strong) IBOutlet FXLabel *backButtonLabel;
 @property (nonatomic, strong) IBOutlet UIButton *optionsButton;
 @property (nonatomic, strong) IBOutlet FXLabel *optionsButtonLabel;
-@property (nonatomic, strong) IBOutlet FXLabel *questionsLeft;
 @property (nonatomic, strong) IBOutlet FXLabel *questionLabel;
-
 @property (nonatomic, strong) IBOutlet UIImageView *musicNotes;
-
 @property (nonatomic, strong) IBOutlet UIImageView *optionsTopBarBackground;
-
 @property (strong) NSMutableArray *questionArray;
 @property (strong) MPMusicPlayerController *musicPlayer;
-@property (strong) MPMediaItemCollection *musicCollection;
-@property (strong) MPMediaItem *mediaItem;
 
 - (IBAction)doneGameView:(id)sender;
 - (IBAction)chooseSong:(id)sender;
-- (void)refreshQuestionNumberLabel;
-
 - (void)showNowPlayingViewController:(id)sender;
-
 - (IBAction)showOptionsViewFromGameView:(id)sender;
 - (IBAction)showNextQuestion:(id)sender;
 - (void)enableNextQuestionButton:(id)sender;
 - (void)updateQuestionText:(id)sender;
-
 - (void)handle_PlaybackStateChanged:(id)notification;
 - (void)registerForNotifications;
 
