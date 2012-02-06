@@ -44,9 +44,7 @@
     UIButton *_optionsButton;
     FXLabel *_hideButtonLabel;
     UIButton *_hideButton;
-    
     UIImageView *_optionsTopBarBackground;
-
     NSTimer *_timer;
     NSTimer *_timePopupTimer;
     BOOL sliding;
@@ -69,9 +67,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *optionsButton;
 @property (nonatomic, strong) IBOutlet FXLabel *hideButtonLabel;
 @property (nonatomic, strong) IBOutlet UIButton *hideButton;
-
 @property (nonatomic, strong) IBOutlet UIImageView *optionsTopBarBackground;
-
 @property (strong) NSTimer *timer;
 @property (strong) NSTimer *timePopupTimer;
 
@@ -80,20 +76,16 @@
 - (IBAction)sliderTouchesBegun:(id)sender;
 - (void)updateSliderTime:(NSTimer *)timer;
 - (void)convertTime;
-
 - (void)registerForNotifications;
 - (void)unregisterForNotifications;
 - (void)handle_PlaybackStateChanged:(id)notification;
 - (void)handle_CurrentlyPlayingSongChanged:(id)notification;
-
-- (void)resetIdleTimer;
 - (void)resetMusicPlayer;
 - (void)showTimePopup;
 - (void)hideTimePopupWithDelay:(float)delay;
 - (void)updateTimePopupPosition;
 - (IBAction)playPauseMusic:(id)sender;
 - (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled;
-
 - (IBAction)showOptionsViewFromGameView:(id)sender;
 
 @end
