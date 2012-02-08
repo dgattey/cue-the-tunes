@@ -56,7 +56,6 @@
 		750D716F13FA4D7E00B9B0A5 /* DylanGatteyLoadingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716E13FA4D7E00B9B0A5 /* DylanGatteyLoadingImage.png */; };
 		750D717413FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717313FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m */; };
 		750D718913FA508A00B9B0A5 /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717713FA508A00B9B0A5 /* AutoScrollLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		750D718E13FA508A00B9B0A5 /* DGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718313FA508A00B9B0A5 /* DGAlertView.m */; };
 		750D718F13FA508A00B9B0A5 /* DGOptionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718613FA508A00B9B0A5 /* DGOptionItem.m */; };
 		750D719013FA508A00B9B0A5 /* DGOptionsDropdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718813FA508A00B9B0A5 /* DGOptionsDropdown.m */; };
 		752CBB181440162F00EB8368 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B4A43113AD9C5B00B3CD15 /* main.m */; };
@@ -66,7 +65,6 @@
 		752CBB1C1440162F00EB8368 /* InstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A8FF9F13DFBA1C0084750F /* InstructionsViewController.m */; };
 		752CBB1D1440162F00EB8368 /* Cue_The_TunesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717313FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m */; };
 		752CBB1E1440162F00EB8368 /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D717713FA508A00B9B0A5 /* AutoScrollLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		752CBB231440162F00EB8368 /* DGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718313FA508A00B9B0A5 /* DGAlertView.m */; };
 		752CBB241440162F00EB8368 /* DGOptionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718613FA508A00B9B0A5 /* DGOptionItem.m */; };
 		752CBB251440162F00EB8368 /* DGOptionsDropdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 750D718813FA508A00B9B0A5 /* DGOptionsDropdown.m */; };
 		752CBB291440162F00EB8368 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B4A42513AD9C5B00B3CD15 /* UIKit.framework */; };
@@ -221,6 +219,8 @@
 		75B4A47C13AD9E2B00B3CD15 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75B4A47B13AD9E2B00B3CD15 /* MediaPlayer.framework */; };
 		75BA815313F9380C0050F518 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BA815213F9380C0050F518 /* Default.png */; };
 		75BA815513F9380F0050F518 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BA815413F9380F0050F518 /* Default@2x.png */; };
+		75C4E6EF14E21C1200632561 /* DGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C4E6EE14E21C1200632561 /* DGAlertView.m */; };
+		75C4E6F014E21C1200632561 /* DGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C4E6EE14E21C1200632561 /* DGAlertView.m */; };
 		75E9CCD914A1614B006DD74E /* ActionSheetBlueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E9CCD714A1614B006DD74E /* ActionSheetBlueButton.png */; };
 		75E9CCDA14A1614B006DD74E /* ActionSheetBlueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E9CCD714A1614B006DD74E /* ActionSheetBlueButton.png */; };
 		75E9CCDB14A1614B006DD74E /* ActionSheetBlueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E9CCD814A1614B006DD74E /* ActionSheetBlueButton@2x.png */; };
@@ -283,8 +283,6 @@
 		750D717313FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Cue_The_TunesAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		750D717613FA508A00B9B0A5 /* AutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoScrollLabel.h; sourceTree = "<group>"; };
 		750D717713FA508A00B9B0A5 /* AutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoScrollLabel.m; sourceTree = "<group>"; };
-		750D718213FA508A00B9B0A5 /* DGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGAlertView.h; sourceTree = "<group>"; };
-		750D718313FA508A00B9B0A5 /* DGAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGAlertView.m; sourceTree = "<group>"; };
 		750D718513FA508A00B9B0A5 /* DGOptionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGOptionItem.h; sourceTree = "<group>"; };
 		750D718613FA508A00B9B0A5 /* DGOptionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGOptionItem.m; sourceTree = "<group>"; };
 		750D718713FA508A00B9B0A5 /* DGOptionsDropdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGOptionsDropdown.h; sourceTree = "<group>"; };
@@ -357,6 +355,8 @@
 		75B4A47B13AD9E2B00B3CD15 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		75BA815213F9380C0050F518 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../../Default.png; sourceTree = "<group>"; };
 		75BA815413F9380F0050F518 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../../Default@2x.png"; sourceTree = "<group>"; };
+		75C4E6EE14E21C1200632561 /* DGAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGAlertView.m; path = "Cue The Tunes/Classes/Helper Classes/DGAlertView/DGAlertView.m"; sourceTree = SOURCE_ROOT; };
+		75C4E6F214E21C1B00632561 /* DGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGAlertView.h; path = "Cue The Tunes/Classes/Helper Classes/DGAlertView/DGAlertView.h"; sourceTree = SOURCE_ROOT; };
 		75E9CCD714A1614B006DD74E /* ActionSheetBlueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionSheetBlueButton.png; sourceTree = "<group>"; };
 		75E9CCD814A1614B006DD74E /* ActionSheetBlueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ActionSheetBlueButton@2x.png"; sourceTree = "<group>"; };
 		75F2AEA714A262C400C73E58 /* UIView+Recursion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Recursion.h"; path = "Cue The Tunes/Classes/Helper Classes/UIView+Recursion/UIView+Recursion.h"; sourceTree = SOURCE_ROOT; };
@@ -573,8 +573,8 @@
 		750D718113FA508A00B9B0A5 /* DGAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				750D718213FA508A00B9B0A5 /* DGAlertView.h */,
-				750D718313FA508A00B9B0A5 /* DGAlertView.m */,
+				75C4E6F214E21C1B00632561 /* DGAlertView.h */,
+				75C4E6EE14E21C1200632561 /* DGAlertView.m */,
 			);
 			name = DGAlertView;
 			path = "Cue The Tunes/Classes/Helper Classes/DGActionSheet";
@@ -1039,12 +1039,12 @@
 				752CBB1C1440162F00EB8368 /* InstructionsViewController.m in Sources */,
 				752CBB1D1440162F00EB8368 /* Cue_The_TunesAppDelegate.m in Sources */,
 				752CBB1E1440162F00EB8368 /* AutoScrollLabel.m in Sources */,
-				752CBB231440162F00EB8368 /* DGAlertView.m in Sources */,
 				752CBB241440162F00EB8368 /* DGOptionItem.m in Sources */,
 				752CBB251440162F00EB8368 /* DGOptionsDropdown.m in Sources */,
 				75760F8A14784FF3003403E1 /* FXLabel.m in Sources */,
 				758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */,
 				75F2AEAA14A262C500C73E58 /* UIView+Recursion.m in Sources */,
+				75C4E6F014E21C1200632561 /* DGAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,12 +1059,12 @@
 				75A8FFA113DFBA1C0084750F /* InstructionsViewController.m in Sources */,
 				750D717413FA4EA200B9B0A5 /* Cue_The_TunesAppDelegate.m in Sources */,
 				750D718913FA508A00B9B0A5 /* AutoScrollLabel.m in Sources */,
-				750D718E13FA508A00B9B0A5 /* DGAlertView.m in Sources */,
 				750D718F13FA508A00B9B0A5 /* DGOptionItem.m in Sources */,
 				750D719013FA508A00B9B0A5 /* DGOptionsDropdown.m in Sources */,
 				75760F8914784FF3003403E1 /* FXLabel.m in Sources */,
 				758E479414953D540012CC6A /* MusicPlayerViewController.m in Sources */,
 				75F2AEA914A262C400C73E58 /* UIView+Recursion.m in Sources */,
+				75C4E6EF14E21C1200632561 /* DGAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1187,8 +1187,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
+				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1209,8 +1209,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
+				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1227,8 +1227,8 @@
 				INFOPLIST_FILE = "Cue The Tunes/Cue The Tunes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
+				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1244,8 +1244,8 @@
 				INFOPLIST_FILE = "Cue The Tunes/Cue The Tunes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5E22C2B6-C591-48EA-AB33-4ED6CAE885CE";
+				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
