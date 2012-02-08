@@ -114,11 +114,13 @@
       *  Animate the title in with a 0.3 sec delay
       *  Make the notes view opaque and set the timer to spawn notes
       *  Call the global instance to refresh the options view
+      *  Add observer to refresh the notes view when foreground
       *  -------------------------------------------------------------- */
     [self performSelector:@selector(animateTitleInWithDuration:) withObject:nil afterDelay:0.3];
     self.notesView.alpha = 1.0;
     self.spawnTimer = [NSTimer scheduledTimerWithTimeInterval:(0.2) target:self selector:@selector(spawnNoteOnTimer) userInfo:nil repeats:YES];
     [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshNotesView) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     [super viewWillAppear:animated];
 }
@@ -130,8 +132,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	/* -------------------------------------------------
       *  Call the global instance to refresh the options view
+      *  Remove observer
       *  ------------------------------------------------- */
     [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }
 
@@ -144,6 +148,16 @@
       *  Only allow rotation to portrait orientation
       *  ---------------------------------------------- */
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)refreshNotesView {
+    /* ----------------------------------------------
+      *  Refreshes the notes view to prevent pause
+      *  ---------------------------------------------- */
+    self.notesView.alpha = 0;
+    [UIView animateWithDuration:0.4 animations:^{
+        self.notesView.alpha = 1;
+    }];
 }
 
 /* ------------------------------------ */

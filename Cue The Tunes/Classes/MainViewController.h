@@ -42,13 +42,11 @@
     FXLabel *_aboutButtonLabel;
     UIImageView *_titleLabel;
     UIImageView *_titleBar;
-    
     UIView *_notesView;
     UIImage *_noteImage1;
     UIImage *_noteImage2;
     BOOL noteImageNumber;
     NSTimer *_spawnTimer;
-    
     DGAlertView *_alertView;
 }
 
@@ -70,7 +68,6 @@
 @property (nonatomic, strong) UIImage *noteImage1;
 @property (nonatomic, strong) UIImage *noteImage2;
 @property (nonatomic, strong) NSTimer *spawnTimer;
-
 @property (nonatomic, strong) DGAlertView *alertView;
 
 - (IBAction)showGameView:(id)sender;
@@ -81,7 +78,7 @@
 - (void)animateTitleOutWithViewController:(UIViewController *)theViewController withDuration:(double )duration;
 - (void)animateButtonIn:(id)sender;
 - (void)spawnNoteOnTimer;
-
+- (void)refreshNotesView;
 - (void)alertViewTopBottomTapped:(id)sender;
 - (void)alertViewMiddleButtonTapped:(id)sender;
 - (void)alertViewBottomButtonTapped:(id)sender;
