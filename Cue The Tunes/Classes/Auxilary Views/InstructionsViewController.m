@@ -51,16 +51,14 @@ const CGFloat kScrollObjWidth	= 274;
     setTitleButtonStyleUsingLabel(self.backButtonLabel);
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
+            setDefaultStyleUsingLabel(label);
             if (label.tag == 0) {
-                setDefaultStyleUsingLabel(label);
                 [label setFont:interstateRegular(14)];
             }
             if (label.tag == 2) {
-                setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(19)];
             }
             if (label.tag == 3) {
-                setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(22)];
             }
         }

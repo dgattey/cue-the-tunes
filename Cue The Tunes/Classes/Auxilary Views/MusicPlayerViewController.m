@@ -147,6 +147,11 @@
         self.currentlyPlayingArtworkView.alpha = 1.0;
         self.currentlyPlayingTimeSlider.alpha = 1.0;
         self.playPauseButton.alpha = 1.0;
+    }completion:^(BOOL finished) {
+        if (finished) {
+            [self showTimePopup];
+            self.timePopupTimer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(hideTimePopupWithDelay:) userInfo:nil repeats:NO];
+        }
     }];
 }
 
