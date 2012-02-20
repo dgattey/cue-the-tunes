@@ -29,7 +29,7 @@
 
 @implementation InstructionsViewController
 
-@synthesize titleLabelInstructions = _titleLabelInstructions, backButtonLabel = _backButtonLabel, backButton = _backButton, scrollView = _scrollView, pageControl = _pageControl;
+@synthesize titleLabelInstructions = _titleLabelInstructions, backButtonLabel = _backButtonLabel, backButton = _backButton, scrollView = _scrollView, pageControl = _pageControl, arrowLeft = _arrowLeft, arrowRight = _arrowRight;
 
 /* ------------------------------------ */
    # pragma mark - View lifecycle
@@ -51,18 +51,20 @@ const CGFloat kScrollObjWidth	= 274;
     setTitleButtonStyleUsingLabel(self.backButtonLabel);
     for (FXLabel *label in [self.view allSubviews]) {
         if ([label isKindOfClass:[FXLabel class]]) {
-            setDefaultStyleUsingLabel(label);
             if (label.tag == 0) {
+                setDefaultStyleUsingLabel(label);
                 [label setFont:interstateRegular(14)];
             }
             if (label.tag == 2) {
+                setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(19)];
             }
             if (label.tag == 3) {
+                setDefaultStyleUsingLabel(label);
                 [label setFont:interstateBold(22)];
             }
         }
-    }    
+    }
     [self repositionSubviews:self.scrollView.subviews];
     [self.pageControl setCurrentPage:0];
     [self.pageControl setNumberOfPages:[self.scrollView.subviews count]];
@@ -120,6 +122,24 @@ const CGFloat kScrollObjWidth	= 274;
     [self.scrollView scrollRectToVisible:CGRectMake(kScrollObjWidth * self.pageControl.currentPage, 0, kScrollObjWidth, kScrollObjHeight) animated:YES];
     pageControlUsed = YES;
     DLog(@"%f", (kScrollObjWidth * self.pageControl.currentPage));
+    [self changeAlphaArrows];
+}
+
+- (void)changeAlphaArrows {
+    /* --------------------------------------------------------------
+      *  Change alpha so that the arrows are correctly enabled/disabled
+      *  -------------------------------------------------------------- */
+    self.arrowLeft.alpha = 1;
+    self.arrowRight.alpha = 1;
+    if (self.pageControl.currentPage == 0) {
+        self.arrowLeft.alpha = 0.5;
+        self.arrowRight.alpha = 1;
+    }
+    else if (self.pageControl.currentPage == 2) {
+        self.arrowRight.alpha = 0.5;
+        self.arrowLeft.alpha = 1;
+    }
+    DLog();
 }
 
 /* ------------------------------------------------------- */
@@ -154,6 +174,7 @@ const CGFloat kScrollObjWidth	= 274;
      *  ------------------------------------------------------------------------- */
     int page = floor((self.scrollView.contentOffset.x - kScrollObjWidth / 2) / kScrollObjWidth) + 1;
     self.pageControl.currentPage = page;
+    [self changeAlphaArrows];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {

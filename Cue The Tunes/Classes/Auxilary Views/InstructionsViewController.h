@@ -32,6 +32,8 @@
     UIButton *_backButton;
     UIScrollView *_scrollView;
     UIPageControl *_pageControl;
+    UIImageView *_arrowRight;
+    UIImageView *_arrowLeft;
     BOOL pageControlUsed;
 }
 
@@ -40,9 +42,12 @@
 @property (nonatomic, strong) IBOutlet UIButton *backButton;
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
+@property (nonatomic, strong) IBOutlet UIImageView *arrowRight;
+@property (nonatomic, strong) IBOutlet UIImageView *arrowLeft;
 
 - (IBAction)doneInstructionsView:(id)sender;
-//- (IBAction)changePage:(id)sender;
+- (IBAction)changePage:(id)sender;
+- (void)changeAlphaArrows;
 - (void)repositionSubviews:(NSArray *)subviews;
 
 @end
