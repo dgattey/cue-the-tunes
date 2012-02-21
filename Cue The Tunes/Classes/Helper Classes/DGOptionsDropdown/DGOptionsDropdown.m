@@ -108,7 +108,8 @@
     setOptionsDetailStyleUsingLabel(detailLabel)
     [detailLabel setText:optionItem.itemDetailText];
     
-    UISwitch *aSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.bounds.origin.x + kOptionItemLeftInset + 176, self.bounds.size.height + self.bounds.origin.y - 2, aSwitch.frame.size.width, aSwitch.frame.size.height)];
+    UISwitch *aSwitch = [[UISwitch alloc] init];
+    [aSwitch setFrame:CGRectOffset(aSwitch.frame, self.bounds.origin.x + kOptionItemLeftInset + 176, self.bounds.size.height + self.bounds.origin.y - 2)];
     [aSwitch setUserInteractionEnabled:YES];
     [aSwitch setTag:numberOfOptionItems];
     [aSwitch addTarget:self action:@selector(optionsToggled:) forControlEvents:UIControlEventValueChanged];
