@@ -287,11 +287,11 @@
       *  Rotate and move note to endX over 12*speed sec
       *  Destroy view once finished
       *  ----------------------------------------------------- */
-    [UIView animateWithDuration:9*speed delay:2.8 options:UIViewAnimationCurveEaseIn animations:^{
+    [UIView animateWithDuration:9*speed delay:2.8 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         noteView.alpha = 0;
     }completion:^(BOOL finished) {}];
     
-	[UIView animateWithDuration:12*speed delay:0 options:UIViewAnimationCurveEaseIn animations:^{
+	[UIView animateWithDuration:12*speed delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         noteView.transform = CGAffineTransformRotate(CGAffineTransformTranslate(noteView.transform, endX+startX-screenWidth, -[UIScreen mainScreen].bounds.size.height - 40), rotation / 180.0f * M_PI);
     } completion:^(BOOL finished) {
         if (finished) {

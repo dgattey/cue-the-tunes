@@ -69,7 +69,6 @@
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil]];
     self.navigationController.navigationBarHidden = YES;
     self.window.rootViewController = self.navigationController;
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
     [self.window makeKeyAndVisible];
     
 	return YES;
