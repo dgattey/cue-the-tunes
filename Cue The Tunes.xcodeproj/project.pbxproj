@@ -135,8 +135,8 @@
 		7569E76814BBD86100B84A69 /* Note2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E76014BBD86100B84A69 /* Note2@2x.png */; };
 		75714B5713B18F39006FC44C /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75714B5413B18F39006FC44C /* AboutViewController.m */; };
 		75714B5813B18F39006FC44C /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75714B5513B18F39006FC44C /* GameViewController.m */; };
-		75760F8914784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		75760F8A14784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		75760F8914784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; };
+		75760F8A14784FF3003403E1 /* FXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 75760F8814784FF3003403E1 /* FXLabel.m */; };
 		757F759614A31F1700A2AB53 /* ArtworkBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 757F757A14A31F1700A2AB53 /* ArtworkBackground.png */; };
 		757F759714A31F1700A2AB53 /* ArtworkBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 757F757A14A31F1700A2AB53 /* ArtworkBackground.png */; };
 		757F759814A31F1700A2AB53 /* ArtworkBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 757F757B14A31F1700A2AB53 /* ArtworkBackground@2x.png */; };
