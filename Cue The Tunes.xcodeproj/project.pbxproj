@@ -124,6 +124,8 @@
 		752CBB6F1440162F00EB8368 /* OptionsBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716813FA4BFA00B9B0A5 /* OptionsBackground@2x.png */; };
 		752CBB701440162F00EB8368 /* DylanGatteyLoadingImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716C13FA4C2200B9B0A5 /* DylanGatteyLoadingImage@2x.png */; };
 		752CBB711440162F00EB8368 /* DylanGatteyLoadingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 750D716E13FA4D7E00B9B0A5 /* DylanGatteyLoadingImage.png */; };
+		75577EC114FC84C4005E18CF /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 75577EC014FC84C4005E18CF /* UIDevice+Hardware.m */; };
+		75577EC214FC84C4005E18CF /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 75577EC014FC84C4005E18CF /* UIDevice+Hardware.m */; };
 		756790F714023BDC009EEE11 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 756790F614023BDC009EEE11 /* AVFoundation.framework */; };
 		7569E76114BBD86100B84A69 /* Note1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75D14BBD86100B84A69 /* Note1.png */; };
 		7569E76214BBD86100B84A69 /* Note1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7569E75D14BBD86100B84A69 /* Note1.png */; };
@@ -306,6 +308,8 @@
 		7528819714A2926900AD1505 /* Questions.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = Questions.plist; path = "Cue The Tunes/Questions.plist"; sourceTree = SOURCE_ROOT; };
 		752CBB811440162F00EB8368 /* Cue The Tunes Beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cue The Tunes Beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		752CBB831440163000EB8368 /* Cue The Tunes Beta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Cue The Tunes Beta-Info.plist"; path = "/Users/dgattey/Documents/*Dylan/Dropbox/Apps/Projects/Cue The Tunes Project/Cue The Tunes/Cue The Tunes Beta-Info.plist"; sourceTree = "<absolute>"; };
+		75577EBF14FC84C4005E18CF /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+Hardware.h"; path = "Cue The Tunes/Classes/Helper Classes/UIDevice+Hardware/UIDevice+Hardware.h"; sourceTree = SOURCE_ROOT; };
+		75577EC014FC84C4005E18CF /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+Hardware.m"; path = "Cue The Tunes/Classes/Helper Classes/UIDevice+Hardware/UIDevice+Hardware.m"; sourceTree = SOURCE_ROOT; };
 		756790F614023BDC009EEE11 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7569E75D14BBD86100B84A69 /* Note1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note1.png; sourceTree = "<group>"; };
 		7569E75E14BBD86100B84A69 /* Note1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Note1@2x.png"; sourceTree = "<group>"; };
@@ -624,6 +628,15 @@
 			path = "Cue The Tunes/Classes/Helper Classes/DGOptionsDropdown";
 			sourceTree = SOURCE_ROOT;
 		};
+		75577EBE14FC847A005E18CF /* UIDevice+Hardware */ = {
+			isa = PBXGroup;
+			children = (
+				75577EBF14FC84C4005E18CF /* UIDevice+Hardware.h */,
+				75577EC014FC84C4005E18CF /* UIDevice+Hardware.m */,
+			);
+			name = "UIDevice+Hardware";
+			sourceTree = "<group>";
+		};
 		756EE8AA13ADC39000C75F78 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,6 +759,7 @@
 		75B4A46A13AD9D2D00B3CD15 /* Helper Classes */ = {
 			isa = PBXGroup;
 			children = (
+				75577EBE14FC847A005E18CF /* UIDevice+Hardware */,
 				75F2AEA614A2626900C73E58 /* UIView+Recursion */,
 				750D717513FA508A00B9B0A5 /* AutoScrollLabel */,
 				750D718113FA508A00B9B0A5 /* DGAlertView */,
@@ -1093,6 +1107,7 @@
 				758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */,
 				75F2AEAA14A262C500C73E58 /* UIView+Recursion.m in Sources */,
 				75C4E6F014E21C1200632561 /* DGAlertView.m in Sources */,
+				75577EC214FC84C4005E18CF /* UIDevice+Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,6 +1128,7 @@
 				758E479414953D540012CC6A /* MusicPlayerViewController.m in Sources */,
 				75F2AEA914A262C400C73E58 /* UIView+Recursion.m in Sources */,
 				75C4E6EF14E21C1200632561 /* DGAlertView.m in Sources */,
+				75577EC114FC84C4005E18CF /* UIDevice+Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1190,8 +1206,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DDEBUG=1";
 				PRODUCT_NAME = "Cue The Tunes Beta";
-				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1207,8 +1223,8 @@
 				INFOPLIST_FILE = "Cue The Tunes Beta-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "Cue The Tunes Beta";
-				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1237,8 +1253,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1263,8 +1279,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1281,8 +1297,8 @@
 				INFOPLIST_FILE = "Cue The Tunes/Cue The Tunes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1298,8 +1314,8 @@
 				INFOPLIST_FILE = "Cue The Tunes/Cue The Tunes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E71233FA-7F7E-4C39-819D-83F5FBBF27F6";
+				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

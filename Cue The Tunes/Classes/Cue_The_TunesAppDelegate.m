@@ -27,6 +27,7 @@
 #import "Cue_The_TunesAppDelegate.h"
 #import "MainViewController.h"
 #import "GameViewController.h"
+#import "UIDevice+Hardware.h"
 
 @implementation Cue_The_TunesAppDelegate
 
@@ -59,7 +60,14 @@
     DGOptionItem *vibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device"];
     [[DGOptionsDropdown sharedInstance] setBackgroundView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OptionsBackground"]]];
     [[DGOptionsDropdown sharedInstance] setItemHeight:50 withPrimaryHeight:64 leftItemInset:26];
-    [[DGOptionsDropdown sharedInstance] addOptionItems:[[NSArray alloc] initWithObjects:accelerometer, vibration, nil]];
+    
+    if ([[UIDevice currentDevice].platform rangeOfString:@"iPhone"].location == NSNotFound) {
+        [[DGOptionsDropdown sharedInstance] addOptionItems:[[NSArray alloc] initWithObjects:accelerometer, nil]];
+    }
+    
+    else {
+        [[DGOptionsDropdown sharedInstance] addOptionItems:[[NSArray alloc] initWithObjects:accelerometer, vibration, nil]];
+    }
     
     /* ----------------------------------------------------------------------------------------
       *  Initialize the main view controller as a navigation view controller without the navigation bar

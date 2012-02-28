@@ -315,6 +315,7 @@
     self.musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
     [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
+    DLog(@"Music player reset");
 }
 
 - (IBAction)playPauseMusic:(id)sender {
