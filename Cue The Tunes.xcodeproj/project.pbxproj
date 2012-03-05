@@ -1290,15 +1290,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fred Azinger";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fred Azinger";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cue The Tunes/Cue The Tunes-Prefix.pch";
 				INFOPLIST_FILE = "Cue The Tunes/Cue The Tunes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				PROVISIONING_PROFILE = "859467F5-EF18-4D37-8401-134F16A9AC73";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "859467F5-EF18-4D37-8401-134F16A9AC73";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1307,15 +1307,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fred Azinger";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fred Azinger";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cue The Tunes/Cue The Tunes-Prefix.pch";
 				INFOPLIST_FILE = "Cue The Tunes/Cue The Tunes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				PROVISIONING_PROFILE = "859467F5-EF18-4D37-8401-134F16A9AC73";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "859467F5-EF18-4D37-8401-134F16A9AC73";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
