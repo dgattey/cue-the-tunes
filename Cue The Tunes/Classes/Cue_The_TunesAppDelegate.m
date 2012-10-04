@@ -39,7 +39,7 @@
       *  Create string with version and build number, e.g. "Version 1.0 (23)"
       *  And save the version string to prefs as CURRENT_VERSION
       *  ---------------------------------------------------------------- */
-    [prefs setObject:[[[[[[NSString alloc] initWithString:@"Version "] stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] stringByAppendingString:@" ("] stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] stringByAppendingString:@")"] forKey:@"CURRENT_VERSION"];
+    [prefs setObject:[[[[@"Version " stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]] stringByAppendingString:@" ("] stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] stringByAppendingString:@")"] forKey:@"CURRENT_VERSION"];
     DLog(@"%@", [prefs objectForKey:@"CURRENT_VERSION"]);
     
     /* ----------------------------------------------------------------------------------
