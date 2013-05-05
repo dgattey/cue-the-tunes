@@ -197,6 +197,7 @@
 		757F75CD14A31F1700A2AB53 /* TimeBadge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 757F759514A31F1700A2AB53 /* TimeBadge@2x.png */; };
 		75802E9713E4833700332C92 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75802E9513E4833700332C92 /* MainWindow.xib */; };
 		75802E9913E4835800332C92 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75802E9813E4835800332C92 /* QuartzCore.framework */; };
+		758CA211161D33CE00ACA865 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 758CA210161D33CE00ACA865 /* Default-568h@2x.png */; };
 		758E479414953D540012CC6A /* MusicPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758E479314953D540012CC6A /* MusicPlayerViewController.m */; };
 		758E479514953D540012CC6A /* MusicPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758E479314953D540012CC6A /* MusicPlayerViewController.m */; };
 		75A3BD2814A18A49000874C7 /* MusicPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A3BD2614A18A49000874C7 /* MusicPlayerViewController.xib */; };
@@ -352,6 +353,7 @@
 		757F759514A31F1700A2AB53 /* TimeBadge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TimeBadge@2x.png"; sourceTree = "<group>"; };
 		75802E9613E4833700332C92 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		75802E9813E4835800332C92 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		758CA210161D33CE00ACA865 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		758E479214953D540012CC6A /* MusicPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerViewController.h; sourceTree = "<group>"; };
 		758E479314953D540012CC6A /* MusicPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerViewController.m; sourceTree = "<group>"; };
 		75A3BD2714A18A49000874C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MusicPlayerViewController.xib; sourceTree = "<group>"; };
@@ -689,6 +691,7 @@
 		75B4A41613AD9C5B00B3CD15 = {
 			isa = PBXGroup;
 			children = (
+				758CA210161D33CE00ACA865 /* Default-568h@2x.png */,
 				75B4A42B13AD9C5B00B3CD15 /* Cue The Tunes */,
 				75B4A42413AD9C5B00B3CD15 /* Frameworks */,
 				75B4A42213AD9C5B00B3CD15 /* Products */,
@@ -961,6 +964,7 @@
 				75D23FF314F1D05C00E4938F /* Arrow1.png in Resources */,
 				75D23FF814F1D2D600E4938F /* Arrow2.png in Resources */,
 				75D23FFA14F1D2D600E4938F /* Arrow2@2x.png in Resources */,
+				758CA211161D33CE00ACA865 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,16 +1202,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cue The Tunes/Cue The Tunes-Prefix.pch";
 				INFOPLIST_FILE = "Cue The Tunes Beta-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DDEBUG=1";
 				PRODUCT_NAME = "Cue The Tunes Beta";
-				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1216,15 +1220,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cue The Tunes/Cue The Tunes-Prefix.pch";
 				INFOPLIST_FILE = "Cue The Tunes Beta-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "Cue The Tunes Beta";
-				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1236,8 +1240,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1253,8 +1257,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1266,8 +1270,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dylan Gattey (24AUE9SPJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = "";
@@ -1279,8 +1283,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E3F219E3-5213-4685-A450-CBF377C4DFD6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

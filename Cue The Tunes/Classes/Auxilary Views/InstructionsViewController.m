@@ -158,7 +158,7 @@ const CGFloat kScrollObjWidth	= 274;
             currentPage = currentPage+1;
         }
     }
-    [self.scrollView setContentSize:CGSizeMake(([self.scrollView.subviews count] * kScrollObjWidth), [self.scrollView bounds].size.height)];
+    [self.scrollView setContentSize:CGSizeMake(([self.scrollView.subviews count] * kScrollObjWidth), [self.scrollView frame].size.height)];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {

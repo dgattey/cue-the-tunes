@@ -270,7 +270,7 @@
       *  Set transformation with the scale
       *  Add the new note to the notes view
       *  --------------------------------------------------------------- */
-    __block UIImageView* noteView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, [UIScreen mainScreen].bounds.size.height+ 40, 20, 20)];
+    __block UIImageView* noteView = [[UIImageView alloc] initWithFrame:CGRectMake(startX, [UIScreen mainScreen].bounds.size.height + 40, 20, 20)];
     if (noteImageNumber) {
         [noteView setImage:self.noteImage1];
     }
