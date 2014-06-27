@@ -5,15 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>CueTheTunes</string>
+	<string>Cue Tunes</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon@2x.png</string>
 		<string>Icon.png</string>
+		<string>Icon-72.png</string>
+		<string>Icon-Small-50.png</string>
+		<string>Icon-Small.png</string>
+		<string>Icon-Small@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.gattey-azinger.cuethetunes</string>
@@ -28,15 +30,15 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>537</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Gotham-Medium.ttf</string>
-		<string>Gotham-Bold.ttf</string>
+		<string>InterstateBold.ttf</string>
+		<string>InterstateRegular.ttf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

@@ -152,7 +152,7 @@
 		for (int i = 1; i < NUM_LABELS; ++i){
 			label[i].hidden = NO;
 		}
-		[self scroll];
+		[self performSelector:@selector(scroll) withObject:nil afterDelay:pauseInterval];
 	}else{
 		// Hide the other labels out of view
 		for (int i = 1; i < NUM_LABELS; ++i){
@@ -238,6 +238,13 @@
 - (enum AutoScrollDirection) scrollDirection
 {
 	return scrollDirection;
+}
+
+- (void)dealloc {
+	for (int i=0; i<NUM_LABELS; ++i){
+		[label[i] release];
+	}
+    [super dealloc];
 }
 
 

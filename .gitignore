@@ -4,6 +4,7 @@
 *.perspective 
 *.perspectivev3
 *.pyc 
+*.xcuserstate
 xcuserdata
 *~.nib/
 build/*

@@ -3,778 +3,379 @@
 //  Cue The Tunes
 //
 //  Created by Dylan Gattey on 6/8/11.
-//  Copyright 2011 Gattey/Azinger. All rights reserved.
+//  Copyright (c) 2011 Gattey/Azinger. All rights reserved.
+//  http://dylangattey.com
+//
+//  Redistribution and use in binary and source forms, with or without modification,
+//  are permitted for any project, commercial or otherwise, provided that the
+//  following conditions are met:
+//  
+//  Redistributions in binary form should display the copyright notice in the About
+//  view, website, and/or documentation if possible.
+//  
+//  Redistributions of source code must retain the copyright notice, this list of
+//  conditions, and the following disclaimer.
+//
+//  THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+//  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+//  PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THIS SOFTWARE.
 //
 
 #import "GameViewController.h"
 #import "MainViewController.h"
-#import "OptionsViewController.h"
 
 @implementation GameViewController
 
-@synthesize backgroundView = _backgroundView,
-        playBarView = _playBarView,
-        currentlyPlayingArtworkView = _currentlyPlayingArtworkView,
-        currentlyPlayingArtworkImage = _currentlyPlayingArtworkImage,
-        currentlyPlayingTitle = _currentlyPlayingTitle,
-        currentlyPlayingArtist = _currentlyPlayingArtist,
-        currentlyPlayingAlbum = _currentlyPlayingAlbum,
-        currentlyPlayingTimeSlider = _currentlyPlayingTimeSlider,
-        airPlayButtonView = _airPlayButtonView;
-@synthesize playPauseButton = _playPauseButton,
+@synthesize titleLabelGame= _titleLabelGame,
+        backgroundView = _backgroundView,
         nextQuestionButton = _nextQuestionButton,
+        nextQuestionLabel = _nextQuestionLabel,
         chooseSongButton = _chooseSongButton,
-        questionLabel = _questionLabel,
+        chooseSongLabel = _chooseSongLabel,
         backButton = _backButton,
-        titleLabelGame= _titleLabelGame,
+        backButtonLabel = _backButtonLabel,
         optionsButton = _optionsButton,
-        questionsLeft = _questionsLeft;
-@synthesize optionsTopBarBackground = _optionsTopBarBackground,
-        optionsOverlay = _optionsOverlay,
-        optionsView = _optionsView,
-        optionsAccelerometerSwitch = _optionsAccelerometerSwitch,
-        optionsVibrationSwitch = _optionsVibrationSwitch,
-        optionItemAccelerometer = _optionItemAccelerometer,
-        optionItemVibration = _optionItemVibration;
-@synthesize currentlyPlayingTimeRemainingLabel = _currentlyPlayingTimeRemainingLabel, 
-        currentlyPlayingTimeElapsedLabel = _currentlyPlayingTimeElapsedLabel,
-        minutesString = _minutesString,
-        secondsString = _secondsString,
-        artworkTapGestureRecognizer = _artworkTapGestureRecognizer,
-        backgroundTapGestureRecognizer = _backgroundTapGestureRecognizer;
-@synthesize questionArray = _questionArray,
-        musicPlayer = _musicPlayer,
-        musicCollection = _musicCollection,
-        mediaItem = _mediaItem;
+        optionsButtonLabel = _optionsButtonLabel,
+        questionLabel = _questionLabel,
+        musicNotes = _musicNotes,
+        optionsTopBarBackground = _optionsTopBarBackground,
+        questionArray = _questionArray,
+        musicPlayer = _musicPlayer;
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
+/* -------------------------------------- */
+   # pragma mark - View lifecycle
+/* -------------------------------------- */
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{        
-    //Reset music player
-    [self resetMusicPlayer];
+- (void)viewDidLoad {    
+    /* ----------------------------------------------
+      *  Make the music player the iPodMusicPlayer
+      *  Register for music notifications, etc.
+      *  ---------------------------------------------- */
+    self.musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+    [self registerForNotifications];
     
-    //Moves down the play bar
-    [self slidePlayBarWithDuration:0.01 inDirection:@"down"];
-    
-    //Add tap gesture recognizer to background, but set user interaction to no
-    self.backgroundTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(artworkTapped:)];
-    [self.backgroundView addGestureRecognizer:self.backgroundTapGestureRecognizer];
-    [self.backgroundView setUserInteractionEnabled:NO];
-    
-    //Add tap gesture recognizer to artwork, but set user interaction to no
-    self.artworkTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(artworkTapped:)];
-    [self.currentlyPlayingArtworkView addGestureRecognizer:self.artworkTapGestureRecognizer];
-    [self.currentlyPlayingArtworkView setUserInteractionEnabled:NO];
-    
-    //Register for notifications
-    [self registerForMediaPlayerNotifications];
-    
-    //Library changed stuff
-    libraryChanged = NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryChangedAction:) name:MPMediaLibraryDidChangeNotification object:self.musicPlayer];
-    
-    //Set the MPVolumeView to show only the AirPlay button (Route button) and set to my own larger image
-    [self.airPlayButtonView setShowsRouteButton:YES];
-    [self.airPlayButtonView setShowsVolumeSlider:NO];
-    for (UIButton *button in self.airPlayButtonView.subviews) { //Sizes the button to fit
-        if ([button isKindOfClass:[UIButton class]]) {
-            [button setImage:[UIImage imageNamed:@"AirPlayIconButton"] forState:UIControlStateNormal];
-        }
-    }
-    
-    //Reset options
-    [DGOptionsDropdown resetOptions];
-    
-    //Options views setup
-    self.optionsOverlay = [[UIView alloc] initWithFrame:CGRectZero];
-    self.optionsView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [DGOptionsDropdown setupOptionsViewsWithAnchorView:self.optionsTopBarBackground overlay:self.optionsOverlay optionView:self.optionsView backgroundImage:[UIImage imageNamed:@"OptionsBackground"]];
-    
-    //Add accelerometer item
-    self.optionsAccelerometerSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsAccelerometerSwitch addTarget:self action:@selector(optionsToggledAccelerometer:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemAccelerometer = [[DGOptionItem alloc] initOptionWithTitle:@"Accelerometer" withDetail:@"Shake device for next prompt" withSwitch:self.optionsAccelerometerSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemAccelerometer toView:self.optionsView];
-    
-    //Add Vibrate
-    self.optionsVibrationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-    [self.optionsVibrationSwitch addTarget:self action:@selector(optionsToggledVibration:) forControlEvents:UIControlEventValueChanged];
-    self.optionItemVibration = [[DGOptionItem alloc] initOptionWithTitle:@"Vibration" withDetail:@"Next question vibrates device" withSwitch:self.optionsVibrationSwitch];
-    [DGOptionsDropdown addOptionItem:self.optionItemVibration toView:self.optionsView];
-    
-    //If the user indicated they wanted to continue the game, load the remaining questions
+    /* -----------------------------------------------------
+      *  If the game should be continued:
+      *  Set the current question from prefs
+      *  Fill the question array with the RemainingQuestions file
+      *  Count the number of questions and set bools to no
+      *  ----------------------------------------------------- */
     if ([prefs boolForKey:@"CONTINUE_GAME"]) {
-        [prefs setBool:NO forKey:@"NEW_GAME"];
         self.questionLabel.text = [prefs  valueForKey:@"CURRENT_QUESTION"];
-        
-        //Get the file and set self.questionArray to its contents
-        NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [docPaths objectAtIndex:0];
-        NSString *docPath = [documentsDirectory stringByAppendingPathComponent:@"RemainingQuestions.plist"];
-        self.questionArray = [[NSMutableArray alloc] initWithContentsOfFile:docPath];
-        
+        self.questionArray = [[NSMutableArray alloc] initWithContentsOfFile:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"RemainingQuestions.plist"]];
         numQuestions = [self.questionArray count];
-        
-        //Get total number of questions and save it
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"];
-        NSArray *tempArray =  [NSArray arrayWithContentsOfFile:path];
-        [prefs setInteger:[tempArray count] forKey:@"TOTAL_NUMBER_QUESTIONS"];
-        
-        //Refresh the question number label
-        [self refreshQuestionNumberLabel];
-        
-        //Show song info, etc if playing
-        #ifdef TARGET_OS_IPHONE
-        self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-        if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-            //Setup the info & display
-            [self setupSongInfo];
-            [self displaySongInfoWithDuration:0.01];
-            
-            //Allows the user to show/hide the artwork view
-            [self.currentlyPlayingArtworkView setUserInteractionEnabled:YES];
-            [self.backgroundView setUserInteractionEnabled:YES];
-            
-            //Show the correct button
-            if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-                [self setPlayPauseButtonImage:@"Play" enabled:YES];
-            }
-            
-            if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-                [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-            }
-            
-            //Time
-            [self updateSliderTime:nil];
-        }
-        #endif
-        
-        //Set bool to no for continue game or not
         [prefs setBool:NO forKey:@"CONTINUE_GAME"];
+        [prefs setBool:NO forKey:@"NEW_GAME"];
     }
     
-    //Or, if starting from scratch, load 'Questions.plist' from the bundle and display a question
+    /* --------------------------------------------------
+      *  Or, if starting a new game:
+      *  Fill the question array with the Questions file
+      *  Update the question text with a random one
+      *  Count the number of questions and set bools to no
+      *  Fade out the currently playing media
+      *  -------------------------------------------------- */
     if ([prefs boolForKey:@"NEW_GAME"]) {
-        [prefs setBool:NO forKey:@"CONTINUE_GAME"];
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"];
-        NSArray *array =  [NSArray arrayWithContentsOfFile:path];
-        self.questionArray = [[NSMutableArray alloc] initWithArray:array];
+        self.questionArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"]]];
         numQuestions = [self.questionArray count];
         [self updateQuestionText:self];
-        
-        //Save total number of questions
-        [prefs setInteger:[array count] forKey:@"TOTAL_NUMBER_QUESTIONS"];
-        
-        //Refresh the question number label
-        [self refreshQuestionNumberLabel];
+        [prefs setBool:NO forKey:@"CONTINUE_GAME"];
         [prefs setBool:NO forKey:@"NEW_GAME"];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        [self.musicPlayer stop];
     }
     
-    //Sets Gotham as custom font for all labels
-    [self.titleLabelGame setFont:gothamMedium20];
-    [self.questionsLeft setFont:gothamMedium15];
-    [self.questionLabel setFont:gothamMedium20];
+    /* ----------------------------------------------
+      *  Set FXLabel styles based on label's tag
+      *  ---------------------------------------------- */
+    for (FXLabel *label in [self.view allSubviews]) {
+        if ([label isKindOfClass:[FXLabel class]]) {
+            if (label.tag == 0) {
+                /* ------------------------------------
+                       *  Question label as well as the buttons
+                       *  ------------------------------------ */
+                setDefaultStyleUsingLabel(label);
+                [label setFont:interstateBold(13.5)];
+            }
+            if (label.tag == 1) {
+                /* --------------
+                       *  Title buttons
+                       *  -------------- */
+                setTitleButtonStyleUsingLabel(label);
+            }
+            if (label.tag == 2) {
+                /* ------------
+                       *  Title label
+                       *  ------------ */
+                setTitleStyleUsingLabel(label);
+            }
+        }
+    }
     
-    //Set default styles for AutoScroll title label
-    [self.currentlyPlayingTitle setFont:gothamBold15];
-    self.currentlyPlayingTitle.bufferSpaceBetweenLabels = 24.0;
-    self.currentlyPlayingTitle.scrollSpeed = 19;
-    self.currentlyPlayingTitle.pauseInterval = 3;
-    self.currentlyPlayingTitle.textColor = [UIColor whiteColor];
-    self.currentlyPlayingTitle.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle];
+    /* -----------------------------------------------
+      *  Set the question label's style just based on font
+      *  ----------------------------------------------- */
+    [self.questionLabel setFont:interstateRegular(21)];
     
-    //And artist label
-    [self.currentlyPlayingArtist setFont:gothamMedium12];
-    self.currentlyPlayingArtist.bufferSpaceBetweenLabels = 24.0;
-    self.currentlyPlayingArtist.scrollSpeed = 25;
-    self.currentlyPlayingArtist.pauseInterval = 3;
-    self.currentlyPlayingArtist.textColor = [UIColor whiteColor];
-    self.currentlyPlayingArtist.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist];
-    
-    //And album label
-    [self.currentlyPlayingAlbum setFont:gothamMedium12];
-    self.currentlyPlayingAlbum.bufferSpaceBetweenLabels = 24.0;
-    self.currentlyPlayingAlbum.scrollSpeed = 23;
-    self.currentlyPlayingAlbum.pauseInterval = 3;
-    self.currentlyPlayingAlbum.textColor = [UIColor whiteColor];
-    self.currentlyPlayingAlbum.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle];
-    
-    //Set up reflection using custom ReflectionView
-    [self.currentlyPlayingArtworkView setDynamic:YES];
-    [self.currentlyPlayingArtworkView setOpaque:YES];
-    [self.currentlyPlayingArtworkView setExclusiveTouch:YES];
-    [self.currentlyPlayingArtworkView setReflectionAlpha:0.25];
-    [self.currentlyPlayingArtworkView setReflectionGap:3];
-    [self.currentlyPlayingArtworkView setReflectionScale:0.28];
-    
-    //Set default image
-    [self.currentlyPlayingArtworkImage setImage:[UIImage imageNamed:@"NoArtworkImage"]];
-    
-    //Setup images for UISlider (for song progress)
-    [self.currentlyPlayingTimeSlider setThumbImage: [UIImage imageNamed:@"SliderThumb"] forState:UIControlStateNormal];
-    [self.currentlyPlayingTimeSlider setMinimumTrackImage:[[UIImage imageNamed:@"SliderBlueTrack"] stretchableImageWithLeftCapWidth:3.0 topCapHeight:0.0] forState:UIControlStateNormal];
-    [self.currentlyPlayingTimeSlider setMaximumTrackImage:[[UIImage imageNamed:@"SliderWhiteTrack"] stretchableImageWithLeftCapWidth:3.0 topCapHeight:0.0] forState:UIControlStateNormal];
+    /* --------------------------------------------------
+      *  Based on playback state, set the option button text
+      *  -------------------------------------------------- */
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped || self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted) {
+        self.optionsButtonLabel.text = @"Options";
+    }
+    else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        self.optionsButtonLabel.text = @"Playing";
+    }
     
     [super viewDidLoad];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:0.5];
-    [[UIAccelerometer sharedAccelerometer] setDelegate:self];
-	[self becomeFirstResponder];
-    
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemAccelerometer withOverlay:self.optionsOverlay];
-    [DGOptionsDropdown refreshOptionView:self.optionsView withOptionItem:self.optionItemVibration withOverlay:self.optionsOverlay];
-    
+- (void)viewWillAppear:(BOOL)animated {    
+    /* -------------------------------------------------
+      *  Call the global instance to refresh the options view
+      *  Set all properties for the options instance too
+      *  ------------------------------------------------- */
+    [[DGOptionsDropdown sharedInstance] refreshOptionsView];
+    [[DGOptionsDropdown sharedInstance] setAnchor:self.optionsTopBarBackground];
+    [[DGOptionsDropdown sharedInstance] setOptionsButton:self.optionsButton];
+    [[DGOptionsDropdown sharedInstance] setOptionsButtonLabel:self.optionsButtonLabel];
+    [[DGOptionsDropdown sharedInstance] setViewsToHide:[[NSArray alloc] initWithObjects:self.backButton, self.backButtonLabel, nil]];
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
+    /* ----------------------------------------------
+      *  Fade in the corner music notes
+      *  ---------------------------------------------- */
+    [UIView animateWithDuration:0.4 animations:^{
+        self.musicNotes.alpha = 1.0;
+    }];
+    
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-	[self resignFirstResponder];    
+- (void)viewWillDisappear:(BOOL)animated {    
+    /* ----------------------------------------------
+      *  Fade out the corner music notes
+      *  ---------------------------------------------- */
+    [UIView animateWithDuration:0.2 animations:^{
+        self.musicNotes.alpha = 1.0;
+    }];
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{    
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    /* ----------------------------------------------
+      *  Only allow rotation to portrait orientation
+      *  ---------------------------------------------- */
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - View Actions
-
-- (IBAction)doneGameView:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"TITLE_NEEDS_ANIMATION"];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-#pragma mark - Options
-
-- (IBAction)showOptionsViewFromGameView:(id)sender
-{
-    self.currentlyPlayingArtworkView.dynamic = NO;
-    [DGOptionsDropdown 
-        slideOptionsWithDuration:0.3
-        viewController:self 
-        anchorView:self.optionsTopBarBackground
-        theOptionsView:self.optionsView
-        overlay:self.optionsOverlay
-        backgroundImage:[UIImage imageNamed:@"OptionsBackground"]
-        overlayAmount:0.6
-        optionsButton:self.optionsButton
-        backButton:self.backButton];
-    
-    //Tap gesture recognizers so that anywhere onscreen minus the options view itself will close the options view
-    UITapGestureRecognizer *overlayTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    UITapGestureRecognizer *topBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(overlayTapped:)];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OPTIONS_HIDDEN"]) {
-        [self.optionsOverlay addGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = YES;
-        [self.optionsTopBarBackground addGestureRecognizer:topBarTapGestureRecognizer];
-    }
-    else {
-        [self.optionsOverlay removeGestureRecognizer:overlayTapGestureRecognizer];
-        self.optionsTopBarBackground.userInteractionEnabled = NO;
-        [self.optionsTopBarBackground removeGestureRecognizer:topBarTapGestureRecognizer];
-    }
-
-}
-
-- (void)optionsToggledAccelerometer:(id)sender
-{
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsAccelerometerSwitch withTitle:@"Accelerometer"];
-}
-
-- (void)optionsToggledVibration:(id)sender
-{
-    [DGOptionsDropdown optionsToggledWithSwitch:self.optionsVibrationSwitch withTitle:@"Vibration"];
-}
-
-- (void)overlayTapped:(id)sender
-{
-    [self showOptionsViewFromGameView:self];
-}
-
-#pragma mark - Music Actions
-
-- (IBAction)chooseSong:(id)sender
-{    
-    //If there's artwork showing, hide it first
-    if (self.currentlyPlayingArtworkView.alpha == 1) {
-        [self artworkTapped:self];
-    }
-    
-    //Otherwise, stop the music and show the modal picker view
-    else {
-        [self.musicPlayer stop];
-        
-        if (libraryChanged == NO) {
-            MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
-            [picker setDelegate:self];                       
-            [self presentModalViewController:picker animated:YES];
-        }
-        if (libraryChanged == YES) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Syncing" message:@"It appears your device is currently syncing, or has just finished. This could cause issues with songs being unavailable. Please return to the main menu and try again." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:@"Ignore", @"Menu", nil];
-            [alert show];
-        }
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    //If it was the ignore button
-    if (buttonIndex == 1) {
-        libraryChanged = NO;
-        [self chooseSong:self];
-        libraryChanged = YES;
-    }
-    
-    //If it was the menu button
-    if (buttonIndex == 2) {
-        [self doneGameView:self];
-    }
-}
-
-- (void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)collection {
-    [self dismissModalViewControllerAnimated: YES];
-    [self updatePlayerQueueWithCollection:collection];
-}
-
-- (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
-    [self dismissModalViewControllerAnimated: YES];
-}
-
-- (void)updatePlayerQueueWithCollection:(MPMediaItemCollection*)collection {
-    
-    //Set its collection and load it into the queue
-    self.musicCollection = collection;
-    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
-    
-    //Register for media notifications
-    [self registerForMediaPlayerNotifications];
-    
-    //Play it
-    [self.musicPlayer play];
-    
-    //Set timer to repeat the update every minute
-    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateSliderTime:) userInfo:nil repeats:NO];
-    
-    //Enable artwork and background tap gesture recognizers
-    [self.currentlyPlayingArtworkView setUserInteractionEnabled:YES];
-    [self.backgroundView setUserInteractionEnabled:YES];
-    
-    //Setup the song info & display
-    [self setupSongInfo];
-    [self displaySongInfoWithDuration:0.01];
-}
-
-- (IBAction)playPauseMusic:(id)sender
-{
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-        [self.musicPlayer pause];
-        [self setPlayPauseButtonImage:@"Play"enabled:YES];
-    }
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        [self.musicPlayer play];
-        [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-    }
-}
-
-- (void)artworkTapped:(id)sender
-{
-    if (self.currentlyPlayingArtworkView.alpha == 1) {
-        [UIView animateWithDuration:0.3 animations:^ {
-            [self.currentlyPlayingArtworkView setAlpha:0];
-        }];
-        return;
-    }
-    
-    if (self.currentlyPlayingArtworkView.alpha == 0) {
-        [UIView animateWithDuration:0.3 animations:^ {
-            [self.currentlyPlayingArtworkView setAlpha:1];
-        }];
-        return;
-    }
-}
-
-- (void)libraryChangedAction:(id)sender
-{
-    if (libraryChanged == NO) {
-        libraryChanged = YES;
-    }
-    if (libraryChanged == YES) {
-        libraryChanged = NO;
-    }
-}
-
-#pragma mark - Slider
-- (IBAction)sliderChanged:(id)sender {
-    //Convert the current time into the minutes and seconds strings and set them as the time elapsed
-    [self convertTime:self.musicPlayer.currentPlaybackTime];
-    self.currentlyPlayingTimeElapsedLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
-    
-    //Same thing for remaining
-    NSNumber *currentlyPlayingTimeTotal = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration];
-    [self convertTime:(currentlyPlayingTimeTotal.integerValue - self.musicPlayer.currentPlaybackTime)];
-    self.currentlyPlayingTimeRemainingLabel.text = [[[@"-" stringByAppendingString:self.minutesString] stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
-    
-    //Set playback time based on value
-    [self.musicPlayer setCurrentPlaybackTime:[NSNumber numberWithFloat:self.currentlyPlayingTimeSlider.value].doubleValue];
-}
-
-- (void)updateSliderTime:(NSTimer *)timer {
-    //Convert the current time into the minutes and seconds strings and set them as the time elapsed
-    [self convertTime:self.musicPlayer.currentPlaybackTime];
-    self.currentlyPlayingTimeElapsedLabel.text = [[self.minutesString stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
-    
-    //Same thing for remaining
-    NSNumber *currentlyPlayingTimeTotal = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration];
-    [self convertTime:(currentlyPlayingTimeTotal.integerValue - self.musicPlayer.currentPlaybackTime)];
-    self.currentlyPlayingTimeRemainingLabel.text = [[[@"-" stringByAppendingString:self.minutesString] stringByAppendingString:@":"] stringByAppendingString:self.secondsString];
-    
-    //Set value based on playback time
-    [self.currentlyPlayingTimeSlider setValue:self.musicPlayer.currentPlaybackTime];
-    
-    //And reschedule the timer
-    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(updateSliderTime:) userInfo:nil repeats:NO];
-}
-
-- (void)convertTime:(NSTimeInterval )theTimeInterval
-{
-    //Set amount of time to convert
-    NSCalendar *sysCalendar = [NSCalendar currentCalendar];
-    NSDate *date1 = [[NSDate alloc] init];
-    NSDate *date2 = [[NSDate alloc] initWithTimeInterval:theTimeInterval sinceDate:date1]; 
-    
-    // Get conversion to months, days, hours, minutes
-    unsigned int unitFlags =  NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit;
-    NSDateComponents *conversionInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
-    
-    //Set new value to minutes string
-    self.minutesString = [NSString stringWithFormat:@"%i", conversionInfo.minute];
-    
-    //Same for seconds, but add a zero in front if the length is 1
-    self.secondsString = [NSString stringWithFormat:@"%i", conversionInfo.second];
-    if (self.secondsString.length == 1) {
-        self.secondsString = [@"0" stringByAppendingString:[NSString stringWithFormat:@"%i", conversionInfo.second]];
-    }    
-}
-
-#pragma mark - Accelerometer
+/* ------------------------------------ */
+   # pragma mark - Accelerometer
+/* ------------------------------------ */
 - (BOOL)canBecomeFirstResponder {
+    /* ----------------------------------------------
+      *  Allow accelerometer to return results
+      *  ---------------------------------------------- */
     return YES;
 }
 
-- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
-	//If the accelerometer option is set, show the next question if above level, else, nothing
-    float accelLevel = 1.6;
-    if (acceleration.x >= accelLevel || acceleration.y >= accelLevel || acceleration.z >= accelLevel) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OPTION_ACCELEROMETER"]) {
-            //Dismiss the artwork
-            if (self.currentlyPlayingArtworkView.alpha == 1) {
-                [self artworkTapped:self];
-            }
-            
-            //Show next question
-            [self performSelector:@selector(showNextQuestion:) withObject:nil];
-        }
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+	/* ------------------------------------------------------------------
+      *  For a shake with the accelerometer enabled, show the next question
+      *  ------------------------------------------------------------------ */
+    if (event.type == UIEventSubtypeMotionShake && [prefs boolForKey:@"OPTION_ACCELEROMETER"]) {
+        [self showNextQuestion:nil];
+	}
+}
 
+/* --------------------------------------- */
+   # pragma mark - Hiding/showing views
+/* --------------------------------------- */
+
+- (IBAction)doneGameView:(id)sender {
+    /* ----------------------------------------------
+      *  For a tap on the back button, pop to main menu
+      *  ---------------------------------------------- */
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)showNowPlayingViewController:(id)sender {
+    /* --------------------------------------------------------------
+      *  Create a musicPlayerController and present it modally with a flip
+      *  -------------------------------------------------------------- */
+    MusicPlayerViewController *playerController = [[MusicPlayerViewController alloc] init];
+    [playerController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [self presentModalViewController:playerController animated:YES];
+}
+
+- (IBAction)showOptionsViewFromGameView:(id)sender {
+    /* ---------------------------------------------------------------------
+      *  Based on playback state, show the options view or the music controller
+      *  --------------------------------------------------------------------- */
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStateInterrupted || self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
+        /* -----------------------------------------------
+            *  If stopped or interrupted, slide down the options
+            *  ----------------------------------------------- */
+        [[DGOptionsDropdown sharedInstance] slideOptionsWithDuration:0.3];
+    }
+    else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        /* ----------------------------------------------------
+            *  Otherwise, if paused or playing, show the music view
+            *  ---------------------------------------------------- */
+        [self showNowPlayingViewController:self];
     }
 }
 
-#pragma mark - Questions
+/* --------------------------------------------- */
+   # pragma mark - Music and playback methods
+/* --------------------------------------------- */
 
-- (IBAction)showNextQuestion:(id)sender
-{
-    //If artwork is showing, hide it first
-    if (self.currentlyPlayingArtworkView.alpha == 1) {
-        [self artworkTapped:self];
+- (IBAction)chooseSong:(id)sender {    
+    /* ----------------------------------------------------------
+      *  When choosing a song, stop the music and present a picker
+      *  ---------------------------------------------------------- */
+    [self.musicPlayer stop];
+    MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeAnyAudio];
+    [picker setDelegate:self];
+    [self presentModalViewController:picker animated:YES];
+}
+
+- (void)mediaPicker:(MPMediaPickerController *)mediaPicker didPickMediaItems:(MPMediaItemCollection *)collection {
+    [self dismissModalViewControllerAnimated:NO];
+    /* --------------------------------------------------------
+      *  When media items have been picked:
+      *  Queue the music player to the just picked song and play it
+      *  Present the music player controller
+      *  -------------------------------------------------------- */
+    [self.musicPlayer setQueueWithItemCollection:collection];
+    [self.musicPlayer play];
+    [self showNowPlayingViewController:self];
+}
+
+- (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker {
+    /* ----------------------------------------------
+      *  Hide the media picker view
+      *  ---------------------------------------------- */
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)handle_PlaybackStateChanged:(id)notification {
+    /* ----------------------------------------------------------------
+      *  Based on the changed playback state, set the options button text
+      *  ---------------------------------------------------------------- */
+    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying || self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
+        self.optionsButtonLabel.text = @"Playing";
+    }
+    else {
+        self.optionsButtonLabel.text = @"Options";
+    }
+}
+
+- (void)registerForNotifications {
+    /* ----------------------------------------------------
+      *  Register for music player notifications & add observer
+      *  ---------------------------------------------------- */
+    [self.musicPlayer beginGeneratingPlaybackNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+}
+
+- (void)unregisterForNotifications {
+    /* -----------------------------------------------------------
+      *  Unregister for music player notifications & remove observer
+      *  ----------------------------------------------------------- */
+    [self.musicPlayer endGeneratingPlaybackNotifications];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+}
+
+/* ------------------------------------ */
+   # pragma mark - Questions
+/* ------------------------------------ */
+
+- (IBAction)showNextQuestion:(id)sender {    
+    /* ----------------------------------------------
+      *  For when the next question button is tapped
+      *  Vibrate device if that preference is enabled
+      *  ---------------------------------------------- */
+    if ([prefs boolForKey:@"OPTION_VIBRATION"]) {
+        AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
     }
     
-    //Otherwise, do what the button should do
-    else {
-        //Vibrate Device if enabled
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OPTION_VIBRATION"]) {
-            AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
-        }
-        
-        //Refresh the question number label
-        [self refreshQuestionNumberLabel];
-        
-        //Stop the music
-        [self.musicPlayer stop];
-        
-        //Disable background and artwork interaction to prevent blank artwork from showing up
-        [self.backgroundView setUserInteractionEnabled:NO];
-        [self.currentlyPlayingArtworkView setUserInteractionEnabled:NO];
-        
-        //Slide down the play bar and disable
-        [self hideSongInfoWithDuration:0.3];
-        
-        //If there are no questions, reload Questions.plist and update the text
-        if (numQuestions == 0) {
-            self.questionArray = nil;
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"];
-            NSArray *array =  [NSArray arrayWithContentsOfFile:path];
-            self.questionArray = [[NSMutableArray alloc] initWithArray:array];        
-            [self updateQuestionText:self];
-        }
-        
-        //Otherwise, update the text only
-        else {
-            [self updateQuestionText:self];
-        }
-        
-        //Disable for a bit
-        [self.nextQuestionButton setAdjustsImageWhenDisabled:NO];
-        [self.nextQuestionButton setEnabled:NO];
-        [self resignFirstResponder];
-        [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(enableNextQuestionButton:) userInfo:nil repeats:NO];
+    /* ------------------------------------------------------------------
+      *  Stop the music and if no questions, reload them and update the text
+      *  ------------------------------------------------------------------ */
+    [self.musicPlayer stop];
+    if (numQuestions == 0) {
+        self.questionArray = nil;
+        self.questionArray = [[NSMutableArray alloc] initWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Questions" ofType:@"plist"]]];        
+        [self updateQuestionText:self];
     }
+    
+    /* -------------------------------------------------
+      *  If there are still questions left, just update the text
+      *  ------------------------------------------------- */
+    else if (numQuestions > 0) {
+        [self updateQuestionText:self];
+    }
+    
+    /* ----------------------------------------------
+      *  Disable the next question button for 0.5 secs
+      *  ---------------------------------------------- */
+    [self.nextQuestionButton setEnabled:NO];
+    [self resignFirstResponder];
+    [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(enableNextQuestionButton:)userInfo:nil repeats:NO];
 }
 
-- (void)enableNextQuestionButton:(id)sender
-{
+- (void)enableNextQuestionButton:(id)sender {
+    /* ----------------------------------------------
+      *  Enable the next question button
+      *  ---------------------------------------------- */
     [self becomeFirstResponder];
     self.nextQuestionButton.enabled = YES;
-    [self.nextQuestionButton setAdjustsImageWhenDisabled:YES];
 }
 
-- (void)refreshQuestionNumberLabel 
-{
-    
-    
-    //By doing this only when it's not zero, you prevent "Question 59 of 58"
-    if (![self.questionArray count] == 0) {
-        //Sets the number of the question you're on into a string
-        NSString *firstNumber = [[NSString alloc] init];
-        
-        //For continuing or new game, just use the count
-        if ([prefs boolForKey:@"CONTINUE_GAME"] || [prefs boolForKey:@"NEW_GAME"]) {
-            firstNumber = [NSString stringWithFormat:@"%i", ([prefs integerForKey:@"TOTAL_NUMBER_QUESTIONS"] - [self.questionArray count])];
-        }
-        
-        //If not a continued or new game, add one to make sequential
-        if (![prefs boolForKey:@"NEW_GAME"] && ![prefs boolForKey:@"CONTINUE_GAME"]) {
-            firstNumber = [NSString stringWithFormat:@"%i", ([prefs integerForKey:@"TOTAL_NUMBER_QUESTIONS"] - [self.questionArray count] + 1)];
-        }
-        
-        //Does the same thing for the total number of questions
-        NSString *secondNumber = [NSString stringWithFormat:@"%i",[prefs integerForKey:@"TOTAL_NUMBER_QUESTIONS"]];
-        
-        //Sets the question label to "Question _ of _" with the strings from before
-        [self.questionsLeft setText:[@"Question " stringByAppendingString:[firstNumber stringByAppendingString:[@" of " stringByAppendingString:secondNumber]]]]; 
-    }
-}
-
-- (void)updateQuestionText:(id)sender
-{
-    
+- (void)updateQuestionText:(id)sender {
+    /* -------------------------------------------------------------------
+      *  Method to update the question text
+      *  If no questions left, recount number of questions/nil current question
+      *  ------------------------------------------------------------------- */
     if (numQuestions == 0) {
-        self.questionLabel.text = nil;
-        self.questionLabel.text = @"No more questions! Start a new game below.";
-        [self.nextQuestionButton setImage:[UIImage imageNamed:@"NewGameButton"] forState:UIControlStateNormal];
-        [self.chooseSongButton setEnabled:NO];
         numQuestions = [self.questionArray count];
-        
         [prefs setValue:nil forKey:@"CURRENT_QUESTION"];
     }
-    else {
-        self.questionLabel.text = nil;
-        int randNum;
-        randNum = arc4random() % (numQuestions);
-        self.questionLabel.text = [self.questionArray objectAtIndex:randNum];
-        
-        [self.nextQuestionButton setImage:[UIImage imageNamed:@"NextQuestionButton"] forState:UIControlStateNormal];
-        
-        //Save current question
-        [prefs setValue:[self.questionArray objectAtIndex:randNum] forKey:@"CURRENT_QUESTION"];        
-        
-        [self.questionArray removeObjectAtIndex:randNum];
-        numQuestions = [self.questionArray count];
-        
-        //Save remaining questions to file
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"RemainingQuestions.plist"];
-        [self.questionArray writeToFile:path atomically:YES];
-    }
-}
-
-#pragma mark - Handles
-
-- (void)handle_PlaybackStateChanged:(id)notification
-{
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-        [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-    }
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStatePaused) {
-        [self setPlayPauseButtonImage:@"Play" enabled:YES];
-    }
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
-        [self setPlayPauseButtonImage:@"Play" enabled:NO];
-    }
-}
-
-- (void)handle_NowPlayingItemChanged:(id)notification
-{
     
-}
-
-- (void)handle_VolumeChanged:(id)notification
-{
+    /* ----------------------------------------------------------------
+      *  Remove the current text
+      *  Take a question at a random index and make it the new question
+      *  Enable the choose song button
+      *  ---------------------------------------------------------------- */
+    self.questionLabel.text = nil;
+    int randNum = arc4random() % (numQuestions);
+    self.questionLabel.text = [self.questionArray objectAtIndex:randNum];
+    [self.chooseSongButton setEnabled:YES];
     
-}
-
-- (void)handle_DidEnterForeground:(NSNotification*)sender;
-{
-    self.currentlyPlayingTitle.text = self.currentlyPlayingTitle.text;
-    self.currentlyPlayingArtist.text = self.currentlyPlayingArtist.text;
-    self.currentlyPlayingAlbum.text = self.currentlyPlayingAlbum.text;
-}
-
-
-#pragma mark - MediaPlayerNotifications
-
-- (void)registerForMediaPlayerNotifications {
-    // Register for music player notifications
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
-    [self.musicPlayer beginGeneratingPlaybackNotifications];
-    
-    [notificationCenter addObserver:self selector:@selector(handle_NowPlayingItemChanged:) name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
-    [notificationCenter addObserver:self selector:@selector(handle_PlaybackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
-    [notificationCenter addObserver:self selector:@selector(handle_VolumeChanged:) name:MPMusicPlayerControllerVolumeDidChangeNotification object:self.musicPlayer];
-}
-
-- (void)unregisterForMediaPlayerNotifications {
-    
-    [self.musicPlayer endGeneratingPlaybackNotifications];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMusicPlayerControllerVolumeDidChangeNotification object:self.musicPlayer];
-}
-
-#pragma mark - MUSIC ACTIONS: FIX!
-
-- (void)setupSongInfo {    
-    //Set play/pause button to show the pause image
-    [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-
-    //Use the artwork on the current media item and set that if it exists
-    MPMediaItemArtwork *artworkItem = [self.musicPlayer.nowPlayingItem valueForProperty: MPMediaItemPropertyArtwork];
-    if ([artworkItem imageWithSize:CGSizeMake(320, 320)]) {
-        [self.currentlyPlayingArtworkImage setImage:[artworkItem imageWithSize:CGSizeMake (320, 320)]];
-    }
-}
-
-- (void)displaySongInfoWithDuration:(double)duration {    
-    //Set button to pause image
-    [self setPlayPauseButtonImage:@"Pause" enabled:YES];
-    
-    //Animate in artwork with a fade
-    [UIView animateWithDuration:duration animations:^ {
-        [self.currentlyPlayingArtworkView setAlpha:1];
-    }];
-    
-    //Make sure title, artist, and album are set to latest
-    self.currentlyPlayingTitle.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyTitle];
-    self.currentlyPlayingArtist.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyArtist];
-    self.currentlyPlayingAlbum.text = [self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyAlbumTitle];
-    
-    //Get value for playback duration and set as max, then zero it out
-    
-    [self.currentlyPlayingTimeSlider setMaximumValue:[[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] floatValue]];
-    self.currentlyPlayingTimeSlider.value = 0.0;
-    
-    //Slide up the play bar view, assuming everything is already there
-    [self slidePlayBarWithDuration:duration inDirection:@"up"];
-}
-
-- (void)hideSongInfoWithDuration:(double)duration {
-    //Slide down the play bar view
-    [self slidePlayBarWithDuration:duration inDirection:@"down"];
-    
-    //Set button to play image
-    [self setPlayPauseButtonImage:@"Play" enabled:NO];
-    
-    //Animate out artwork with a fade
-    [UIView animateWithDuration:duration animations:^ {
-        [self.currentlyPlayingArtworkView setAlpha:0];
-    }];
-    
-    //Make sure title, artist, and album are set to nothing
-    self.currentlyPlayingTitle.text = @"";
-    self.currentlyPlayingArtist.text = @"";
-    self.currentlyPlayingAlbum.text = @"";
-}
-
-- (void)resetMusicPlayer { 
-#if TARGET_OS_IPHONE
-    self.musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-    [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
-    [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
-#endif
-}
-
-- (void)setPlayPauseButtonImage:(NSString *)image enabled:(BOOL)enabled {    
-    if (image) {
-        NSString *imageTitle = [image stringByAppendingString:@"IconButton"];
-        [self.playPauseButton setImage:[UIImage imageNamed:imageTitle] forState:UIControlStateNormal];
-    }
-    
-    [self.playPauseButton setEnabled:enabled];
-}
-
-- (void)slidePlayBarWithDuration:(double)duration inDirection:(NSString*)direction {
-    //If the user has said up, move it up
-    if (direction == @"up") {
-        //Move bar view up with animation
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-            self.playBarView.frame = CGRectMake(0, 364, 320, 96);
-        } completion:^ (BOOL finished) {
-            self.currentlyPlayingArtworkView.dynamic = YES;
-        }];
-    }
-    
-    //If the user has said down, move it down
-    if (direction == @"down") {
-        //Move bar view down with animation
-        [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-            self.playBarView.frame = CGRectMake(0, 460, 320, 96);
-        } completion:^ (BOOL finished) {
-            self.currentlyPlayingArtworkView.dynamic = YES;
-        }];
-    }
+    /* -----------------------------------------------------------
+      *  Save the random question to prefs for use later
+      *  Remove it from the question array and recount the questions
+      *  Save the remaining questions to a plist for later loading
+      *  ----------------------------------------------------------- */
+    [prefs setValue:[self.questionArray objectAtIndex:randNum] forKey:@"CURRENT_QUESTION"];        
+    [self.questionArray removeObjectAtIndex:randNum];
+    numQuestions = [self.questionArray count];
+    [self.questionArray writeToFile:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"RemainingQuestions.plist"] atomically:YES];
 }
 
 @end
