@@ -242,6 +242,7 @@
 		75F4B4EB14ABF76200680FE2 /* PromptScreenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 75F4B4E814ABF76100680FE2 /* PromptScreenshot.png */; };
 		75F4B4EC14ABF76200680FE2 /* PromptScreenshot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75F4B4E914ABF76100680FE2 /* PromptScreenshot@2x.png */; };
 		75F4B4ED14ABF76200680FE2 /* PromptScreenshot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75F4B4E914ABF76100680FE2 /* PromptScreenshot@2x.png */; };
+		75F5C1EE195D3818007E40B7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 758CA210161D33CE00ACA865 /* Default-568h@2x.png */; };
 		75FC6FE014F04FA100ACF03C /* InstructionsInsetCorners.png in Resources */ = {isa = PBXBuildFile; fileRef = 75FC6FDE14F04FA100ACF03C /* InstructionsInsetCorners.png */; };
 		75FC6FE114F04FA100ACF03C /* InstructionsInsetCorners.png in Resources */ = {isa = PBXBuildFile; fileRef = 75FC6FDE14F04FA100ACF03C /* InstructionsInsetCorners.png */; };
 		75FC6FE214F04FA100ACF03C /* InstructionsInsetCorners@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75FC6FDF14F04FA100ACF03C /* InstructionsInsetCorners@2x.png */; };
@@ -839,7 +840,7 @@
 		75B4A41813AD9C5B00B3CD15 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0600;
 			};
 			buildConfigurationList = 75B4A41B13AD9C5B00B3CD15 /* Build configuration list for PBXProject "Cue The Tunes" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1000,6 +1001,7 @@
 				750D714413FA209200B9B0A5 /* AboutButton@2x.png in Resources */,
 				750D714513FA209200B9B0A5 /* InstructionsButton.png in Resources */,
 				750D714613FA209200B9B0A5 /* InstructionsButton@2x.png in Resources */,
+				75F5C1EE195D3818007E40B7 /* Default-568h@2x.png in Resources */,
 				750D714713FA209200B9B0A5 /* OptionsButton.png in Resources */,
 				750D714813FA209200B9B0A5 /* OptionsButton@2x.png in Resources */,
 				750D714913FA209200B9B0A5 /* PlayButton.png in Resources */,
@@ -1237,7 +1239,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1257,6 +1258,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1267,7 +1269,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

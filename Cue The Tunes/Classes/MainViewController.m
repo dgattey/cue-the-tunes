@@ -365,13 +365,13 @@
       *  Listen for KVC of DGAlertView keys
       *  Based on button tapped, call relative method
       *  ---------------------------------------------- */
-    if (key == @"DGAlertViewTopButtonTapped") {
+    if ([key  isEqual: @"DGAlertViewTopButtonTapped"]) {
         [self alertViewTopBottomTapped:self];
     }
-    if (key == @"DGAlertViewMiddleButtonTapped") {
+    if ([key  isEqual: @"DGAlertViewMiddleButtonTapped"]) {
         [self alertViewMiddleButtonTapped:self];
     }
-    if (key == @"DGAlertViewBottomButtonTapped") {
+    if ([key  isEqual: @"DGAlertViewBottomButtonTapped"]) {
         [self alertViewBottomButtonTapped:self];
     }
 }
